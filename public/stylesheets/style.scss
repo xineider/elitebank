@@ -32,6 +32,7 @@ main{
 	height: 50px;
 	position:relative;
 	border-bottom: 1px solid #d2d2d2;
+	background: #333333;
 }
 
 .header-logo-container{
@@ -129,7 +130,7 @@ main{
 
 	&.nav-active{
 		
-		color: #66c4c6;
+		color: #e6be64;
 		box-shadow: 1px 1px 5px #969696;
 	}
 }

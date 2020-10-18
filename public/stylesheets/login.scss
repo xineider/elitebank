@@ -1,4 +1,4 @@
-$primary-color:#66c4c6;
+$primary-color:#333333;
 
 /*
 * ==========================================================
@@ -123,8 +123,8 @@ $primary-color:#66c4c6;
 
 
 .btn-primary{
-	background:$primary-color;
-	border:1px solid $primary-color;
+	background:#e6be64;
+	border:1px solid #e6be64;
 }
 
 
@@ -225,16 +225,20 @@ input {
 	}
 }
 
+.modal-title{
+	color: #fff;
+}
+
 .btn.primary{
-	background:$primary-color;
+	background:#e6be64;
 	color: #fff;
 	outline: none;
 	box-shadow: none;
 	width: 100%;
 
 	&:hover{
-		background:#16979a;
-		border-color:#16979a;
+		background:#c39c44;
+		border-color:#c39c44;
 		outline: none;
 	};
 
@@ -284,6 +288,6 @@ input {
 		width: initial;
 	}
 	.btn.primary_login{
-		width: 85px!important;
+		width: 130px!important;
 	}
 }

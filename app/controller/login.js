@@ -15,7 +15,7 @@ const mongoose = require('mongoose');
 
 /* Conexão Mongo Db*/
 
-const uri = 'mongodb+srv://admin:W2rQwKvuZZrImlDb@cluster0.gflpl.mongodb.net/a2w3e?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://admin_87:GaluCuDt6WGUTR2w@cluster0.z4jia.azure.mongodb.net/e98m41?retryWrites=true&w=majority';
 
 async function start(){
 	await mongoose.connect(uri, {
