@@ -1,0 +1,35 @@
+<%- include('../includes/menu_header'); %>
+<% if(usuario.nivel == 1){%>
+
+
+<div class="container">
+	<div class="main-page col-sm-12 col-md-11">
+
+		<div class="row margin-t-10">
+			<div class="col col-sm-12">
+				<div class="card padding-20">
+					<div class="f25 black-text border-bottom-grey">Administração</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+
+</div>
+
+
+
+
+<%}else{%>
+<div class="container">
+	<div class="main-page col-sm-12">
+		<div class="alert alert-warning">
+			Você não pode acessar essa página!
+		</div>
+	</div>
+</div>
+
+
+<%}%>

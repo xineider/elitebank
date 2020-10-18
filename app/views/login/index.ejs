@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Robo Copy</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="all,follow">
+	<link rel="icon" type="image/png" sizes="32x32" href="/public/images/favicon-32x32.png">
+	<link rel="icon" type="image/png" href="/public/images/favicon.png">
+	<link rel='stylesheet' href='/public/stylesheets/bootstrap/bootstrap.css' />
+	<link rel='stylesheet' href='/public/stylesheets/fontawesome.min.css' />
+	<link rel='stylesheet' href="/public/stylesheets/login.css"/>
+	<script src="/public/javascripts/jquery.min.js"></script>
+	<script src="/public/javascripts/bootstrap/bootstrap.min.js"></script>
+	<script src="/public/javascripts/login.js"></script>
+</head>
+
+
+<body>
+
+	<div class="loader none" id="padrao-loader">
+		<div class="loader-container normal-loader">
+			<i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+		</div>
+	</div>
+
+
+
+	<div class="login-page">
+		<div class="container d-flex align-items-center">
+			<div class="form-holder has-shadow">
+				<div class="row">
+					<!-- Logo & Information Panel-->
+					<div class="col-lg-6">
+						<div class="info d-flex align-items-center">
+							<div class="content">
+								<div class="logo">
+									<img src="/public/images/logo.png">
+								</div>
+								<div class="text-center logo-text">RoboCopy</div>
+							</div>
+						</div>
+					</div>
+					<!-- Form Panel    -->
+					<div class="col-lg-6 bg-white">
+						<div class="form d-flex align-items-center">
+							<div class="content">
+								<form method="POST" action="/">
+									
+									<div class="message">
+									<%
+									if (typeof erro != 'undefined' && typeof tipo_erro != 'undefined' && tipo_erro == '404') {
+										%>
+										<div class="card-panel red darken-1 center-align" style="margin-bottom: 25px;">
+											<span class="red-text bold">* Usuário ou senha incorreto(s), tente novamente. *</span>
+										</div>
+										<%
+									} else if (typeof erro != 'undefined' && typeof tipo_erro != 'undefined' && tipo_erro == 'login') {
+										%>
+										<div class="card-panel red darken-1 center-align" style="margin-bottom: 25px;">
+											<span class="red-text bold">* Usuário ou senha incorreto(s), tente novamente. *</span>
+										</div>
+										<%
+									}
+									%>
+
+									</div>
+
+									<div class="form-group">
+										<input id="login-username" type="email" name="email" required data-msg="Por-favor digite o seu e-mail" class="input-material">
+										<label  id="label-username" for="login-username" class="label-material">E-mail</label>
+									</div>
+									<div class="form-group">
+										<input id="login-password" type="password" name="senha" required data-msg="Por-favor digite sua senha" class="input-material">
+										<label id="label-password" for="login-password" class="label-material">Senha</label>
+									</div>
+									<button class="btn primary_login primary margin-b-10">
+										Login
+									</button>
+
+								</form>
+								<a data-toggle="modal" data-target="#modal_forgot_password" class="forgot-pass pointer">Esqueceu sua senha?</a><br>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="copyrights text-center">
+			<!-- <p>2018 &copy; Your company. Download From <a target="_blank" href="https://templateshub.net">Templates Hub</a>.</p> -->
+		</div>
+	</div>
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="modal_forgot_password" tabindex="-1" role="dialog"  aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header primary">
+					<h5 class="modal-title">Esqueceu sua Senha?</h5>
+					<button type="button" class="close pointer" data-dismiss="modal" aria-label="Fechar">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form id="recupera-senha" method="POST" action="" onsubmit="">
+					<div class="modal-body">
+						Não se preocupe, informe o seu e-mail no campo abaixo que será gerado uma nova senha de acesso.
+
+						<div class="row no-gutters margin-t-10">
+							<label class="primary-text">E-mail</label>
+							<input required="true" name="email" class="form-control" type="email">
+						</div>
+
+						<div class="error_container_resend hide red-text text-center">
+							<div class="error_resend_mensagem "></div>
+						</div>
+
+
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn_modal grey margin-r-10 pointer" data-dismiss="modal">Fechar</button>
+						<button type="submit" class="btn btn_modal primary pointer resend-pass">Restaurar Senha</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+</body>
+</html>

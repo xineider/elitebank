@@ -1,0 +1,84 @@
+<%- include('../includes/menu_header'); %>
+
+<% if(usuario.nivel == 3){%>
+
+<div class="container">
+
+	<div class="main-page col-sm-12 col-md-11">
+		<div class="historico margin-t-10 row">
+
+			<div class="col-sm-12 tab-container">
+				<div class="active tab-archive">Geral</div>
+				<a href="/sistema/historico/ultimos-30dias" class="ajax-load ">
+					<div class="tab-archive tab-nivel-2 border-radius-tl-0 grey-text">30 dias</div>
+				</a>
+
+				<a href="/sistema/historico/ultimos-7dias" class="ajax-load">
+					<div class="tab-archive tab-nivel-3 border-radius-tl-0 grey-text">7 dias</div>
+				</a>
+			</div>
+
+			<div class="card border-radius-tl-0">
+
+				<div class="col-sm-12 margin-t-10 margin-b-10">
+					<div class="row no-gutters">
+						<div class="col-sm-12 f25 black-text border-bottom-grey margin-t-10">Histórico</div>
+
+						<div class="col-sm-12 margin-b-10">
+							<div class="row no-gutters">
+								<div class="col-sm-12 col-md-6 margin-t-10">
+									<div class="total_operacoes_color f20 text-center">Total de Operações: 
+										<span class="total_operacoes_color_n">
+											<%= data.acertividade.total_operacoes %>				
+										</span>
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 margin-t-10">
+									<div class="numero_acertos_color f20 text-center">Número de Acertos: 
+										<span class="numero_acertos_color_n">
+											<%= data.acertividade.total_acertos %>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="col-sm-12 col-md-12 grafico-container-mp border-radius-tl-0">
+					<div class="grafico-operacoess-mp col-sm-12">
+						<%- include('grafico'); %>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+
+
+	</div>
+
+
+	<script type="text/javascript">
+		<% if(data.conta_user.acao == 'iniciar'){ %>
+		zerarIntervalo();
+		setarPararTimer();
+		timer120sec('/sistema/historico');
+		<%}%>
+	</script>
+
+
+
+	<%}else{%>
+
+	<div class="container">
+		<div class="main-page col-sm-12">
+			<div class="alert alert-warning">
+				Você não pode acessar essa página!
+			</div>
+		</div>
+	</div>
+
+	<%}%>

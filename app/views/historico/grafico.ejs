@@ -1,0 +1,108 @@
+
+<div class="col-sm-12 white-text">
+	<div class="margin-t-10 margin-b-10 white" style="overflow: auto;">
+		<canvas id="grafico_historico_porcentagem" width="1200" height="600" data-canvas-dias="<%= data.grafico.dias %>"data-canvas-qtd_operacoes="<%= data.grafico.operacoes %>" data-canvas-qtd_acertos="<%= data.grafico.acertos %>"></canvas>
+	</div>
+
+	<div class="w100 none historico_mensagem_sem_operacao">
+		Sem dados suficientes!
+	</div>
+
+
+</div>
+
+
+
+<script>
+
+	var ctx = document.getElementById('grafico_historico_porcentagem').getContext('2d');
+
+	var dias = $('#grafico_historico_porcentagem').data('canvas-dias');
+
+	if(dias != 0){
+		var diasArray = dias.split(',');
+
+		var qtd_operacoes = $('#grafico_historico_porcentagem').data('canvas-qtd_operacoes').toString();
+		console.log('qtd_operacoes:' + qtd_operacoes);
+		var qtd_operacoesArray = qtd_operacoes.split(',');
+		console.log('qtd_operacoesArray: ' + qtd_operacoesArray);
+
+
+		var acertos = $('#grafico_historico_porcentagem').data('canvas-qtd_acertos').toString();
+		var acertosArray = acertos.split(',');
+
+
+		console.log('acertosArray:'+acertosArray);
+
+
+		var total_operacoes = {
+			label: "Total de Operações",
+			data: qtd_operacoesArray,
+			borderColor: '#fbc467',
+			backgroundColor: '#fbc46761',
+			datalabels:{
+				align:'top',
+				anchor:'start'
+			}
+
+		};
+
+		var numero_acertos = {
+			label: "Número de Acertos",
+			data: acertosArray,
+			borderColor: '#69cc95',
+			backgroundColor: '#69cc9561',
+			datalabels:{
+				align:'top',
+				anchor:'start'
+			}
+		};
+
+		var dadoGrafico = {
+			labels: diasArray,
+			datasets: [total_operacoes, numero_acertos]
+		};
+
+		Chart.defaults.global.defaultFontSize = 16;
+
+
+		var lineChart = new Chart(ctx, {
+			type: 'line',
+			data: dadoGrafico,
+			options: {
+				responsive: false,
+				maintainAspectRatio:false,
+				fill:true,
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: false,
+							fontSize: 18,
+							steps: 1,
+							stepValue: 2,
+							max: <%= data.maior_valor %>
+						}
+					}],
+					xAxes:[{
+						ticks:{
+							fontSize: 18
+						}
+					}]
+				}
+
+
+			}
+
+		});
+
+
+
+	}else{
+		$('.historico_mensagem_sem_operacao').removeClass('none')
+	}
+
+
+
+
+
+</script>

@@ -1,0 +1,75 @@
+<%- include('../includes/menu_header'); %>
+<div class="container">
+	<div class="main-page col-sm-12 col-md-11">
+		<div class="row margin-t-10">
+
+			<div class="col-sm-12 col-md-6 mb-4">
+
+				<div class="card h-100 padding-20">
+					<div class="f25 black-text border-bottom-grey">Alterar Senha</div>
+
+					<form method="POST" action="" enctype="multipart/form-data">
+
+						<div class="form-group row margin-t-10">
+							<label for="senha_atual" class="col-sm-12 col-md-4 grey-text">Senha Atual:</label>
+							<div class="col-sm-12 col-md-4 mb-4">
+								<input type="password" class="form-control" name="senha_atual" required>
+							</div>
+						</div>
+
+						<div class="form-group row ">
+							<label for="senha_atual" class="col-sm-12 col-md-4 grey-text">Nova Senha:</label>
+							<div class="col-sm-12 col-md-4 mb-4">
+								<input type="password" class="form-control" name="nova_senha" required>
+							</div>
+						</div>
+
+						<div class="form-group row ">
+							<label for="senha_atual" class="col-sm-12 col-md-4 grey-text">Repetir Nova Senha:</label>
+							<div class="col-sm-12 col-md-4 mb-4">
+								<input type="password" class="form-control" name="repetir_nova_senha" required>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-12 col-md-10 col-lg-12 mb-4">							
+								<button data-href="/sistema/suporte/alterar-senha/" title="Alterar Senha" type="submit" class="btn col-sm-12 btn-success float-right ajax-submit-alterar-senha" data-action="/sistema/suporte" data-sucesso-id="#alert-sucess-alterar-senha">Alterar Senha</button>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="none alert alert-success text-center" role="alert" id="alert-sucess-alterar-senha">
+									Senha alterada com sucesso!
+								</div>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+
+
+			<div class="col-sm-12 col-md-6 mb-4">
+				<div class="card h-100 padding-20">
+					<div class="f25 black-text border-bottom-grey">Suporte</div>
+					<div class="w100 text-center margin-t-10">
+						Precisa de Ajuda? Fale com o suporte no botão abaixo
+					</div>
+
+					<div class="w100 margin-t-10">
+						<a target="_blank" href="https://telegram.me/YourUsername">
+							<button type="button" class="btn primary w100">
+								<i class="fab fa-telegram-plane"></i>
+								Falar com o Suporte
+							</button>
+						</a>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>

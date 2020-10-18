@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Robo Copy</title>
+	<link rel="icon" type="image/png" sizes="32x32" href="/public/images/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/public/images/favicon-16x16.png">
+	<link rel='stylesheet' href='/public/stylesheets/fontawesome.min.css' />
+	<link rel='stylesheet' href='/public/stylesheets/bootstrap/bootstrap.css' />
+	<link rel='stylesheet' href='/public/stylesheets/bootstrap/bootstrap-datepicker.min.css' />
+
+	<link rel='stylesheet' href='/public/stylesheets/datatables.min.css' />
+	<link rel='stylesheet' href='/public/stylesheets/utils.css' />
+	<link rel='stylesheet' href='/public/stylesheets/Chart.min.css' />
+	<link rel='stylesheet' href='/public/stylesheets/style.css' />
+	<script src="/public/javascripts/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/pt-br.js"></script>
+	<script src="/public/javascripts/jquery.min.js"></script>
+	<script src="/public/javascripts/jquery.mask.js"></script>
+	<script src="/public/javascripts/popper.min.js"></script>
+	<script src="/public/javascripts/bootstrap/bootstrap.min.js"></script>
+	<script src="/public/javascripts/bootstrap/bootstrap-datepicker.min.js"></script>
+	<script src="/public/locales/bootstrap-datepicker.pt-BR.min.js"></script>
+
+	<script src="/public/javascripts/fullcalendar.min.js"></script>
+	<script src="/public/javascripts/datatables.min.js"></script>
+	<script src="/public/javascripts/Chart.bundle.min.js"></script>
+	<script src="/public/javascripts/chartjs-plugin-datalabels.min.js"></script>
+	<script src="/public/javascripts/main.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"></script>
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+</head>
+<body>
+	<input type="hidden" value="<%= usuario.id %>" name="id_usuario_sessao">
+	<input type="hidden" value="<%= usuario.hash_login %>" name="hash_usuario_sessao">
+	<input type="hidden" value="<%= usuario.nivel %>" name="nivel_usuario_sessao">
+	<div class="error_ajax none">Você parece ter se disconectado, tentando reconectar...</div>
+	<!-- Modal Structure -->
+	<div id="modaldeletar" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body text-center">
+					<b><p id="texto">Remover</p></b>
+				</div>
+				<div class="modal-footer">
+					<div class="row">
+						<div class="col col-sm-6">
+							<button type="button" class="btn grey white-text" data-dismiss="modal">Cancelar</button>
+						</div>
+						<div class="col col-sm-6">
+							<form method="POST" action="">
+								<input id="id" type="hidden" name="id">
+								<input type="hidden" name="deletado" value="1">
+								<button style="width: 100%; text-align: center;" class="btn red white-text ajax-submit delete_button"
+								data-href=""
+								data-action="" data-dismiss="modal" data-mensagem-sucesso="" data-mensagem-sucesso-color="bg-danger"
+								>Excluir</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Structure -->
+	<div id="modalinfo" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content"></div>
+		</div>
+	</div>
+	<div class="loader none" id="conectando-loader">
+		<div class="loader-container text-loader">
+			<i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+			<div class="text-center f25 margin-t-10">Conectando ...</div>
+		</div>
+	</div>
+
+	<div class="loader none" id="desconectando-loader">
+		<div class="loader-container text-loader">
+			<i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+			<div class="text-center f25 margin-t-10">Desconectando ...</div>
+		</div>
+	</div>
+
+
+	<div class="loader none" id="testando-loader">
+		<div class="loader-container text-loader">
+			<i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+			<div class="text-center f25 margin-t-10">Testando Conexão...</div>
+		</div>
+	</div>
+
+
+
+	<div class="loader" id="padrao-loader">
+		<div class="loader-container normal-loader">
+			<i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+		</div>
+	</div>
+
+
+	<div class="overlay_menu"></div>
+
+	<header>
+
+		<div class="header-logo <%= usuario.nivel == 2 ? 'background_trader' : 'white' %> w100">
+
+
+
+
+			<div class="header-logo-container">
+
+				<div class="menu-toggle-container">
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<i class="fas fa-bars grey-text"></i>
+					</button>
+
+				</div>
+
+
+
+				<img src="/public/images/logo.png">
+				<div class="grey-text inline f25 bold">Robo Copy</div>
+
+			</div>
+
+			<div class="header-group-itens">
+				<div class="header-item">
+					<div class="w100 text-center">
+						<a class="logout" href="/logout" onclick="return confirm('Você deseja sair?');">
+							<i class="fas fa-sign-out-alt grey-text"></i>
+							<div class="grey-text f16">Sair</div>
+						</a>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+		<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; top: 70px; right: 10px;">
+			<div class="toast-body">
+				Texto
+			</div>
+		</div>
+	</header>
+
+	<nav id="sidebar">
+		<div class="w100 text-right" id="dismiss_sidebar">
+			<i class="fas fa-arrow-left margin-r-5 color-selecionado"></i>
+		</div>
+		<%- include('menu_items'); %>
+	</nav>
+
