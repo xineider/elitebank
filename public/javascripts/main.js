@@ -6,7 +6,7 @@ var intervalo = '';
 $(document).ready(function () {
 
 	console.log('estou aqui no ready do começo');
-	adicionarLoader();
+	// adicionarLoader();
 	FormatInputs();
 	
 	$(document).ajaxError(function () {

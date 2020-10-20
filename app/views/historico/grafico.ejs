@@ -7,8 +7,6 @@
 	<div class="w100 none historico_mensagem_sem_operacao">
 		Sem dados suficientes!
 	</div>
-
-
 </div>
 
 
@@ -23,27 +21,22 @@
 		var diasArray = dias.split(',');
 
 		var qtd_operacoes = $('#grafico_historico_porcentagem').data('canvas-qtd_operacoes').toString();
-		console.log('qtd_operacoes:' + qtd_operacoes);
 		var qtd_operacoesArray = qtd_operacoes.split(',');
-		console.log('qtd_operacoesArray: ' + qtd_operacoesArray);
-
 
 		var acertos = $('#grafico_historico_porcentagem').data('canvas-qtd_acertos').toString();
 		var acertosArray = acertos.split(',');
-
-
-		console.log('acertosArray:'+acertosArray);
 
 
 		var total_operacoes = {
 			label: "Total de Operações",
 			data: qtd_operacoesArray,
 			borderColor: '#fbc467',
-			backgroundColor: '#fbc46761',
+			backgroundColor: '#fbc467',
 			datalabels:{
 				align:'top',
 				anchor:'start'
-			}
+			},
+			fill: '+1'
 
 		};
 
@@ -51,11 +44,12 @@
 			label: "Número de Acertos",
 			data: acertosArray,
 			borderColor: '#69cc95',
-			backgroundColor: '#69cc9561',
+			backgroundColor: '#69cc95',
 			datalabels:{
 				align:'top',
 				anchor:'start'
-			}
+			},
+			fill: 'origin'
 		};
 
 		var dadoGrafico = {
