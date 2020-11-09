@@ -10,7 +10,9 @@
 	<link rel="icon" type="image/png" href="/public/images/favicon.png">
 	<link rel='stylesheet' href='/public/stylesheets/bootstrap/bootstrap.css' />
 	<link rel='stylesheet' href='/public/stylesheets/fontawesome.min.css' />
-	<link rel='stylesheet' href="/public/stylesheets/login.css"/>
+	<link rel='stylesheet' href="/public/stylesheets/main-theme.css"/>
+	<link rel='stylesheet' href="/public/stylesheets/dark-theme.css"/>
+	<link rel='stylesheet' href="/public/stylesheets/empresa.css"/>
 	<script src="/public/javascripts/jquery.min.js"></script>
 	<script src="/public/javascripts/bootstrap/bootstrap.min.js"></script>
 	<script src="/public/javascripts/login.js"></script>
@@ -19,11 +21,11 @@
 
 <body>
 
-	<div class="loader none" id="padrao-loader">
+<!-- 	<div class="loader none" id="padrao-loader">
 		<div class="loader-container normal-loader">
 			<i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
 		</div>
-	</div>
+	</div> -->
 
 
 
@@ -34,36 +36,41 @@
 					<!-- Logo & Information Panel-->
 					<div class="col-lg-6">
 						<div class="info d-flex align-items-center">
-							<div class="content">
+							<div class="content" style="width: 100%;">
 								<div class="logo">
 									<img src="/public/images/logo_elite.png">
 								</div>
-								<!-- <div class="text-center logo-text">RoboCopy</div> -->
+								<!-- <div class="text-center" style="font-weight: bold;font-size:2rem;">Elite Traders</div> -->
 							</div>
 						</div>
 					</div>
 					<!-- Form Panel    -->
 					<div class="col-lg-6 bg-white">
 						<div class="form d-flex align-items-center">
-							<div class="content">
+							<div class="content" id="conteudo_form">
 								<form method="POST" action="/">
 									
+
+									
 									<div class="message">
-									<%
-									if (typeof erro != 'undefined' && typeof tipo_erro != 'undefined' && tipo_erro == '404') {
-										%>
-										<div class="card-panel red darken-1 center-align" style="margin-bottom: 25px;">
-											<span class="red-text bold">* Usuário ou senha incorreto(s), tente novamente. *</span>
-										</div>
 										<%
-									} else if (typeof erro != 'undefined' && typeof tipo_erro != 'undefined' && tipo_erro == 'login') {
-										%>
-										<div class="card-panel red darken-1 center-align" style="margin-bottom: 25px;">
-											<span class="red-text bold">* Usuário ou senha incorreto(s), tente novamente. *</span>
-										</div>
-										<%
-									}
-									%>
+										if (typeof erro != 'undefined' && typeof tipo_erro != 'undefined' && tipo_erro == '404') {
+											%>
+											<div class="card-panel red darken-1 center-align" style="margin-bottom: 25px;">
+												<span class="red-text bold">* Página não existente!! *</span>
+											</div>
+											<%
+										} else if (typeof erro != 'undefined' && typeof tipo_erro != 'undefined' && tipo_erro == 'login') {
+											%>
+											<div class="card-panel red darken-1 center-align" style="margin-bottom: 25px;">
+												<span class="red-text bold">* Usuário ou senha incorreto(s), tente novamente. *</span>
+											</div>
+											<%
+										}else if(typeof erro != 'undefined' && typeof tipo_erro != 'undefined' && tipo_erro == '410' ){ %>
+											<div class="card-panel red darken-1 center-align" style="margin-bottom: 25px;">
+												<span class="yellow-text bold">* Você foi desconectado do Sistema, mas não se preocupe é normal, por-favor acesse o sistema novamente! *</span>
+											</div>
+										<%}%>
 
 									</div>
 
@@ -75,12 +82,14 @@
 										<input id="login-password" type="password" name="senha" required data-msg="Por-favor digite sua senha" class="input-material">
 										<label id="label-password" for="login-password" class="label-material">Senha</label>
 									</div>
-									<button class="btn primary_login primary margin-b-10">
+									<button class="btn btn-primary primary primary_login margin-b-20">
 										Login
 									</button>
 
 								</form>
 								<a data-toggle="modal" data-target="#modal_forgot_password" class="forgot-pass pointer">Esqueceu sua senha?</a><br>
+								<small>Não tem cadastro?</small>
+								<a href="https://www.hotmart.com/pt-BR" target="_blank" class="signup">Crie Agora</a>
 							</div>
 						</div>
 					</div>
@@ -90,43 +99,42 @@
 		<div class="copyrights text-center">
 			<!-- <p>2018 &copy; Your company. Download From <a target="_blank" href="https://templateshub.net">Templates Hub</a>.</p> -->
 		</div>
-	</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="modal_forgot_password" tabindex="-1" role="dialog"  aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+					<div class="modal-header primary">
+						<h5 class="modal-title">Esqueceu sua Senha?</h5>
+						<button type="button" class="close pointer" data-dismiss="modal" aria-label="Fechar">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form id="recupera-senha" method="POST" action="" onsubmit="">
+						<div class="modal-body">
+							Não se preocupe, informe o seu e-mail no campo abaixo que será gerado uma nova senha de acesso.
+
+							<div class="row no-gutters margin-t-10">
+								<label class="primary-text">E-mail</label>
+								<input required="true" name="email" class="form-control" type="email">
+							</div>
+
+							<div class="error_container_resend hide red-text text-center">
+								<div class="error_resend_mensagem "></div>
+							</div>
 
 
-	<!-- Modal -->
-	<div class="modal fade" id="modal_forgot_password" tabindex="-1" role="dialog"  aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-
-				<div class="modal-header primary">
-					<h5 class="modal-title">Esqueceu sua Senha?</h5>
-					<button type="button" class="close pointer" data-dismiss="modal" aria-label="Fechar">
-						<span aria-hidden="true">&times;</span>
-					</button>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn_modal white margin-r-10 pointer" data-dismiss="modal">Fechar</button>
+							<button type="submit" class="btn btn-primary primary pointer resend-pass">Restaurar Senha</button>
+						</div>
+					</form>
 				</div>
-				<form id="recupera-senha" method="POST" action="" onsubmit="">
-					<div class="modal-body">
-						Não se preocupe, informe o seu e-mail no campo abaixo que será gerado uma nova senha de acesso.
-
-						<div class="row no-gutters margin-t-10">
-							<label class="primary-text">E-mail</label>
-							<input required="true" name="email" class="form-control" type="email">
-						</div>
-
-						<div class="error_container_resend hide red-text text-center">
-							<div class="error_resend_mensagem "></div>
-						</div>
-
-
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn_modal grey margin-r-10 pointer" data-dismiss="modal">Fechar</button>
-						<button type="submit" class="btn btn_modal primary pointer resend-pass">Restaurar Senha</button>
-					</div>
-				</form>
 			</div>
 		</div>
 	</div>
-</section>
+
 </body>
 </html>

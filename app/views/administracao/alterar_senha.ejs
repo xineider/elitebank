@@ -1,0 +1,30 @@
+	<%if(usuario.nivel == 1){%>
+
+	<div class="padding-10">
+		<h5>Alterar Senha</h5>
+
+		<div class="margin-b-10">
+			Você tem certeza que deseja alterar a senha do <strong><%= data.usuario_a.nome %></strong>?
+			<br>
+			Será enviado uma nova senha para o email do usuário :<br><%= data.usuario_a.email %>
+		</div>
+
+		<form method="POST" action="" enctype="multipart/form-data">
+
+			<div class="modal-footer">
+
+				<input type="hidden" name="id_usuario" value="<%= data.usuario_a._id%>">
+				
+				<button class="btn btn_modal white margin-r-10 pointer" data-dismiss="modal">Fechar</button>
+
+				<button type="button" data-href="/sistema/administracao/alterar-senha/" class="btn btn-primary ajax-submit-sucess-message" title="Alterar Senha" data-action="/sistema/administracao" data-dismiss="modal" data-sucesso-id="#alert-sucess-alterar-senha-usuario">Alterar Senha</button>
+			</div>
+		</form>
+
+	</div>
+
+	<%}else{%>
+	<div class="padding=10">
+		Você não pode acessar essa funcionalidade!!!
+	</div>
+	<%}%>

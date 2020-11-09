@@ -1,67 +1,163 @@
 <%- include('../includes/menu_header'); %>
-<div class="container">
-	<div class="main-page col-sm-12 col-md-11">
 
-		<div class="row margin-t-10">
-			<div class="col col-sm-12">
-				<div class="card padding-20">
-					<div class="f25 black-text border-bottom-grey">Recarga</div>
+<div class="page-content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<h2 class="h5 no-margin-bottom">Recarregar</h2>
+		</div>
+	</div>
 
-					<div class="f25 grey-text text-center margin-t-10">
-						<span class="hide-on-med">Saldo atual de $$<%= data.licenca_user.creditos %></span>
+	<% if(data.config_sistema[0].possui_creditos == true){%>
 
-						<span class="hide-on-small">Você atualmente tem $$<%= data.licenca_user.creditos %>. Precisa recarregar? Selecione uma das opções abaixo:</span>
+
+	<section class="no-padding-bottom">
+		<div class="container-fluid">
+
+			<div class="row d-flex align-items-center">
+				<div class="col-lg-12">   
+					<div class="block">
+						<div class="title">
+							<strong class="d-block">Recarregar Créditos</strong>
+						</div>
+
+						<div class="block-body public-user-block">
+							<div class="row">
+								<div class="col-lg-5">
+									<strong>Saldo atual: <div class="contributions">S$ <%= data.licenca_user.creditos %></div>
+									</strong>
+								</div>
+								<div class="col-lg-7">Precisa de saldo? Selecione uma das opções abaixo para recarregar.</div>
+							</div>
+						</div>
+
 					</div>
 				</div>
 			</div>
+
 		</div>
+	</section>
 
-		<div class="row">
-			<div class="col-sm-12 col-md-4 margin-t-10">
-				<a class="w100 block recarga-link" href="https://www.hotmart.com/search" target="_blank">
-					<div class="card vh50 box-shadow-green flex-align-center justify-content-center">
-						<div class="grey-text f50 text-center">50</div>
-						<div class="f24 grey-text text-center">créditos</div>
+	
 
-						<div class="text-center margin-t-10 margin-b-10">
-							<i class="fas fa-coins f30 grey-text"></i>
+	<section class="no-padding-bottom">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="user-block block text-center">
+						<img src="/public/images/coins.png" class="img-fluid margin-b-20 w30">
+						<div class="user-title">
+							<h3 class="h5">R$ 50,00</h3>
+							<span>de créditos</span>
 						</div>
+						<br>
+						<a href="https://www.hotmart.com/pt-BR" target="_blank" class="btn btn-primary w80">Adquirir</a>
 
 					</div>
-				</a>
-			</div>
-
-			<div class="col-sm-12 col-md-4 margin-t-10">
-				<a class="w100 block recarga-link" href="https://www.hotmart.com/search" target="_blank">
-					<div class="card vh50 box-shadow-green flex-align-center justify-content-center">
-						<div class="grey-text f50 text-center">100</div>
-						<div class="f24 grey-text text-center">créditos</div>
-
-						<div class="text-center margin-t-10 margin-b-10">
-							<i class="fas fa-coins f30 grey-text"></i><i class="fas fa-coins f30 grey-text"></i>
+				</div>
+				<div class="col-lg-4">
+					<div class="user-block block text-center">
+						<img src="/public/images/coins.png" class="img-fluid margin-b-20 w30">
+						<div class="user-title">
+							<h3 class="h5">R$ 100,00</h3>
+							<span>de créditos</span>
 						</div>
+						<br>
+						<a href="https://www.hotmart.com/pt-BR" target="_blank" class="btn btn-primary w80">Adquirir</a>
 
 					</div>
-				</a>
-			</div>
-
-			<div class="col-sm-12 col-md-4 margin-t-10">
-				<a class="w100 block recarga-link" href="https://www.hotmart.com/search" target="_blank">
-					<div class="card vh50 box-shadow-green flex-align-center justify-content-center">
-						<div class="grey-text f50 text-center">200</div>
-						<div class="f24 grey-text text-center">créditos</div>
-
-						<div class="text-center margin-t-10 margin-b-10">
-							<i class="fas fa-coins f30 grey-text"></i>
-							<i class="fas fa-coins f30 grey-text"></i>
-							<i class="fas fa-coins f30 grey-text"></i>
+				</div>
+				<div class="col-lg-4">
+					<div class="user-block block text-center">
+						<img src="/public/images/coins.png" class="img-fluid margin-b-20 w30">
+						<div class="user-title">
+							<h3 class="h5">R$ 200,00</h3>
+							<span>de créditos</span>
 						</div>
+						<br>
+						<a href="https://www.hotmart.com/pt-BR" target="_blank" class="btn btn-primary w80">Adquirir</a>
 
 					</div>
-				</a>
+				</div>
 			</div>
+
 		</div>
+	</section>
 
-	</div>
+	<% } %>
+
+	<section class="no-padding-bottom">
+		<div class="container-fluid">
+
+			<div class="row d-flex align-items-center">
+				<div class="col-lg-12">   
+					<div class="block">
+						<div class="title">
+							<strong class="d-block">Recarregar Licença</strong>
+						</div>
+
+						<div class="block-body public-user-block">
+							<div class="row">
+								<div class="col-lg-5">
+									<strong>Dias de Licença restante: <div class="contributions"><%= data.licenca_user_dias > 0 ? data.licenca_user_dias : 'Expirada'%></div>
+									</strong>
+								</div>
+								<div class="col-lg-7">Licença acabando? Selecione uma das opções abaixo para recarregar a licença.</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<section class="no-padding-bottom">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="user-block block text-center">
+						<div class="row d-flex align-items-center justify-content-between">
+							<div class="col-lg-5 mb-2">
+								<h3 class="h5">1 mês</h3>
+							</div>
+							<div class="col-lg-7 mb-2">								
+								<a href="https://www.hotmart.com/pt-BR" target="_blank" class="btn btn-primary w80">Adquirir</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-4">
+					<div class="user-block block text-center">
+						<div class="row d-flex align-items-center justify-content-between">
+							<div class="col-lg-5 mb-2">
+								<h3 class="h5">3 meses</h3>
+							</div>
+							<div class="col-lg-7 mb-2">								
+								<a href="https://www.hotmart.com/pt-BR" target="_blank" class="btn btn-primary w80">Adquirir</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4">
+					<div class="user-block block text-center">
+						<div class="row d-flex align-items-center justify-content-between">
+							<div class="col-lg-5 mb-2">
+								<h3 class="h5">6 meses</h3>
+							</div>
+							<div class="col-lg-7 mb-2">								
+								<a href="https://www.hotmart.com/pt-BR" target="_blank" class="btn btn-primary w80">Adquirir</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+
 
 </div>

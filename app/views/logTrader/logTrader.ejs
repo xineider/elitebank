@@ -1,44 +1,55 @@
 <%- include('../includes/menu_header'); %>
 
 <% if(usuario.nivel == 2){%>
-<div class="container">
-	<div class="main-page col-sm-12 col-md-11">
-		<div class="margin-t-10">
-			<div class="row col-sm-12 col-md-12 card">
-				<div class="f25 black-text border-bottom-grey padding-b-10 margin-t-10">Log
-					<a title="Atualizar página" class="btn primary float-right ajax-load" href="/sistema/log_trader">Atualizar</a>
-				</div>
+<div class="page-content">
 
-				<div class="">
-
-				</div>
-
-
-				<div class="margin-t-10 Limite">
-
-					<% if (typeof data.mensagem != 'undefined' && data.mensagem.length > 0) {
-						for (var i = 0; i < data.mensagem.length; i++) {%>
-						<div class="alert <%=
-						data.mensagem[i].tipo_mensagem == 1 ? 'alert-success' : data.mensagem[i].tipo_mensagem == 2 ? 'alert-warning' : 'alert-danger' %> alert-dismissible fade show" role="alert">
-						<%= data.mensagem[i].descricao_mensagem %>
-					</div>
-					<%}
-				}else{%>
-				<div class="text-center">Não há nenhuma mensagem no momento.</div>
-
-				<%}%>
-
-
-			</div>
-
+	<div class="page-header">
+		<div class="container-fluid">
+			<h2 class="h5 no-margin-bottom">Log</h2>
 		</div>
 	</div>
+
+
+	<div class="container-fluid">
+
+		<section class="no-padding-bottom">
+			<div class="container-fluid">
+				<div class="block margin-b-0">
+					<form method="POST" action="" enctype="multipart/form-data">
+						<div class="title">
+							<strong class="d-block">Mensagens
+								<button type="button" class="btn transparent float-right w100px ajax-load" data-action="/sistema">Atualizar</button>
+							</strong>
+						</div>
+
+					</form>
+
+					<div class="block-body">
+						<% if (typeof data.mensagem != 'undefined' && data.mensagem.length > 0) {
+							for (var i = 0; i < data.mensagem.length; i++) {%>
+							<div class="alert <%=
+							data.mensagem[i].tipo_mensagem == 1 ? 'sucess-block' : data.mensagem[i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
+							<%= data.mensagem[i].descricao_mensagem %>
+						</div>
+						<%}
+					}else{%>
+					<div class="text-center">Não há nenhuma mensagem no momento.</div>
+
+					<%}%>
+				</div>
+
+			</div>
+		</div>
+
+	</section>
+</div>
 </div>
 
+
 <%}else{%>
-<div class="container">
-	<div class="main-page col-sm-12">
-		<div class="alert alert-warning">
+<div class="page-content">
+	<div class="container-fluid">
+		<div class="alert error-block margin-t-10">
 			Você não pode acessar essa página!
 		</div>
 	</div>

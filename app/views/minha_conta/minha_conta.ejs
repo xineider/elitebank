@@ -1,8 +1,124 @@
 <%- include('../includes/menu_header'); %>
 
-<div class="main-page">
-	<div class="minha_conta">
-		Minha Conta
-
+<div class="page-content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<h2 class="h5 no-margin-bottom">Minha conta</h2> 
+		</div>
 	</div>
-</div>
+	<section class="margin-bottom-sm">
+		<div class="container-fluid">
+			<div class="row d-flex align-items-stretch">
+				<%if(usuario.nivel==3){%>
+
+				<div class="col-lg-6">   
+					<div class="stats-with-chart-1 block">
+						<div class="title"> <strong class="d-block">Licença</strong></div>
+						<div class="row d-flex justify-content-between">
+							<div class="col-sm-12 col-md-5">
+								<div class="text">
+									<%if(data.licenca_user_dias >= 0){%>
+									<strong class="d-block dashtext-3"> 
+										<%= data.licenca_user_dias %> dias
+									</strong>
+									<span class="d-block">Dias restantes</span>
+									<%}else{%>
+									<span class="d-block dashtext-5">Liçenca expirada!! <a href="https://www.hotmart.com/pt-BR" target="_blank" class="dashtext-3">Clique aqui</a> para adquirir uma nova liçenca. </span>
+									<%}%>
+								</div>
+							</div>
+
+							<div class="col-sm-12 col-md-7">
+
+
+								<div class="text">
+									<% if(data.config_sistema[0].possui_creditos == true){%>
+									<span class="d-block dashtext-3 margin-b-10 margin-t-10">Ativação Liçença/Crédito</span>
+									<span class="margin-b-10">Ative sua licença ou adicione créditos utilizando o código de transação enviado para o seu e-mail.<br>
+
+									
+									<%}else{%>
+										<span class="d-block dashtext-3 margin-b-10 margin-t-10">Ativação Liçença</span>
+										<span class="margin-b-10">Ative sua licença utilizando o código de transação enviado para o seu e-mail.<br>
+									<%}%>
+
+											<form method="POST" action="" enctype="multipart/form-data">
+												<div class="form-group margin-t-10">
+													<label class="sr-only">Código da Transação</label>
+													<input type="text" placeholder="Código da Transação" class="form-control" name="codigo_transacao" required>
+												</div>
+												<div class="form-group">
+													<button data-href="/sistema/minha_conta/ativar-codigo-transacao/" title="Enviar Código" type="submit" class="btn btn-primary ajax-submit-sucess-message w100px" data-action="/sistema/minha_conta" data-sucesso-id="#alert-sucess-cod-transacao">Ativar</button>
+												</div>
+											</form>
+										</div>
+
+										<div class="none alert sucess-block text-center" role="alert" id="alert-sucess-cod-transacao">
+											Recarga efetuada com sucesso!
+										</div>
+
+
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+						<%}%>
+
+
+						<div class="<%= usuario.nivel == 3 ? 'col-lg-6': 'col-lg-12'%>">                           
+							<div class="stats-with-chart-1 block">
+								<div class="title"><strong>Alterar senha</strong></div>
+								<div class="block-body">
+									<form class="form-inline">
+										<div class="form-group col-sm-12 col-wide-3 mb-3">
+											<label class="sr-only">Senha atual</label>
+											<input type="password" placeholder="Senha atual" class="form-control mx-auto" name="senha_atual" required>
+										</div>
+										<div class="form-group col-sm-12 col-wide-3 mb-3">
+											<label class="sr-only">Nova senha</label>
+											<input type="password" placeholder="Nova senha" class="form-control mx-auto" name="nova_senha" required>
+										</div>
+										<div class="form-group col-sm-12 col-wide-3 mb-3">
+											<label class="sr-only">Confirmar senha</label>
+											<input type="password" placeholder="Confirmar senha" class="form-control mx-auto" name="repetir_nova_senha" required>
+										</div>
+										<div class="form-group col-sm-12">
+											<button data-href="/sistema/minha_conta/alterar-senha/" title="Alterar Senha" type="submit" class="btn btn-primary ajax-submit-sucess-message mx-auto" data-action="/sistema/minha_conta" data-sucesso-id="#alert-sucess-alterar-senha">Alterar Senha</button>
+										</div>
+									</form>
+								</div>
+								<div class="block-body">
+									<div class="margin-t-20" id="error_alterar_senha">
+
+									</div>
+
+									<div class="none alert sucess-block text-center" role="alert" id="alert-sucess-alterar-senha">
+										Senha alterada com sucesso!
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+
+
+
+
+
+					</div>
+				</div>
+			</section>
+
+
+
+
+
+
+
+
+
+
+
+		</div>

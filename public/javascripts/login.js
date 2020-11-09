@@ -26,7 +26,7 @@ $(document).ready(function () {
 				}else{
 					console.log("estou dentro sucesso !!!!!!");
 					$('#modal_forgot_password').modal('hide');
-					$('.message').html('<div class="text-center alert alert-success">Senha Alterada com Sucesso, Verifique o seu e-mail!</div>')
+					$('.message').html('<div class="text-center alert alert-success" style="margin-bottom:25px;">Senha Alterada com Sucesso!!<br>Verifique o seu e-mail!</div>')
 				}
 				removerLoader();
 			},
@@ -47,11 +47,17 @@ $(document).ready(function () {
 		materialInputs.siblings('.label-material').addClass('active')
 	}
 
+	materialInputs.bind('input', function(e){
+		e.preventDefault();
+		$(this).siblings('.label-material').addClass('active');
+	});
+
     // activate labels for prefilled values
     materialInputs.filter(function() { return $(this).val() !== ""; }).siblings('.label-material').addClass('active');
 
     // move label on focus
-    materialInputs.on('focus', function () {
+    materialInputs.on('focus', function (e) {
+    	e.preventDefault();
     	$(this).siblings('.label-material').addClass('active');
     });
 
@@ -65,6 +71,13 @@ $(document).ready(function () {
     		$(this).siblings('.label-material').removeClass('active');
     	}
     });
+
+
+    /*Identificar Internet Explorer e Alterar para que ele não possa fazer login*/
+    if (window.navigator.userAgent.indexOf("Trident/") > 0) {
+    	$('#conteudo_form').html('<div class="red-text">Infelizmente o Internet Explorer não é Suportado!!</div>'+
+    		'<div>Recomendamos utilizar navegadores mais recentes tais como: <span class="bold">Google Chrome, Opera, Firefox.</span></div>');
+    }
 
 });
 

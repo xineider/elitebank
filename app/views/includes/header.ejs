@@ -11,7 +11,11 @@
 	<link rel='stylesheet' href='/public/stylesheets/datatables.min.css' />
 	<link rel='stylesheet' href='/public/stylesheets/utils.css' />
 	<link rel='stylesheet' href='/public/stylesheets/Chart.min.css' />
-	<link rel='stylesheet' href='/public/stylesheets/style.css' />
+	<!-- 	<link rel='stylesheet' href='/public/stylesheets/style.css' /> -->
+	<link rel='stylesheet' href='/public/stylesheets/font.css' />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
+	<link rel='stylesheet' href='/public/stylesheets/main-theme.css' />
+	<link rel='stylesheet' href='/public/stylesheets/dark-theme.css' />
 	<script src="/public/javascripts/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/pt-br.js"></script>
 	<script src="/public/javascripts/jquery.min.js"></script>
@@ -100,53 +104,16 @@
 
 	<div class="overlay_menu"></div>
 
-	<header>
 
-		<div class="header-logo <%= usuario.nivel == 2 ? 'background_trader' : 'white' %> w100">
-
-
-
-
-			<div class="header-logo-container">
-
-				<div class="menu-toggle-container">
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<i class="fas fa-bars grey-text"></i>
-					</button>
-
-				</div>
-
-
-
-				<img src="/public/images/logo_elite.png">
-
-			</div>
-
-			<div class="header-group-itens">
-				<div class="header-item">
-					<div class="w100 text-center">
-						<a class="logout" href="/logout" onclick="return confirm('Você deseja sair?');">
-							<i class="fas fa-sign-out-alt grey-text"></i>
-							<div class="grey-text f16">Sair</div>
-						</a>
-					</div>
-
+	<nav class="navbar navbar-expand-lg">
+		<div class="container-fluid d-flex align-items-center justify-content-between">
+			<div class="navbar-header">
+				<!-- Navbar Header--><a href="/sistema" class="navbar-brand ajax-load">
+					<div class="brand-text brand-big text-uppercase visible"><strong class="text-primary">Elite </strong><strong>Traders</strong></div>
+					<div class="brand-text brand-sm"></div></a>
+					<!-- Sidebar Toggle Btn-->
+					<button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
 				</div>
 
 			</div>
-
-		</div>
-		<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; top: 70px; right: 10px;">
-			<div class="toast-body">
-				Texto
-			</div>
-		</div>
-	</header>
-
-	<nav id="sidebar">
-		<div class="w100 text-right" id="dismiss_sidebar">
-			<i class="fas fa-arrow-left margin-r-5 color-selecionado"></i>
-		</div>
-		<%- include('menu_items'); %>
-	</nav>
-
+		</nav>

@@ -1,75 +1,155 @@
 <%- include('../includes/menu_header'); %>
-<div class="container">
-	<div class="main-page col-sm-12 col-md-11">
-		<div class="row margin-t-10">
 
-			<div class="col-sm-12 col-md-6 mb-4">
+<div class="page-content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<h2 class="h5 no-margin-bottom">Ajuda / Tutoriais</h2>
+		</div>
+	</div>
 
-				<div class="card h-100 padding-20">
-					<div class="f25 black-text border-bottom-grey">Alterar Senha</div>
+	<section class="no-padding-bottom">
+		<div class="container-fluid">
+			<div class="public-user-block block">
+				<div class="block margin-bottom-sm">
+					<div class="table-responsive"> 
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Conteúdo</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>A plataforma</td>
+									<td>
+										<div class="block-body text-center">
+											<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Iniciar</button>
+											<!-- Modal-->
+											<div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+												<div role="document" class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header"><strong id="exampleModalLabel" class="modal-title">Iniciando na plataforma</strong>
+															<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+														</div>
+														<div class="modal-body">
+															<p>Inicie o vídeo abaixo para aprender o conteúdo</p>
 
-					<form method="POST" action="" enctype="multipart/form-data">
+															<video width="100%" height="auto" controls="">
+																<source src="movie.mp4" type="video/mp4">
+																	<source src="movie.ogg" type="video/ogg">
+																		Your browser does not support the video tag.
+																	</video>
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-primary" data-dismiss="modal">Concluir</button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div> 
+											</td>
+										</tr>
 
-						<div class="form-group row margin-t-10">
-							<label for="senha_atual" class="col-sm-12 col-md-4 grey-text">Senha Atual:</label>
-							<div class="col-sm-12 col-md-4 mb-4">
-								<input type="password" class="form-control" name="senha_atual" required>
-							</div>
-						</div>
 
-						<div class="form-group row ">
-							<label for="senha_atual" class="col-sm-12 col-md-4 grey-text">Nova Senha:</label>
-							<div class="col-sm-12 col-md-4 mb-4">
-								<input type="password" class="form-control" name="nova_senha" required>
-							</div>
-						</div>
+										<tr>
+											<td>Suporte / Ajuda</td>
+											<td> <div class="block-body text-center">
+												<button type="button" data-toggle="modal" data-target="#myModal2" class="btn btn-primary">Iniciar</button>
+												<!-- Modal-->
+												<div id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+													<div role="document" class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header"><strong id="exampleModalLabel" class="modal-title">Signin Modal</strong>
+																<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+															</div>
+															<div class="modal-body">
+																<p>Lorem ipsum dolor sit amet consectetur.</p>
+																<form>
+																	<div class="form-group">
+																		<label>Email</label>
+																		<input type="email" placeholder="Email Address" class="form-control">
+																	</div>
+																	<div class="form-group">       
+																		<label>Password</label>
+																		<input type="password" placeholder="Password" class="form-control">
+																	</div>
+																	<div class="form-group">       
+																		<input type="submit" value="Signin" class="btn btn-primary">
+																	</div>
+																</form>
+															</div>
+															<div class="modal-footer">
+																<button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
+																<button type="button" class="btn btn-primary">Save changes</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div></td>
+										</tr>
 
-						<div class="form-group row ">
-							<label for="senha_atual" class="col-sm-12 col-md-4 grey-text">Repetir Nova Senha:</label>
-							<div class="col-sm-12 col-md-4 mb-4">
-								<input type="password" class="form-control" name="repetir_nova_senha" required>
-							</div>
-						</div>
 
-						<div class="row">
-							<div class="col-sm-12 col-md-10 col-lg-12 mb-4">							
-								<button data-href="/sistema/suporte/alterar-senha/" title="Alterar Senha" type="submit" class="btn col-sm-12 btn-success float-right ajax-submit-alterar-senha" data-action="/sistema/suporte" data-sucesso-id="#alert-sucess-alterar-senha">Alterar Senha</button>
-							</div>
-						</div>
+										<tr>
+											<td>Como recarregar</td>
+											<td> <div class="block-body text-center">
+												<button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Iniciar</button>
+												<!-- Modal-->
+												<div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+													<div role="document" class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header"><strong id="exampleModalLabel" class="modal-title">Iniciando na plataforma</strong>
+																<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+															</div>
+															<div class="modal-body">
+																<p>Lorem ipsum dolor sit amet consectetur.</p>
 
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="none alert alert-success text-center" role="alert" id="alert-sucess-alterar-senha">
-									Senha alterada com sucesso!
+																<video width="100%" height="auto" controls="">
+																	<source src="movie.mp4" type="video/mp4">
+																		<source src="movie.ogg" type="video/ogg">
+																			Your browser does not support the video tag.
+																		</video>
+																	</div>
+																	<div class="modal-footer">
+																		<button type="button" class="btn btn-primary" data-dismiss="modal">Concluir</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div> </td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 						</div>
+					</section>
 
-					</form>
+
+
+
+					<section class="no-padding-bottom">
+						<div class="container-fluid">
+
+							<div class="public-user-block block">
+								<div class="row d-flex align-items-center">                   
+									<div class="col-lg-4 d-flex align-items-center">
+										<div class="avatar"> </div><strong class="d-block">Precisa de suporte?</strong>
+									</div>
+									<div class="col-lg-7 text-center">
+										<a target="_blank" href="https://www.hotmart.com/pt-BR" class="btn btn-primary w80">Entrar em contato</a>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</section>
+
 				</div>
-			</div>
 
 
-			<div class="col-sm-12 col-md-6 mb-4">
-				<div class="card h-100 padding-20">
-					<div class="f25 black-text border-bottom-grey">Suporte</div>
-					<div class="w100 text-center margin-t-10">
-						Precisa de Ajuda? Fale com o suporte no botão abaixo
-					</div>
 
-					<div class="w100 margin-t-10">
-						<a target="_blank" href="https://telegram.me/YourUsername">
-							<button type="button" class="btn primary w100">
-								<i class="fab fa-telegram-plane"></i>
-								Falar com o Suporte
-							</button>
-						</a>
-					</div>
 
-				</div>
 
-			</div>
 
-		</div>
-	</div>
-</div>

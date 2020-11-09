@@ -17,6 +17,8 @@ const mensagemUser = require('../model/mensagemModel.js')
 router.get('/', function(req, res, next) {
 	data.link_sistema = '/sistema';
 	data.numero_menu = 6;
+	console.log('log trader');
+	console.log('req.session.usuario');
 	console.log(req.session.usuario);
 	mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_mensagem){
 		data.mensagem = data_mensagem;

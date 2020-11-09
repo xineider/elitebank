@@ -6,7 +6,6 @@ var intervalo = '';
 $(document).ready(function () {
 
 	console.log('estou aqui no ready do começo');
-	// adicionarLoader();
 	FormatInputs();
 	
 	$(document).ajaxError(function () {
@@ -15,6 +14,12 @@ $(document).ready(function () {
 	$(document).ajaxSuccess(function () {
 		$('.error_ajax').fadeOut();
 	});
+
+	$(document).ajaxComplete(function () {
+		validarDataTable($('#tabela_administracao'));
+		validarDataTable($('#tabela_licenca_creditos'));
+	});
+
 
 	$(document).on('click', '.modal-remover-mount', function (e) {
 		e.preventDefault();
@@ -36,6 +41,14 @@ $(document).ready(function () {
 		e.preventDefault();
 		var modal = $(this).data('modal');
 		var link = $(this).data('link');
+
+		console.log('cliquei no modal-mount');
+		console.log('modal');
+		console.log(modal);
+		console.log('link');
+		console.log(link);
+
+
 		MountModal(modal, link);
 	});
 
@@ -58,7 +71,12 @@ $(document).ready(function () {
 		e.preventDefault();
 		var link = $(this).attr('href');
 		var to = $(this).data('to');
+		console.log(to);
+		console.log(link);
 		LoadTo(link, to);
+		$('.ajax-load-to').removeClass('active');
+		$('#grafico_botao_tudo').removeClass('active');
+		$(this).addClass('active');
 	});
 
 	$(document).on('click', '.remove', function (e) {
@@ -91,6 +109,40 @@ $(document).ready(function () {
 		}
 	});
 
+	$(document).on('click', '.ajax-submit-load-to', function(e) {
+		e.preventDefault();
+		var form = $(this).parents('form');
+		var post = form.serializeArray();
+		var to = $(this).data('to');
+		var link = $(this).data('href');
+		if (VerificarForm(form) == true) {
+			SubmitAjaxLoadTo(post, link, to);
+		}
+		$('.ajax-load-to').removeClass('active');
+		$('#grafico_botao_tudo').removeClass('active');
+		$(this).addClass('active');
+	});
+
+
+
+	$('.sidebar-toggle').on('click', function () {
+		$(this).toggleClass('active');
+
+		$('#sidebar').toggleClass('shrinked');
+		$('.page-content').toggleClass('active');
+		$(document).trigger('sidebarChanged');
+
+		if ($('.sidebar-toggle').hasClass('active')) {
+			$('.navbar-brand .brand-sm').addClass('visible');
+			$('.navbar-brand .brand-big').removeClass('visible');
+			$(this).find('i').attr('class', 'fas fa-long-arrow-alt-right');
+		} else {
+			$('.navbar-brand .brand-sm').removeClass('visible');
+			$('.navbar-brand .brand-big').addClass('visible');
+			$(this).find('i').attr('class', 'fas fa-long-arrow-alt-left');
+		}
+	});
+
 
 	$(document).on('click', '.ajax-submit-timer-5', function(e) {
 		e.preventDefault();
@@ -105,7 +157,7 @@ $(document).ready(function () {
 		}
 	});
 
-	$(document).on('click', '.ajax-submit-alterar-senha', function(e) {
+	$(document).on('click', '.ajax-submit-sucess-message', function(e) {
 		e.preventDefault();
 		var form = $(this).parents('form');
 		var post = form.serializeArray();
@@ -113,7 +165,7 @@ $(document).ready(function () {
 		var back = $(this).data('action');
 		var sucesso = $(this).data('sucesso-id');
 		if (VerificarForm(form) == true) {
-			SubmitAjaxAlterarSenha(post, link, back,sucesso);
+			SubmitAjaxSucessMessage(post, link, back,sucesso);
 		}
 	});
 
@@ -121,7 +173,7 @@ $(document).ready(function () {
 
 	$(document).on('change paste keyup','.input-text-email-senha',function(e){
 		$('#testar_conexao').prop('disabled',false);
-		$('#testar_conexao').removeClass('disabled').addClass('btn-success');
+		$('#testar_conexao').removeClass('disabled').addClass('btn-primary');
 		$('#botao_iniciar_sistema').prop('disabled',true);
 		$('#botao_iniciar_sistema').addClass('disabled').removeClass('btn-success');
 		$('#caixa_alert_conectado').addClass('hide').removeClass('show');
@@ -129,8 +181,15 @@ $(document).ready(function () {
 		$('#form_operacional_entrada').prop('disabled',true);
 		$('#form_operacional_limite_perda').prop('disabled',true);
 		$('.form_operacional_tipo_conta').prop('disabled',true);
+		$('#alterar_operacional_porcentagem').prop('disabled',true);
 
-		$('.alterar_operacional_porcentagem').prop('disabled',true);
+		$('#form_trader_qtd_usuarios').prop('disabled',true);
+		$('#form_trader_liquidez').prop('disabled',true);
+		
+		$('.js-input-change-color').addClass('color-disabled');
+
+		zerarIntervalo();
+
 
 	});
 
@@ -464,7 +523,7 @@ function SubmitAjax(post, link, back) {
 }
 
 
-function SubmitAjaxAlterarSenha(post, link, back,sucesso) {
+function SubmitAjaxSucessMessage(post, link, back,sucesso) {
 	$.ajax({
 		method: 'POST',
 		async: true,
@@ -581,6 +640,43 @@ function SubmitAjaxTimer(post, link, back,conect_teste,timer) {
 	});
 }
 
+
+function SubmitAjaxLoadTo(post, link, to) {
+	$.ajax({
+		method: 'POST',
+		async: true,
+		data: post,
+		url: link,
+		beforeSend: function(request) {
+			request.setRequestHeader("Authority-Moon-hash", $('input[name="hash_usuario_sessao"]').val());
+			request.setRequestHeader("Authority-Moon-id", $('input[name="id_usuario_sessao"]').val());
+			request.setRequestHeader("Authority-Moon-nivel", $('input[name="nivel_usuario_sessao"]').val());
+			adicionarLoader();
+		},
+		success: function(data) {
+			console.log('----------- DATA SUBMITAJAXLOADTO ---------');
+			console.log(data);
+			console.log('-------------------------------------');
+
+			/*update tambem retorna objeto, então tenho que validar ele pelo error*/	
+			if (typeof data == 'object' && data['error'] != null){
+				console.log('cai no erro');
+				console.log(data['element']);
+				console.log(data['texto']);
+				AddErrorTexto($(data['element']),data['texto']);	
+			}else if(data != undefined){
+				$('.'+to).empty();
+				$('.'+to).append(data);
+			}
+			LogSistema('POST',link);
+		},
+		error: function(xhr) { // if error occured
+		},
+		complete: function() {
+			removerLoader();
+		}
+	});
+}
 
 
 
@@ -702,7 +798,10 @@ function MountModal(modal, link) {
 			request.setRequestHeader("Authority-Moon-hash", $('input[name="hash_usuario_sessao"]').val());
 			request.setRequestHeader("Authority-Moon-id", $('input[name="id_usuario_sessao"]').val());
 			request.setRequestHeader("Authority-Moon-nivel", $('input[name="nivel_usuario_sessao"]').val());
-			adicionarLoader();
+			// adicionarLoader();
+			console.log('estou no mountModal');
+			console.log('link');
+			console.log(link);
 		},
 		success: function(data) {
 			console.log(link);
@@ -710,11 +809,11 @@ function MountModal(modal, link) {
 			$(modal).modal('show');
 		},
     error: function(xhr) { // if error occured
-    	removerLoader();
+    	// removerLoader();
     },
     complete: function() {
-    	removerLoader();
-    	FormatInputs();
+    	// removerLoader();
+    	// FormatInputs();
     }
 });
 }
@@ -783,6 +882,7 @@ function AddError(isso) {
 }
 function AddErrorAjax() {
 	$('.error_ajax').fadeIn();
+	location.reload();
 }
 
 function AddErrorTexto(isso,texto) {

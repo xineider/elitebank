@@ -2,34 +2,306 @@
 <% if(usuario.nivel == 1){%>
 
 
-<div class="container">
-	<div class="main-page col-sm-12 col-md-11">
+<div class="page-content">
 
-		<div class="row margin-t-10">
-			<div class="col col-sm-12">
-				<div class="card padding-20">
-					<div class="f25 black-text border-bottom-grey">Administração</div>
+	<div class="page-header">
+		<div class="container-fluid">
+			<h2 class="h5 no-margin-bottom">Administração</h2>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<section class="no-padding-bottom">
+			<div class="container-fluid">
+				<div class="row d-flex align-items-stretch">
+					<div class="col-lg-12">
+						<div class="block">
+							<div class="title">
+								<strong>Pagamentos</strong>
+							</div>
+							<div class="block-body">
+								<div class="row margin-b-10">
+									<div class="col-sm-12 col-lg-3">
+										<div>Total Aprovado: R$ <%= data.valor_total_aprovado %></div>
+										<div>Total Andamento: R$ <%= data.valor_total_andamento %></div>
+									</div>
+
+									<div class="col-sm-12 col-lg-3">
+										<div>Total Operação Ap.: R$<%= ((data.valor_total_aprovado * 70) /100) %></div>
+										<div>Total Operação An.: R$<%= ((data.valor_total_andamento * 70) /100) %></div>
+									</div>
+
+									<div class="col-sm-12 col-lg-3">
+										<div>Total Sistema Ap.: R$<%= ((data.valor_total_aprovado * 20) /100) %></div>
+										<div>Total Sistema An.: R$<%= ((data.valor_total_andamento * 20) /100) %></div>
+									</div>
+
+									<div class="col-sm-12 col-lg-3">
+										<div>Total WebApi Ap.: R$<%= ((data.valor_total_aprovado * 10) /100) %></div>
+										<div>Total WebApi An.: R$<%= ((data.valor_total_andamento * 10) /100) %></div>
+									</div>
+								</div>
+
+								<div class="w100 inline">
+									<table class="table centered highlight responsive-table cell-border tabela_filtrada" id="">
+										<thead>
+											<tr>
+												<th>Nome</th>
+												<th>E-mail</th>
+												<th>Produto</th>
+												<th>Status Pagamento</th>
+												<th>Processado</th>
+												<th>Cancelado</th>
+												<th>Preço</th>
+												<th>Data</th>
+												<th>(%) Operação</th>
+												<th>(%) Sistema</th>
+												<th>(%) WebApi</th>
+											</tr>
+										</thead>
+										<tbody>
+											<%
+											if (typeof data.pagamento != 'undefined' && data.pagamento.length > 0) {
+												for (var i = 0 ; i < data.pagamento.length; i++) {
+													%>
+													<tr class="<%= data.pagamento[i].cancelado == true ? "red": ""%>">
+														<td>
+															<%= data.pagamento[i].nome %>
+														</td>
+														<td>
+															<%= data.pagamento[i].email %>
+														</td>
+														<td>
+															<%= data.produtos[i]%>
+														</td>
+
+														<td>
+															<%= data.pagamento[i].status %>
+														</td>
+
+														<td>
+															<%= data.pagamento[i].processado == true ? 'Sim' : 'Não' %>
+														</td>
+
+														<td>
+															<%= data.pagamento[i].cancelado == true ? 'Sim' : 'Não'  %>
+														</td>
+
+														<td>
+															R$<%= data.pagamento[i].valor %>
+														</td>
+
+														<td>
+															<%= data.dias[i] %>
+														</td>
+
+														<td>
+															R$<%= ((data.pagamento[i].valor * 70) /100) %>
+														</td>
+
+														<td>
+															R$<%= ((data.pagamento[i].valor * 20) /100) %>
+														</td>
+
+														<td>
+															R$<%= ((data.pagamento[i].valor * 10) /100) %>
+														</td>
+
+													</tr>
+													<%
+												}
+											}
+											%>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
 				</div>
+
+
+
+			</div>
+		</section>
+
+
+
+		<section class="no-padding-bottom">
+			<div class="container-fluid">
+				<div class="row d-flex align-items-stretch">
+					<div class="col-lg-12">
+						<div class="block">
+							<div class="title">
+								<strong>Usuários</strong>
+							</div>
+							<div class="block-body">
+
+								<section class="no-padding-top no-padding-bottom">
+									<div class="container-fluid">
+										<div class="none alert sucess-block text-center" role="alert" id="alert-sucess-alterar-senha-usuario">
+											Senha do Usuário Alterada com Sucesso!
+										</div>
+									</div>
+								</section>
+
+
+								<div class="w100 inline">
+									<table class="table centered highlight responsive-table cell-border tabela_filtrada" id="tabela_administracao">
+										<thead>
+											<tr>
+												<th>Nome</th>
+												<th>E-mail</th>
+												<th>Ações</th>
+											</tr>
+										</thead>
+										<tbody>
+											<%
+											if (typeof data.usuarios != 'undefined' && data.usuarios.length > 0) {
+												for (var i = 0 ; i < data.usuarios.length; i++) {
+													%>
+													<tr>
+														<td>
+															<%= data.usuarios[i].nome %>
+														</td>
+														<td>
+															<%= data.usuarios[i].email %>
+														</td>
+														<td>
+															<button class="btn btn-primary modal-mount margin-t-10 margin-r-10 width100-mobile" data-modal='#modalinfo' data-link="/sistema/administracao/alterar-senha-usuario/<%= data.usuarios[i]._id%>" >
+																Alterar Senha
+															</button>
+
+														</td>
+														
+													</tr>
+													<%
+												}
+											}
+											%>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+
+
+			</div>
+		</section>
+
+
+
+
+		<section class="no-padding-bottom">
+			<div class="container-fluid">
+				<div class="row d-flex align-items-stretch">
+					<div class="col-lg-12">
+						<div class="block">
+							<div class="title">
+								<strong>Liçenca/Créditos</strong>
+							</div>
+							<div class="block-body">
+
+
+								<div class="w100 inline">
+									<table class="table centered highlight responsive-table cell-border tabela_filtrada" id="tabela_licenca_creditos">
+										<thead>
+											<tr>
+												<th>Nome</th>
+												<th>E-mail</th>
+												<th>Créditos</th>
+												<th>Liçenca dias</th>
+												<th>Qntd. Operações</th>
+												<th>Qntd. Vitórias</th>
+												<th>Acertividade</th>
+												<th>Gasto Virtual</th>
+												<th>Gasto Real</th>
+											</tr>
+										</thead>
+										<tbody>
+											<%
+											if (typeof data.licenca != 'undefined' && data.licenca.length > 0) {
+												for (var i = 0 ; i < data.licenca.length; i++) {
+													%>
+													<tr>
+														<td>
+															<%= data.nomes_usuarios_licenca[i] %>
+														</td>
+														<td>
+															<%= data.emails_usuarios_licenca[i] %>
+															
+														</td>
+														<td>
+															$$<%= data.licenca[i].creditos %>
+														</td>
+														<td>
+															<span class="<%= data.dias_licenca_faltantes[i] < 0 ? 'red-text' : '' %>">
+																<%= data.dias_licenca_faltantes[i] %>
+															</span>
+														</td>
+
+														<td>
+															<%= data.qtd_operacoes_licenca[i] %>
+														</td>
+
+														<td>
+															<%= data.qtd_operacoes_vit_licenca[i] %>
+														</td>
+
+														<td>
+															<%= data.acertividade_licenca[i] %>%
+														</td>
+
+														<td>
+															<%= (data.qtd_operacoes_vit_licenca[i] * 2) %>
+														</td>
+
+														<td>
+															<%= (data.licenca[i].creditos * 2) - (data.qtd_operacoes_vit_licenca[i] * 2)  %>
+														</td>
+														
+													</tr>
+													<%
+												}
+											}
+											%>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+
+
+			</div>
+		</section>
+
+
+
+
+
+
+	</div>
+
+
+
+
+	<%}else{%>
+	<div class="page-content">
+		<div class="container-fluid">
+			<div class="alert error-block margin-t-10">
+				Você não pode acessar essa página!
 			</div>
 		</div>
-
-
-
 	</div>
 
-</div>
 
-
-
-
-<%}else{%>
-<div class="container">
-	<div class="main-page col-sm-12">
-		<div class="alert alert-warning">
-			Você não pode acessar essa página!
-		</div>
-	</div>
-</div>
-
-
-<%}%>
+	<%}%>

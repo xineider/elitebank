@@ -1,82 +1,22 @@
-<div class="sidenav-menu d-none d-sm-flex col-md-1-9 padding-r-0 padding-l-0 <%= usuario.nivel == 2 ? 'background_trader' : 'white' %>">
-	<%- include('menu_items'); %>
-</div>
+<nav id="sidebar" class="">        
+	<ul class="list-unstyled">
+		<li class="<%= data.numero_menu == 1 ? 'active' : ''%>"><a class="ajax-load" href="/sistema"> <i class="icon-home"></i>Dashboard </a></li>
+		<li class="<%= data.numero_menu == 2 ? 'active' : ''%>" ><a class="ajax-load" href="/sistema/minha_conta"> <i class="icon-user"></i>Minha Conta </a></li>
+		<% if(usuario.nivel == 3){%>
+		<li class="<%= data.numero_menu == 5 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/recarga"> <i class="icon-dashboard"></i>Recarregar </a></li>
+		<li class="<%= data.numero_menu == 3 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/historico"> <i class="fas fa-chart-bar"></i>Histórico </a></li>
+		<%}else if(usuario.nivel == 2){%>
+		<li class="<%= data.numero_menu == 6 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/log_trader"> <i class="fas fa-file-alt"></i>Log </a></li>
+		<%}else if(usuario.nivel == 1){%>
+		<li class="<%= data.numero_menu == 7 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/administracao"> <i class="fas fa-tools"></i>Administrativo </a></li>
+		<%}%>
+		<li class="<%= data.numero_menu == 4 ? 'active' : ''%>"><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-computer"></i>Ajuda </a>
+			<ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+				<li><a class="ajax-load" href="/sistema/suporte">Tutoriais</a></li>
 
-
-
-
-<!-- 2 ° versão menu -->
-<!-- <div class="sidenav-menu d-none d-sm-flex primary col-md-1 padding-r-0 padding-l-0">
-	
-	<a class="sidenav-item f18 border-right-primary border-bottom-primary ajax-load nav-link primary-text-contrast <%#= data.numero_menu == 1 ? 'secondary' : ''%>" href="/sistema">
-		<div class="sidenav-container">
-			<i class="fas fa-home f36"></i>
-			<div class="text-center">Home</div>
-		</div>
-		<div class="sidenav-linha-divisoria"></div>
-	</a>
-
-
-	<a class="sidenav-item f18 border-right-primary border-bottom-primary ajax-load nav-link primary-text-contrast <%#= data.numero_menu == 2 ? 'secondary' : ''%>" href="/sistema/minha_conta">
-		<div class="sidenav-container">
-			<i class="fas fa-user-cog f36"></i>
-			<div class="text-center">Minha Conta</div>
-		</div>
-		<div class="sidenav-linha-divisoria"></div>
-	</a>
-
-
-	<a class="sidenav-item f18 border-right-primary border-bottom-primary ajax-load nav-link <%#= data.numero_menu == 3 ? 'secondary' : ''%>" href="/sistema/historico">
-		<div class="sidenav-container">
-			<i class="fas fa-file-pdf f36"></i>
-			<div>Histórico</div>
-		</div>
-		<div class="sidenav-linha-divisoria"></div>
-	</a>
-
-
-	<a class="sidenav-item f18 border-right-primary border-bottom-primary ajax-load nav-link" href="/sistema">
-		<div class="sidenav-container">
-			<i class="fab fa-telegram-plane f36"></i>
-			<div>Suporte</div>
-		</div>
-		<div class="sidenav-linha-divisoria"></div>
-	</a>
-
-	<a class="sidenav-item f18 border-right-primary border-bottom-primary ajax-load nav-link <%#= data.numero_menu == 5 ? 'secondary' : ''%>" href="/sistema/recarga">
-		<div class="sidenav-container">
-			<i class="fas fa-piggy-bank f36"></i>
-			<div>Recarga</div>
-		</div>
-	</a>
-</div>
--->
-
-
-
-<!-- <nav class="w20 sidenav-menu h100  d-none d-sm-flex">
-	<ul class="nav w100 h100">
-		<li class="nav-item w100 text-center f25 border-right-primary border-bottom-primary h25"> 
-			<a class="ajax-load nav-link" href="/sistema" style="margin-top:65px;">
-				Minha Conta
-			</a>
+			</ul>
 		</li>
-		<li class="nav-item w100 text-center f25 border-right-primary border-bottom-primary h25">
-			<a class="ajax-load nav-link" href="/sistema" style="margin-top:65px;">
-				Histórico
-			</a>
-		</li>
-		<li class="nav-item w100 text-center f25 border-right-primary border-bottom-primary h25">
-			<a class="ajax-load nav-link" href="/sistema" style="margin-top:65px;">
-				Suporte <i class="fab fa-telegram black-text"></i>
-			</a>
-		</li>
-		<li class="nav-item w100 text-center f25 border-right-primary h25">
-			<a class="ajax-load nav-link" style="margin-top:50px;">
-				<img class="w90" src="/public/images/promocao_faixa.png">
-			</a>
-		</li>
-
+		<li><a class="logout" href="/logout" onclick="return confirm('Você deseja sair?');"> <i class="icon-logout"></i>Sair </a></li>
 
 	</ul>
-</nav> -->
+</nav>

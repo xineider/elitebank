@@ -27,18 +27,6 @@ async function start(){
 }
 
 
-// async function start(){
-// 	await mongoose.connect("mongodb://robocopy-db.mongo.cosmos.azure.com:10255/aw3e4w?ssl=true&replicaSet=globaldb", {
-// 		auth: {
-// 			user: 'robocopy-db',
-// 			password: 'BLGNrJPVgg3YPyARjOhxvE2wktjdMDZkoX4BfjbNC8RaTl5w2AbuwkdPDVDfnAuNkVZzIdaro3qnFXRNHztu1Q=='
-// 		},
-// 		useNewUrlParser: true,
-// 		useUnifiedTopology: true,
-// 		retryWrites: false
-// 	});
-// }
-
 const usuarioModel = require('../model/usuariosModel.js');
 
 
@@ -58,9 +46,12 @@ router.post('/', function(req, res, next) {
 	// Recebendo o valor do post
 	POST = req.body;
 	POST.senha = control.Encrypt(POST.senha);
+	POST.email = POST.email.toLowerCase();
+	POST.email = POST.email.trim();
 	console.log('NNNNNNNNNNNNNN POST LOGIN NNNNNNN');
 	console.log(POST);
 	console.log('NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN');
+
 	start();
 
 	usuarioModel.findOne({'email':POST.email,'senha':POST.senha},function(err,data){
@@ -73,6 +64,7 @@ router.post('/', function(req, res, next) {
 			console.log(req.session.usuario);
 			res.redirect('/sistema');
 		}else{
+			console.log('estou caindo aqui no erro do login ou senha incorreto');
 			res.render('login/index', { erro: 'Login ou senha incorreto(s).', tipo_erro: 'login' });
 		}
 
@@ -127,18 +119,28 @@ router.post('/recuperar/senha', function(req, res, next) {
 					return handleError(err);
 				}else{
 
-					var html = "Olá, você está recebendo este e-mail pois pediu para recuperar sua senha"+
-					"<br>Sua nova senha no RoboCopy é: "+nova_senha+
-					"<br>Caso não pediu para recuperar a sua senha entre em contato com o Suporte pelo telegram"+
-					'<br><br>Não mostre sua senha para ninguém. A sua conta é responsabilidade sua.'+
-					'<br>Não responda esta mensagem, ela é enviada automaticamente.';
+					var html = "<div style='background:#ffffff;background-color:#ffffff;margin:0px auto; max-width:600px;'>\
+					<div style='background:rgba(219,101,116,0.95);width:100%;height:50px; padding:20px; text-align:center;color:#ffffff;width:100%;'>\
+						<div style='width:100%;font-size:20px;'>Elite Traders</div>\
+						<div style='width:100%;font-size:16px;margin-top:5px;'>Simples, fácil e lucrativo. Copie traders consistentes no mercado.</div>\
+					</div>\
+					<div style='background:#2d3035;color:#8a8d93;width:100%;padding:20px;'>"+
+						"Olá, você está recebendo este e-mail pois pediu para recuperar sua senha"+
+						"<br>Sua nova senha no Elite Traders é: "+nova_senha+
+						"<br>Caso não pediu para recuperar a sua senha entre em contato com o Suporte pelo telegram"+
+						'<br><br>Não mostre sua senha para ninguém. A sua conta é responsabilidade sua.'+
+					'</div>'+
+					'<div style="width:100%;height:20px; padding:5px 20px;color:#8a8d93;width:100%;font-size:14px;">\
+						* Não responda esta mensagem, ela é enviada automaticamente.'+
+					'</div>\
+					</div>';
 					var text = "Olá, você está recebendo este e-mail pois pediu para recuperar sua senha"+
-					"<br>Sua nova senha no RoboCopy é: "+nova_senha+
+					"<br>Sua nova senha no Elite Traders é: "+nova_senha+
 					"<br>Caso não pediu para recuperar a sua senha entre em contato com o Suporte pelo telegram"+
 					'<br><br>Não mostre sua senha para ninguém. A sua conta é responsabilidade sua.'+
-					'<br>Não responda esta mensagem, ela é enviada automaticamente.';
+					'<br>* Não responda esta mensagem, ela é enviada automaticamente.';
 
-					control.SendMail(POST.email, 'Recuperação de Senha - RoboCopy',text,html);				
+					control.SendMail(POST.email, 'Recuperação de Senha - Elite Traders',text,html);				
 					res.json(data);
 				}
 			});

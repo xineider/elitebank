@@ -1,13 +1,35 @@
 
-<div class="col-sm-12 white-text">
-	<div class="margin-t-10 margin-b-10 white" style="overflow: auto;">
-		<canvas id="grafico_historico_porcentagem" width="1200" height="600" data-canvas-dias="<%= data.grafico.dias %>"data-canvas-qtd_operacoes="<%= data.grafico.operacoes %>" data-canvas-qtd_acertos="<%= data.grafico.acertos %>"></canvas>
-	</div>
+<div class="block-body">
+	<div class="row block-border-bottom">
+		<div class="col-sm-12 col-md-6">
+			<div class="total_operacoes_color f20 text-center">Total de Operações: 
+				<span class="total_operacoes_color_n">
+					<%= data.acertividade.total_operacoes %>				
+				</span>
+			</div>
+		</div>
 
-	<div class="w100 none historico_mensagem_sem_operacao">
-		Sem dados suficientes!
+		<div class="col-sm-12 col-md-6">
+			<div class="numero_acertos_color f20 text-center">Número de Acertos: 
+				<span class="numero_acertos_color_n">
+					<%= data.acertividade.total_acertos %>
+				</span>
+			</div>
+		</div>
 	</div>
 </div>
+
+<div>
+	<canvas id="grafico_historico_porcentagem" data-canvas-dias="<%= data.grafico.dias %>"data-canvas-qtd_operacoes="<%= data.grafico.operacoes %>" data-canvas-qtd_acertos="<%= data.grafico.acertos %>"></canvas>
+</div>
+
+<div class="w100 none historico_mensagem_sem_operacao warning-block">
+	Sem dados suficientes!
+</div>
+
+
+
+
 
 
 
@@ -16,6 +38,8 @@
 	var ctx = document.getElementById('grafico_historico_porcentagem').getContext('2d');
 
 	var dias = $('#grafico_historico_porcentagem').data('canvas-dias');
+
+	Chart.defaults.global.defaultFontColor = '#75787c';
 
 	if(dias != 0){
 		var diasArray = dias.split(',');
@@ -26,68 +50,114 @@
 		var acertos = $('#grafico_historico_porcentagem').data('canvas-qtd_acertos').toString();
 		var acertosArray = acertos.split(',');
 
-
-		var total_operacoes = {
-			label: "Total de Operações",
-			data: qtd_operacoesArray,
-			borderColor: '#fbc467',
-			backgroundColor: '#fbc467',
-			datalabels:{
-				align:'top',
-				anchor:'start'
-			},
-			fill: '+1'
-
-		};
-
-		var numero_acertos = {
-			label: "Número de Acertos",
-			data: acertosArray,
-			borderColor: '#69cc95',
-			backgroundColor: '#69cc95',
-			datalabels:{
-				align:'top',
-				anchor:'start'
-			},
-			fill: 'origin'
-		};
-
-		var dadoGrafico = {
-			labels: diasArray,
-			datasets: [total_operacoes, numero_acertos]
-		};
-
 		Chart.defaults.global.defaultFontSize = 16;
 
+		// let MyScale = Chart.Scale.extend({
 
-		var lineChart = new Chart(ctx, {
+		// });
+
+		// Chart.scaleService.registerScaleType('myScale', MyScale, defaultConfigObject);
+
+
+		var LINECHARTEXMPLE   = $('#grafico_historico_porcentagem');
+		var lineChartExample = new Chart(LINECHARTEXMPLE, {
 			type: 'line',
-			data: dadoGrafico,
 			options: {
-				responsive: false,
-				maintainAspectRatio:false,
-				fill:true,
+				legend: {labels:{fontColor:"#777", fontSize: 12}},
+				maintainAspectRatio: false,
 				scales: {
-					yAxes: [{
-						ticks: {
-							beginAtZero: false,
-							fontSize: 18,
-							steps: 1,
-							stepValue: 2,
-							max: <%= data.maior_valor %>
+					xAxes: [{
+						display: false,
+						gridLines: {
+							color: 'transparent'
 						}
 					}],
-					xAxes:[{
-						ticks:{
-							fontSize: 18
+					yAxes: [{
+						ticks: {
+							beginAtZero: true,
+							max: <%= data.maior_valor %>,
+							min: 0
+						},
+						display: true,
+						gridLines: {
+							color: 'transparent'
 						}
 					}]
+				},
+				layout:{
+					padding:{
+						right:10,
+						left:10
+					}
 				}
-
-
+			},
+			data: {
+				labels: diasArray,
+				datasets: [
+				{
+					label: "Total Operações",
+					fill: true,
+					lineTension: 0,
+					backgroundColor: "rgba(98, 98, 98, 0.5)",
+					borderColor: "rgba(98, 98, 98, 0.5)",
+					borderCapStyle: 'butt',
+					borderDash: [],
+					borderDashOffset: 0.0,
+					borderJoinStyle: 'miter',
+					borderWidth: 1,
+					pointBorderColor: "rgba(98, 98, 98, 0.5)",
+					pointBackgroundColor: "#fff",
+					pointBorderWidth: 1,
+					pointHoverRadius: 5,
+					pointHoverBackgroundColor: "rgba(98, 98, 98, 0.5)",
+					pointHoverBorderColor: "rgba(98, 98, 98, 0.5)",
+					pointHoverBorderWidth: 2,
+					pointRadius: 1,
+					pointHitRadius: 10,
+					data: qtd_operacoesArray,
+					spanGaps: false,
+					datalabels:{
+						align:'top',
+						anchor:'start'
+					}
+				},
+				{
+					label: "Número de Acertos",
+					fill: true,
+					lineTension: 0,
+					backgroundColor: "rgba(134, 77, 217, 0.88)",
+					borderColor: "rgba(134, 77, 217, 088)",
+					borderCapStyle: 'butt',
+					borderDash: [],
+					borderDashOffset: 0.0,
+					borderJoinStyle: 'miter',
+					borderWidth: 1,
+					pointBorderColor: "rgba(134, 77, 217, 0.88)",
+					pointBackgroundColor: "#fff",
+					pointBorderWidth: 1,
+					pointHoverRadius: 5,
+					pointHoverBackgroundColor: "rgba(134, 77, 217, 0.88)",
+					pointHoverBorderColor: "rgba(134, 77, 217, 0.88)",
+					pointHoverBorderWidth: 2,
+					pointRadius: 1,
+					pointHitRadius: 10,
+					data: acertosArray,
+					spanGaps: false,
+					datalabels:{
+						align:'top',
+						anchor:'start'
+					},
+				}
+				]
 			}
-
 		});
+
+
+
+
+
+
+
 
 
 
