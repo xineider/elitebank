@@ -1,11 +1,11 @@
-$primary-color:#e6be64;
+$primary-color:#9a6da8;
 
 body{
   background-color: #fff;
 }
 
 .login-page .form-holder .info {
-  background: #333;
+  background: #fff;
   color: #fff;
 }
 
@@ -14,7 +14,10 @@ body{
 }
 
 .login-page::before {
-  background: #fff;
+  background: #965da4;
+  background: -moz-linear-gradient(135deg, #965da4 2%,#59a7ab 100%);
+  background: -webkit-linear-gradient(135deg, #965da4 2%,#59a7ab 100%);
+  background: linear-gradient(135deg, #965da4 2%,#59a7ab 100%);
 }
 
 .login-page .logo img{
@@ -23,18 +26,18 @@ body{
 
 .btn-primary{
   background: $primary-color;
-  border-color: #cea852;
+  border-color: #7d4e8c;
 
   &:hover,&:active{
-    background:#c39c44!important;
-    border-color: #a7812b!important;
-    -webkit-box-shadow:0 0 0 0.2rem rgba(230,190,100,0.5)!important;
-    box-shadow: 0 0 0 0.2rem rgba(230,190,100,0.5)!important;
+    background:#7d4e8c!important;
+    border-color: #6a337b!important;
+    -webkit-box-shadow:0 0 0 0.2rem rgba(154,109,168,0.5)!important;
+    box-shadow: 0 0 0 0.2rem rgba(154,109,168,0.5)!important;
   }
 
   &:focus{
-    -webkit-box-shadow:0 0 0 0.2rem rgba(230,190,100,0.5);
-    box-shadow: 0 0 0 0.2rem rgba(230,190,100,0.5);
+    -webkit-box-shadow:0 0 0 0.2rem rgba(154,109,168,0.5);
+    box-shadow: 0 0 0 0.2rem rgba(154,109,168,0.5);
   }
 }
 
@@ -67,10 +70,43 @@ body{
 }
 
 .login-page input:-webkit-autofill{
-  -webkit-box-shadow: 0 0 0px 1000px #fff inset!important;
+  -webkit-box-shadow: 0 0 0px 1000px #f3f2ee inset!important;
   -webkit-text-fill-color: #8a8d93;
 }
 
 nav#sidebar li.active i{
-  color: #cea852;
+  color: $primary-color;
+}
+
+a:focus, a:hover{
+  color: $primary-color;
+}
+
+nav#sidebar li.active::before{
+  background:$primary-color;
+}
+
+nav#sidebar li.active>a{
+  border-color:$primary-color;
+}
+
+nav#sidebar li a:hover i{
+  color: $primary-color;
+}
+
+
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show>.btn-primary.dropdown-toggle{
+  background-color:#7d4e8c;
+  border-color:#552863;
+}
+
+.text-primary{
+  color: $primary-color!important;
+}
+
+.form-control:focus{
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(154,109,168,0.25);
+  box-shadow: 0 0 0 0.2rem rgba(154,109,168,0.25);
+ border-color: $primary-color;
 }

@@ -1,0 +1,104 @@
+	<% if(data.conta_user.primeira_vez == true && data.config_sistema[0].possui_creditos == true){%>
+
+	<section class="no-padding-top no-padding-bottom">
+		<div class="container-fluid">
+			<div class="alert welcome-box">
+				<div class="text-center">
+					<h1>Bem-vindo ao Elite Bank</h1>
+					<div class="text-center">
+						Para utilizar o sistema Elite Bank você precisa de <strong>4</strong> itens, leia os atentamente antes de utilizar o sistema:
+						<div class="w100 margin-t-10">
+							<div class="margin-center inline">
+								<div class="text-left">
+									<span class="d-block <%= data.licenca_user_dias > 0 ? 'text-decoration-line-meio' : '' %>"><span class="number-bigger">1</span> - Licença, se você já a recebeu por e-mail por-favor colar o código de transação abaixo, se você não tiver acesse <a class="sucess-block-link-color" href="https://www.hotmart.com/pt-BR" target="_blank">aqui</a>.</span>
+									<span class="d-block <%= data.licenca_user.creditos > 0 ? 'text-decoration-line-meio' : '' %>"><span class="number-bigger">2</span> - Créditos, se você já recebeu por e-mail por-favor colar o código de transação abaixo, se você não tiver acesse <a class="sucess-block-link-color" href="https://www.hotmart.com/pt-BR" target="_blank">aqui</a>.</span>
+									<span class="d-block <%= data.conexao.status == 'conectado' ? 'text-decoration-line-meio' : '' %>"><span class="number-bigger">3</span> - Testar a conexão no campo conta, com um e-mail da corretora e a senha da mesma.</span>
+									<span class="d-block"><span class="number-bigger">4</span> - Configurar o operacional no campo operacional, com os valores desejados, e conectar!</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="margin-t-10">
+						Ative sua licença ou adicione créditos utilizando o código de transação enviado para o seu e-mail.
+					</div>
+
+					<div class="row">
+						<div class="col-sm-12 col-md-6 offset-md-3">
+							<form method="POST" action="" enctype="multipart/form-data">
+								<div class="form-group margin-t-10">
+									<label class="sr-only">Código da Transação</label>
+									<input type="text" placeholder="Código da Transação" class="form-control" name="codigo_transacao" required>
+								</div>
+								<div class="form-group">
+									<button data-href="/sistema/minha_conta/ativar-codigo-transacao/" title="Enviar Código" type="submit" class="btn btn-primary ajax-submit-sucess-message w100px" data-action="/sistema/" data-sucesso-id="#alert-sucess-cod-transacao">Ativar</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="no-padding-top no-padding-bottom">
+		<div class="container-fluid">
+			<div class="none alert sucess-block text-center" role="alert" id="alert-sucess-cod-transacao">
+				Recarga efetuada com sucesso!
+			</div>
+		</div>
+	</section>
+
+	<%}%>
+
+	<% if(data.conta_user.primeira_vez == true && data.config_sistema[0].possui_creditos == false){%>
+
+	<section class="no-padding-top no-padding-bottom">
+		<div class="container-fluid">
+			<div class="alert welcome-box">
+				<div class="text-center">
+					<h1>Bem-vindo ao Elite Bank</h1>
+					<div class="text-center">
+						Para utilizar o sistema Elite Bank você precisa de <strong>3</strong> itens, leia os atentamente antes de utilizar o sistema:
+						<div class="w100 margin-t-10">
+							<div class="margin-center inline">
+								<div class="text-left">
+									<span class="d-block <%= data.licenca_user_dias > 0 ? 'text-decoration-line-meio' : '' %>"><span class="number-bigger">1</span> - Licença, se você já a recebeu por e-mail por-favor colar o código de transação abaixo, se você não tiver acesse <a class="sucess-block-link-color" href="https://www.hotmart.com/pt-BR" target="_blank">aqui</a>.</span>
+									<span class="d-block <%= data.conexao.status == 'conectado' ? 'text-decoration-line-meio' : '' %>"><span class="number-bigger">2</span> - Testar a conexão no campo conta, com um e-mail da corretora e a senha da mesma.</span>
+									<span class="d-block"><span class="number-bigger">3</span> - Configurar o operacional no campo operacional, com os valores desejados, e conectar!</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="margin-t-10">
+						Ative sua licença utilizando o código de transação enviado para o seu e-mail.
+					</div>
+
+					<div class="row">
+						<div class="col-sm-12 col-md-6 offset-md-3">
+							<form method="POST" action="" enctype="multipart/form-data">
+								<div class="form-group margin-t-10">
+									<label class="sr-only">Código da Transação</label>
+									<input type="text" placeholder="Código da Transação" class="form-control" name="codigo_transacao" required>
+								</div>
+								<div class="form-group">
+									<button data-href="/sistema/minha_conta/ativar-codigo-transacao/" title="Enviar Código" type="submit" class="btn btn-primary ajax-submit-sucess-message w100px" data-action="/sistema/" data-sucesso-id="#alert-sucess-licenca">Ativar</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="no-padding-top no-padding-bottom">
+		<div class="container-fluid">
+			<div class="none alert sucess-block text-center" role="alert" id="alert-sucess-licenca">
+				Licença Ativada com Sucesso!
+			</div>
+		</div>
+	</section>
+
+	<%}%>

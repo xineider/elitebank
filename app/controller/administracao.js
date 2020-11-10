@@ -246,12 +246,11 @@ router.post('/alterar-senha', function(req, res, next) {
 
 				var html = "<div style='background:#ffffff;background-color:#ffffff;margin:0px auto; max-width:600px;'>\
 				<div style='background:rgba(219,101,116,0.95);width:100%;height:50px; padding:20px; text-align:center;color:#ffffff;width:100%;'>\
-				<div style='width:100%;font-size:20px;'>DeuWin</div>\
-				<div style='width:100%;font-size:16px;margin-top:5px;'>Simples, fácil e lucrativo. Copie traders consistentes no mercado.</div>\
+				<div style='width:100%;font-size:20px;'>Elite Bank</div>\
 				</div>\
 				<div style='background:#2d3035;color:#8a8d93;width:100%;padding:20px;'>"+
 				"Olá, você está recebendo este e-mail pois a administração resetou a sua senha"+
-				"<br>Sua nova senha no Deu Win é: "+nova_senha+
+				"<br>Sua nova senha no Elite Bank é: "+nova_senha+
 				'<br><br>Não mostre sua senha para ninguém. A sua conta é responsabilidade sua.'+
 				'</div>'+
 				'<div style="width:100%;height:20px; padding:5px 20px;color:#8a8d93;width:100%;font-size:14px;">\
@@ -260,11 +259,11 @@ router.post('/alterar-senha', function(req, res, next) {
 				</div>';
 
 				var text = "Olá, você está recebendo este e-mail pois a administração resetou a sua senha"+
-				"<br>Sua nova senha no DeuWin é: "+nova_senha+
+				"<br>Sua nova senha no Elite Bank é: "+nova_senha+
 				'<br><br>Não mostre sua senha para ninguém. A sua conta é responsabilidade sua.'+
 				'<br> * Não responda esta mensagem, ela é enviada automaticamente.';
 
-				control.SendMail(data_usuario.email, 'Recuperação de Senha - DeuWin',text,html);				
+				control.SendMail(data_usuario.email, 'Recuperação de Senha - Elite Bank',text,html);				
 				res.json(data);
 			}
 		});
