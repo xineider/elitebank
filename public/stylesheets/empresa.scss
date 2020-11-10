@@ -1,3 +1,5 @@
+$primary-color:#e6be64;
+
 body{
   background-color: #fff;
 }
@@ -20,7 +22,7 @@ body{
 }
 
 .btn-primary{
-  background: #e6be64;
+  background: $primary-color;
   border-color: #cea852;
 
   &:hover,&:active{
@@ -41,11 +43,11 @@ body{
 }
 
 .login-page input.input-material:focus {
-  border-color: #e6be64;
+  border-color: $primary-color;
 }
 
 .login-page input.input-material ~ label.active{
-  color: #e6be64;
+  color: $primary-color;
 }
 
 .login-page input{
@@ -67,4 +69,8 @@ body{
 .login-page input:-webkit-autofill{
   -webkit-box-shadow: 0 0 0px 1000px #fff inset!important;
   -webkit-text-fill-color: #8a8d93;
+}
+
+nav#sidebar li.active i{
+  color: #cea852;
 }
