@@ -267,6 +267,7 @@ pre {
 .page-header {
   padding: 20px 15px;
   margin-bottom: 30px;
+  height: 64px;
 }
 
 .footer {
@@ -3544,6 +3545,24 @@ table{
 
 .text-decoration-line-meio{
   text-decoration: line-through;
+}
+
+
+/*Quando é responsivo*/
+
+@media (max-width: 768px){
+  .margin-t-20-mobile{
+    margin-top:20px;
+  }
+
+  .text-center-mobile{
+    text-align: center;
+  }
+
+  .stats-with-chart-1 .title{
+    margin-bottom:20px
+  }
+
 }
 
 

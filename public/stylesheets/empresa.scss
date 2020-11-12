@@ -110,3 +110,7 @@ nav#sidebar li a:hover i{
   box-shadow: 0 0 0 0.2rem rgba(154,109,168,0.25);
  border-color: $primary-color;
 }
+
+.checkbox-template:checked::before, .radio-template:checked::before{
+  background:$primary-color;
+}

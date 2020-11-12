@@ -18,7 +18,7 @@
 						<div class="stats-with-chart-1 block <%= data.limite_usuarios[0].sessao_iniciada == true ? 'sucess-block-trader-color' : '' %>">
 							<div class="title"> <strong class="d-block">Status</strong></div>
 							<div class="row d-flex align-items-start justify-content-between">
-								<div class="col-sm-12 col-md-8 text-center-mobile">
+								<div class="col-sm-12 col-md-6 text-center-mobile">
 									<div class="text">
 										<strong class="d-block <%= data.conta_user.acao == 'iniciar' ? 'dashtext-2' : 'dashtext-3'%>"> <%= data.conta_user.acao == 'iniciar' ? 'Conectado' : 'Desconectado' %></strong>
 										<span class="d-block">Status de conexão</span>
@@ -38,7 +38,7 @@
 								<% if(data.limite_usuarios[0].sessao_iniciada == true){%>
 								
 
-								<div class="col-sm-12 col-md-4 text-center margin-t-20-mobile">
+								<div class="col-sm-12 col-md-6 text-center margin-t-20-mobile">
 									<div class="f24 dashtext-2">Sessão Iniciada!</div>
 									<div class="f24">Boas Operações!</div>
 								</div>
