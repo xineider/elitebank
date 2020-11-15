@@ -10,12 +10,9 @@
 		<%}else if(usuario.nivel == 1){%>
 		<li class="<%= data.numero_menu == 7 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/administracao"> <i class="fas fa-tools"></i>Administrativo </a></li>
 		<%}%>
-		<li class="<%= data.numero_menu == 4 ? 'active' : ''%>"><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-computer"></i>Ajuda </a>
-			<ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-				<li><a class="ajax-load" href="/sistema/suporte">Tutoriais</a></li>
+		<li class="<%= data.numero_menu == 4 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/suporte"> <i class="icon-computer"></i>Suporte </a></li>
 
-			</ul>
-		</li>
+
 		<li><a class="logout" href="/logout" onclick="return confirm('Você deseja sair?');"> <i class="icon-logout"></i>Sair </a></li>
 
 	</ul>

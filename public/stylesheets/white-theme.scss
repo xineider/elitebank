@@ -294,13 +294,46 @@ nav#sidebar a[aria-expanded="true"] {
 
 .dashtext-5,.yellow-text{
   color:#d8b226;
- }
+}
 
- .btn-success-color{
-    background:#57bd25;
- }
+.btn-success-color{
+  background:#57bd25;
 
- .sucess-block-trader-color{
+  &:hover{
+    background:#4bab1c;
+  }
+
+  &:focus{
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(75,171,28,0.25);
+    box-shadow: 0 0 0 0.2rem rgba(75,171,28,0.25);
+  }
+
+}
+
+.sucess-block-trader-color{
   // background:#e2ffd4;
   box-shadow: 0px 2px 20px #44921e;
- }
+}
+
+::-webkit-calendar-picker-indicator{
+  filter: invert(72%) sepia(43%) saturate(5216%) hue-rotate(310deg) brightness(89%) contrast(91%);
+}
+
+
+.btn_modal_close{
+  background:#eaeaea;
+
+  &:hover{
+    background:#d0d0d0;  
+  }
+
+  &:focus{
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(234,234,234,0.25);
+    box-shadow: 0 0 0 0.2rem rgba(234,234,234,0.25);
+  }  
+
+}
+
+.border-sucess{
+  border:1px solid #57bd25;
+}

@@ -95,6 +95,21 @@ $(document).ready(function () {
 		}
 	});
 
+	$(document).on('click', '.ajax-submit-scroll-top', function(e) {
+		e.preventDefault();
+		var form = $(this).parents('form');
+		var post = form.serializeArray();
+		var link = $(this).data('href');
+		var back = $(this).data('action');
+		if (VerificarForm(form) == true) {
+			SubmitAjaxScrollTop(post, link, back);
+		}
+	});
+
+
+
+	
+
 
 	$(document).on('click', '.ajax-submit-timer', function(e) {
 		e.preventDefault();
@@ -522,6 +537,45 @@ function SubmitAjax(post, link, back) {
 	});
 }
 
+function SubmitAjaxScrollTop(post, link, back) {
+	$.ajax({
+		method: 'POST',
+		async: true,
+		data: post,
+		url: link,
+		beforeSend: function(request) {
+			request.setRequestHeader("Authority-Moon-hash", $('input[name="hash_usuario_sessao"]').val());
+			request.setRequestHeader("Authority-Moon-id", $('input[name="id_usuario_sessao"]').val());
+			request.setRequestHeader("Authority-Moon-nivel", $('input[name="nivel_usuario_sessao"]').val());
+			adicionarLoader();
+		},
+		success: function(data) {
+			console.log('----------- DATA SUBMITAJAX ---------');
+			console.log(data);
+			console.log('-------------------------------------');
+
+			/*update tambem retorna objeto, então tenho que validar ele pelo error*/	
+			if (typeof data == 'object' && data['error'] != null){
+				console.log('cai no erro');
+				console.log(data['element']);
+				console.log(data['texto']);
+				AddErrorTexto($(data['element']),data['texto']);	
+			}else if(data != undefined){
+				if(back != ''){
+					GoTo(back, true);
+					$("html, body").animate({ scrollTop: 0 }, "slow");
+				}
+			}
+			LogSistema('POST',link);
+		},
+		error: function(xhr) { // if error occured
+		},
+		complete: function() {
+			removerLoader();
+		}
+	});
+}
+
 
 function SubmitAjaxSucessMessage(post, link, back,sucesso) {
 	$.ajax({
@@ -678,10 +732,6 @@ function SubmitAjaxLoadTo(post, link, to) {
 	});
 }
 
-
-
-
-
 function SubmitAjaxClean(post, link, back) {
 	$.ajax({
 		method: 'POST',
@@ -747,9 +797,6 @@ function SubmitAjaxOpenModal(post, link,modal) {
 				console.log('estou sendo chamado por que deu certo !!!!');
 				$(modal).find('.modal-content').html(data);
 				$(modal).modal('show');
-
-				/*utilizo o attr para limpar a classe para que não tenha a classe de erro no cadastro que deveria ser o verde*/
-
 			}
 			LogSistema('POST',link);
 		},

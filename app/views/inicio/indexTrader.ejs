@@ -8,6 +8,71 @@
 		</div>
 	</div>
 	<form method="POST" action="" enctype="multipart/form-data">
+
+		<section class="margin-bottom-sm">
+			<div class="container-fluid">
+				<div class="row d-flex align-items-stretch">
+					<div class="col-sm-12">
+						<div class="stats-with-chart-1 block">
+							<div class="title"> <strong class="d-block">Controle Sessão</strong></div>
+
+							<div class="row">
+
+								<div class="col-sm-6 text-center">
+									<div class="text-center">
+										Já Participaram de Sessão
+									</div>
+									<div class="text text-center">
+										<strong class="d-block"> <%= data.sessao_total[0].total_participantes_sessao%></strong>
+									</div>	
+
+									<% if(data.conta_user.acao == 'parar'){%>
+									<small class="d-block">Atualizado a pouco</small>
+									<%}else{%>
+									<small class="d-block">Próxima atualização em 
+										<span class="timer_header_container">
+											<span class="timer_header">59</span>'s
+										</span>
+									</small>
+
+									<%}%>
+
+								</div>
+
+								<div class="col-sm-6 text-center">
+									<div class="text-center">
+										Aguardando Sessão:
+									</div>
+									<div class="text text-center">
+										<strong class="d-block dashtext-5">
+											<%= data.sessao_total[0].total_usuarios_conectados -  data.sessao_total[0].total_participantes_sessao%>
+										</strong>
+									</div>
+
+									<% if(data.conta_user.acao == 'parar'){%>
+									<small class="d-block">Atualizado a pouco</small>
+									<%}else{%>
+									<small class="d-block">Próxima atualização em 
+										<span class="timer_header_container">
+											<span class="timer_header">59</span>'s
+										</span>
+									</small>
+
+									<%}%>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</section>
+
+
+
 		<section class="margin-bottom-sm">
 
 			<div class="container-fluid">
@@ -15,7 +80,7 @@
 				<div class="row d-flex align-items-stretch">
 
 					<div class="col-lg-6">   
-						<div class="stats-with-chart-1 block <%= data.limite_usuarios[0].sessao_iniciada == true ? 'sucess-block-trader-color' : '' %>">
+						<div class="stats-with-chart-1 block <%= data.sessao_status[0].sessao_iniciada == true ? 'sucess-block-trader-color' : '' %>">
 							<div class="title"> <strong class="d-block">Status</strong></div>
 							<div class="row d-flex align-items-start justify-content-between">
 								<div class="col-sm-12 col-md-6 text-center-mobile">
@@ -35,7 +100,7 @@
 									</div>
 								</div>
 
-								<% if(data.limite_usuarios[0].sessao_iniciada == true){%>
+								<% if(data.sessao_status[0].sessao_iniciada == true){%>
 								
 
 								<div class="col-sm-12 col-md-6 text-center margin-t-20-mobile">
@@ -51,12 +116,11 @@
 
 					<div class="col-lg-6">   
 						<div class="stats-with-chart-1 block">
-							<div class="title"> <strong class="d-block">Usuários Ativos</strong></div>
+							<div class="title"> <strong class="d-block">Sessão</strong></div>
 							<div class="row d-flex align-items-start justify-content-between">
-								<div class="col-sm-12 col-md-5">
-									<span class="d-block js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">Limite de 200 usuários ativos</span>
-
-
+								<div class="col-sm-12 col-md-4">
+									
+									<span class="d-block js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">Limite de 200 usuários.<br> Por sessão.</span>
 
 									<div class="form-group">
 										<label class="form-control-label js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">Definir Quantidade de Usuários:</label>
@@ -64,16 +128,16 @@
 									</div>
 								</div>
 
-								<div class="col-sm-12 col-md-5 text-center">
+								<div class="col-sm-12 col-md-4 text-center">
 									<div class="text">
 										<strong class="d-block <%= data.conta_user.acao == 'iniciar' ? 'dashtext-2' : 'dashtext-3'%>">
 											<% if(data.conta_user.acao == 'iniciar'){%>
-											<%= data.limite_usuarios[0].quantidade_usuarios %>
+											<%= data.sessao_status[0].quantidade_usuarios %>
 											<%}else{%>
 											0
 											<%}%>
 										</strong>
-										<span class="d-block">Usuários no Momento</span>
+										<span class="d-block">Usuários em Sessão</span>
 
 										<% if(data.conta_user.acao == 'parar'){%>
 										<small class="d-block">Atualizado a pouco</small>

@@ -45,6 +45,14 @@ const traderLimiteModel = require('../model/traderLimiteModel.js');
 /*Configurações do Sistema*/
 var configuracoes_sistema = require('../model/configuracoes_sistemaModel.js');
 
+/*Sessão dos Usuário*/
+var sessao_usuarioModel = require('../model/usuarioSessao.js');
+
+/*Sessão dos Usuário*/
+var usuariosModel = require('../model/usuariosModel.js');
+
+/*Sessão dos Usuário*/
+var sessaoTotalModel = require('../model/sessaoTotalModel.js');
 
 /* GET pagina de login. */
 
@@ -64,19 +72,19 @@ router.get('/', function(req, res, next) {
 			}
 
 			licencaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_licenca){
-				console.log(data_licenca);
+				// console.log(data_licenca);
 
 				if(data_licenca != null){
 					data.licenca_user = data_licenca;
 					/*Calcular quantos dias faltam para a licença expirar*/
 					hoje = new Date();
 					data_fim = data_licenca.data_fim;
-					console.log('data_fim: '+data_fim);
-					console.log('hoje: '+hoje);
+					// console.log('data_fim: '+data_fim);
+					// console.log('hoje: '+hoje);
 					data_fim.setDate(data_fim.getDate() + 1);
-					console.log('data_fim: '+data_fim);
+					// console.log('data_fim: '+data_fim);
 					diferencaData = data_fim - hoje;
-					console.log('diferencaData: ' + diferencaData);
+					// console.log('diferencaData: ' + diferencaData);
 					dias_faltantes = Math.floor(diferencaData / (1000 * 60 * 60 * 24)) + 1;
 					data.licenca_user_dias = dias_faltantes;
 					req.session.usuario.creditos = data_licenca.creditos;
@@ -130,7 +138,7 @@ router.get('/', function(req, res, next) {
 								console.log(data);
 								console.log('ddddddddddddddddddddddd');
 
-								console.log(req.session.usuario);
+
 
 								res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/index', data: data, usuario: req.session.usuario});
 							});
@@ -141,53 +149,129 @@ router.get('/', function(req, res, next) {
 		});
 	}else{
 
-		sessaoStatusModel.find({},function(err,data_limite_usuarios){
+		sessaoStatusModel.find({},function(err,data_sessao_status){
 
-			if(data_limite_usuarios !=null){
-				data.limite_usuarios = data_limite_usuarios;
+			if(data_sessao_status !=null){
+				data.sessao_status = data_sessao_status;
 			}else{
-				data.limite_usuarios = {quantidade_usuarios:0};
+				data.sessao_status = {quantidade_usuarios:0};
 			}
 
-			traderLimiteModel.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_trader_limite){
+			sessao_usuarioModel.find({},function(err,data_usuarios_sessao){
+				usuariosSessao = 0;
 
-				if(data_trader_limite !=null){
-					data.trader_limite = data_trader_limite;
-				}else{
-					data.trader_limite = {limite_usuarios:200,limite_liquidez:50};
+				console.log('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+				console.log('data_usuarios_sessao');
+				console.log(data_usuarios_sessao);
+				console.log('data_usuarios_sessao.length');
+				console.log(data_usuarios_sessao.length);
+
+
+				if(data_usuarios_sessao != null){
+					usuariosSessao = data_usuarios_sessao.length;
 				}
 
-				contaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conta){
-					if(data_conta !=null){
-						data.conta_user = data_conta;
+				data.qtd_usuario_sessao = usuariosSessao;
+
+				sessaoTotalModel.find({},function(err,data_sessao_total){
+
+					if(data_sessao_total != null){
+						data.sessao_total = data_sessao_total;
 					}else{
-						data.conta_user = {conta_real:false,email:'',senha:'',tipo_banca:0,valor_entrada:100,limite_perda:50,acao:'parar',status:'desconectado'};
+						data.sessao_total = {total_participantes_sessao:0,total_usuarios_conectados:0};
 					}
 
-					teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
+					// contaUser.find({
+					// 	$and:[
+					// 	{acao:'iniciar'},
+					// 	{tipo:'cliente'},
+					// 	{$or:[{status:'standby'},{status:'conectado'}]}
+					// 	]
+					// },function(err,data_usuarios_conc_stand){
 
-						if(data_conexao != null){
-							data.conexao = data_conexao;
-						}else{
-							data.conexao = {email:'',senha:''};
-						}
-						mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'deletado':0},function(err,data_mensagem){
+						// var gente_que_ja_esta_sessao = 0;
 
-							data.mensagem = data_mensagem;
+						// console.log('data_usuarios_sessao.length:' + data_usuarios_sessao.length);
+						// console.log('data_usuarios_conc_stand.length:' + data_usuarios_conc_stand.length);
 
-							console.log('yyyyyyyyyyy data yyyyyyyyyyy');
-							console.log(data);
-							console.log('yyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+						// for(i=0;i < data_usuarios_conc_stand.length;i++){
+
+						// 	for(j=0;j < data_usuarios_sessao.length;j++){
+
+						// 		if(data_usuarios_sessao[j].id_usuario.equals(data_usuarios_conc_stand[i].id_usuario)){
+						// 			gente_que_ja_esta_sessao = gente_que_ja_esta_sessao + 1;
+						// 		}
+						// 	}
+
+						// }
+
+						// console.log('gente_que_ja_esta_sessao');
+						// console.log(gente_que_ja_esta_sessao);
 
 
 
+						// usuarios_stand_conectados = 0;
+						// usuarios_stand_conectados_total = 0;
 
-							res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexTrader', data: data, usuario: req.session.usuario});
+						// if(data_usuarios_conc_stand != null){
+						// 	usuarios_stand_conectados = data_usuarios_conc_stand.length - gente_que_ja_esta_sessao;
+						// 	usuarios_stand_conectados_total = data_usuarios_conc_stand.length;
+						// }
 
+						// data.qtd_usuario_stand_con = usuarios_stand_conectados;
+						// data.qtd_usuario_stand_con_total = usuarios_stand_conectados_total;
+
+						usuariosModel.find({nivel:3},function(err,data_clientes_trader){
+
+							usuarios_clientes = 0;
+
+							if(data_clientes_trader != null){
+								usuarios_clientes = data_clientes_trader.length;
+							}
+
+							data.qtd_clientes_trader = usuarios_clientes;
+
+
+							traderLimiteModel.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_trader_limite){
+
+								if(data_trader_limite !=null){
+									data.trader_limite = data_trader_limite;
+								}else{
+									data.trader_limite = {limite_usuarios:200,limite_liquidez:50};
+								}
+
+								contaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conta){
+									if(data_conta !=null){
+										data.conta_user = data_conta;
+									}else{
+										data.conta_user = {conta_real:false,email:'',senha:'',tipo_banca:0,valor_entrada:100,limite_perda:50,acao:'parar',status:'desconectado'};
+									}
+
+									teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
+
+										if(data_conexao != null){
+											data.conexao = data_conexao;
+										}else{
+											data.conexao = {email:'',senha:''};
+										}
+										mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'deletado':0},function(err,data_mensagem){
+
+											data.mensagem = data_mensagem;
+
+											console.log(data);
+											
+
+											res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexTrader', data: data, usuario: req.session.usuario});
+
+										});
+									}).sort({'data_cadastro':-1});
+								}).sort({'data_cadastro':-1});
+							}).sort({'data_cadastro':-1});
 						});
-					}).sort({'data_cadastro':-1});
-				}).sort({'data_cadastro':-1});
-			}).sort({'data_cadastro':-1});
+					});
+
+				// });
+			});
 		});
 	}
 
@@ -254,11 +338,95 @@ router.post('/testar-conexao', function(req, res, next) {
 				}
 			});
 		}else{
-			res.json({error:'qtd_valor_negativo',element:'#senha_grupo_usuario',texto:'*Valor não pode ser Vazio!'});
+			res.json({error:'senha_vazia',element:'input[name="senha"]',texto:'*Senha não pode ser Vazia!'});
 		}
 	}else{
-		res.json({error:'qtd_valor_negativo',element:'#email_grupo_usuario',texto:'*Valor não pode ser Vazio!'});
+		res.json({error:'email_vazio',element:'input[name="email"]',texto:'*Email não pode ser Vazio!'});
 	}
+});
+
+
+router.post('/popup-confirmacao-iniciar-operacao', function(req, res, next) {
+	POST = req.body;
+
+	console.log('qqqqqqqqqqqqqq ESTOU NO POPUP DE CONFIRMAÇÃO DE SENHA qqqqqqqqqqq');
+	console.log(POST);
+	console.log('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
+
+	configuracoes_sistema.find({},function(err,data_configuracoes){
+
+		if(data_configuracoes != null){
+			data.config_sistema = data_configuracoes;
+		}else{
+			data.config_sistema = {possui_creditos:true};
+		}
+
+		if(POST.valor_entrada >= 2){
+			if(POST.limite_perda > 0){
+				if(POST.valor_entrada % 1 === 0){
+					if(POST.limite_perda % 1 ===0){
+						tipo_conta_n = true;
+						if(POST.tipo_conta == 0){
+							tipo_conta_n = false;
+						}else{
+							tipo_conta_n = true;
+						}
+
+						var dias_faltantes_licenca;
+
+						if(req.session.usuario.licenca_dias == undefined){
+							dias_faltantes_licenca = -1;
+						}else{
+							dias_faltantes_licenca = req.session.usuario.licenca_dias;
+						}
+
+
+						if(dias_faltantes_licenca >= 0){
+
+							var creditos_restantes;
+
+							if(req.session.usuario.creditos == undefined){
+								creditos_restantes = 0;
+							}else{
+								creditos_restantes = req.session.usuario.creditos;
+							}
+
+
+							if((creditos_restantes > 0) || data_configuracoes[0].possui_creditos == false){
+
+								data.dados = POST;
+
+								console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDD Data DDDDDDDDDDDDDDDDDDDDDDDDDDD');
+								console.log(data);
+								console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
+
+								res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/confirmar_inicio_operacao', data: data, usuario: req.session.usuario});
+
+							}else{
+								res.json({error:'sem_creditos',element:'#error_mensagem_conexao',texto:'Você está sem créditos, por-favor recarregue os créditos!'});
+							}
+						}else{
+							res.json({error:'acabou_licenca',element:'#error_mensagem_conexao',texto:'Sua licença expirou, por-favor recarregar a licença para poder continuar usando o sistema!'});
+						}
+					}else{
+						res.json({error:'limite_perda_num',element:'input[name="limite_perda"]',texto:'*Somente valores inteiros. Ex: 100'});
+					}
+				}else{
+					res.json({error:'qtd_valor_negativo',element:'input[name="valor_entrada"]',texto:'*Somente valores inteiros. Ex: 100'});
+				}
+			}else{
+				res.json({error:'qtd_valor_negativo',element:'input[name="limite_perda"]',texto:'*Valor não pode ser 0 ou Negativo!'});
+			}
+		}else{
+			res.json({error:'valor_maior_que_2',element:'input[name="valor_entrada"]',texto:'*Valor minimo é de 2!'});
+		}
+
+	});
+});
+
+router.post('/popup-confirmacao-parar-operacao', function(req, res, next) {
+	POST = req.body;
+	res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/confirmar_parar_operacao', data: data, usuario: req.session.usuario});
 });
 
 
@@ -399,6 +567,144 @@ router.post('/iniciar-operacao', function(req, res, next) {
 	});
 
 });
+
+
+// router.post('/iniciar-operacao', function(req, res, next) {
+// 	POST = req.body;
+
+// 	console.log('JJJJJJJJJJJJJJJ ESTOU NO INICIAR OPERACAO JJJJJJJJJJJJJJJJJJJJJ');
+// 	console.log(POST);
+// 	console.log('JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ');
+
+
+// 	configuracoes_sistema.find({},function(err,data_configuracoes){
+
+// 		if(data_configuracoes != null){
+// 			data.config_sistema = data_configuracoes;
+// 		}else{
+// 			data.config_sistema = {possui_creditos:true};
+// 		}
+
+
+// 		if(POST.valor_entrada >= 2){
+// 			if(POST.limite_perda > 0){
+// 				if(POST.valor_entrada % 1 === 0){
+// 					if(POST.limite_perda % 1 ===0){
+// 						tipo_conta_n = true;
+// 						if(POST.tipo_conta == 0){
+// 							tipo_conta_n = false;
+// 						}else{
+// 							tipo_conta_n = true;
+// 						}
+
+// 						var dias_faltantes_licenca;
+
+// 						if(req.session.usuario.licenca_dias == undefined){
+// 							dias_faltantes_licenca = -1;
+// 						}else{
+// 							dias_faltantes_licenca = req.session.usuario.licenca_dias;
+// 						}
+
+
+// 						if(dias_faltantes_licenca >= 0){
+
+// 							var creditos_restantes;
+
+// 							if(req.session.usuario.creditos == undefined){
+// 								creditos_restantes = 0;
+// 							}else{
+// 								creditos_restantes = req.session.usuario.creditos;
+// 							}
+
+
+// 							if((creditos_restantes > 0) || data_configuracoes[0].possui_creditos == false){
+
+// 								tipo_cliente = 'cliente';
+
+// 								tipo_banca = 'numero';
+
+// 								if(POST.tipo_banca == 1){
+// 									tipo_banca = 'percentual';
+// 								};
+
+
+
+// 								if(data_configuracoes[0].possui_creditos == false){
+
+// 									const new_conta_user = new contaUser({ 
+// 										id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
+// 										tipo:tipo_cliente,
+// 										data_fim_licenca:req.session.usuario.licenca_data,
+// 										email: POST.email, 
+// 										senha:POST.senha,
+// 										conta_real:tipo_conta_n,
+// 										tipo_banca:tipo_banca,
+// 										valor_entrada:POST.valor_entrada,
+// 										limite_perda:POST.limite_perda,
+// 										acao:'iniciar',
+// 										status:'standby',
+// 										deletado:0,
+// 										process:12,
+// 										data_cadastro: new Date()
+// 									});
+
+// 									new_conta_user.save(function (err) {
+// 										if (err) {
+// 											return handleError(err);
+// 										}else{
+// 											res.json(data);
+// 										}
+// 									});
+// 								}else{
+// 									const new_conta_user_x = new contaUser({ 
+// 										id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
+// 										tipo:tipo_cliente,
+// 										data_fim_licenca:req.session.usuario.licenca_data,
+// 										creditos_licenca:req.session.usuario.creditos,		
+// 										email: POST.email, 
+// 										senha:POST.senha,
+// 										conta_real:tipo_conta_n,
+// 										tipo_banca:tipo_banca,
+// 										valor_entrada:POST.valor_entrada,
+// 										limite_perda:POST.limite_perda,
+// 										acao:'iniciar',
+// 										status:'standby',
+// 										deletado:0,
+// 										process:12,
+// 										data_cadastro: new Date()
+// 									});
+
+// 									new_conta_user_x.save(function (err) {
+// 										if (err) {
+// 											return handleError(err);
+// 										}else{
+// 											res.json(data);
+// 										}
+// 									});
+// 								}
+
+
+// 							}else{
+// 								res.json({error:'sem_creditos',element:'#error_mensagem_conexao',texto:'Você está sem créditos, por-favor recarregue os créditos!'});
+// 							}
+// 						}else{
+// 							res.json({error:'acabou_licenca',element:'#error_mensagem_conexao',texto:'Sua licença expirou, por-favor recarregar a licença para poder continuar usando o sistema!'});
+// 						}
+// 					}else{
+// 						res.json({error:'limite_perda_num',element:'input[name="limite_perda"]',texto:'*Somente valores inteiros. Ex: 100'});
+// 					}
+// 				}else{
+// 					res.json({error:'qtd_valor_negativo',element:'input[name="valor_entrada"]',texto:'*Somente valores inteiros. Ex: 100'});
+// 				}
+// 			}else{
+// 				res.json({error:'qtd_valor_negativo',element:'input[name="limite_perda"]',texto:'*Valor não pode ser 0 ou Negativo!'});
+// 			}
+// 		}else{
+// 			res.json({error:'valor_maior_que_2',element:'input[name="valor_entrada"]',texto:'*Valor minimo é de 2!'});
+// 		}
+// 	});
+
+// });
 
 
 router.post('/parar-operacao', function(req, res, next) {

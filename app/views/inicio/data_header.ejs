@@ -105,7 +105,7 @@
 				<%}%>
 
 				<div class="col-lg-4 col-xl-4">   
-					<div class="stats-with-chart-1 block <%= data.conta_user.status == 'standby' && data.conta_user.acao == 'iniciar' ? 'dashborder-5' : ''%>">
+					<div class="stats-with-chart-1 block <%= data.conta_user.status == 'standby' && data.conta_user.acao == 'iniciar' ? 'dashborder-5' : data.conta_user.status == 'conectado' ? 'border-sucess' : ''%>">
 						<div class="title"> <strong class="d-block">Status</strong></div>
 						<div class="row d-flex align-items-end justify-content-between">
 							<div class="col-sm-12">

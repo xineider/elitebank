@@ -119,19 +119,21 @@ router.post('/recuperar/senha', function(req, res, next) {
 					return handleError(err);
 				}else{
 
-					var html = "<div style='background:#ffffff;background-color:#ffffff;margin:0px auto; max-width:600px;'>\
-					<div style='background:rgba(219,101,116,0.95);width:100%;height:50px; padding:20px; text-align:center;color:#ffffff;width:100%;'>\
-						<div style='width:100%;font-size:20px;'>Elite Bank</div>\
+					var html = "<div style='background: linear-gradient(135deg, #59a7ab 0%,#965da4 98%);width:100%;'>\
+					<div style='margin:0px auto; max-width:600px;padding: 40px 0px;'>\
+					<div style='background:#ffffff;width:100%;height:140px; padding:20px; text-align:center;color:#ffffff;width:100%;'>\
+					<img style='max-width:280px;' src='http://copyelitebank.com.br/public/images/logo_elite.png'>\
 					</div>\
-					<div style='background:#2d3035;color:#8a8d93;width:100%;padding:20px;'>"+
-						"Olá, você está recebendo este e-mail pois pediu para recuperar sua senha"+
-						"<br>Sua nova senha no Elite Bank é: "+nova_senha+
-						"<br>Caso não pediu para recuperar a sua senha entre em contato com o Suporte pelo telegram"+
-						'<br><br>Não mostre sua senha para ninguém. A sua conta é responsabilidade sua.'+
+					<div style='background: #f3f2ee;color:#8a8d93;width:100%;padding:20px;'>"+
+					"Olá, você está recebendo este e-mail pois pediu para recuperar sua senha."+
+					"<br>Sua nova senha no Elite Bank é: "+nova_senha+
+					"<br>Caso não pediu para recuperar a sua senha entre em contato com o Suporte pelo telegram."+
+					'<br><br>Não mostre sua senha para ninguém. A sua conta é responsabilidade sua.'+
 					'</div>'+
-					'<div style="width:100%;height:20px; padding:5px 20px;color:#8a8d93;width:100%;font-size:14px;">\
-						* Não responda esta mensagem, ela é enviada automaticamente.'+
+					'<div style="width:100%;height:20px; padding:10px 20px;color:#8a8d93;width:100%;font-size:14px;background:#f3f2ee">\
+					* Não responda esta mensagem, ela é enviada automaticamente.'+
 					'</div>\
+					</div>\
 					</div>';
 					var text = "Olá, você está recebendo este e-mail pois pediu para recuperar sua senha"+
 					"<br>Sua nova senha no Elite Bank é: "+nova_senha+
@@ -151,37 +153,5 @@ router.post('/recuperar/senha', function(req, res, next) {
 	});
 });
 
-	// model.PesquisarEmail(POST.email).then(idEmail => {
-	// 	if(idEmail != ''){
-	// 		nova_senha = Math.random().toString(36).substring(7);
-	// 		data_insert = {id: idEmail[0].id, senha: nova_senha};
-	// 		model.AlterarSenhaUsuarioPorId(data_insert).then(data_alterado_sucesso =>{
-	// 			var html = "Olá, você está recebendo este e-mail pois pediu para recuperar sua senha"+
-	// 			"<br>Sua nova senha no Moon é: "+nova_senha+
-	// 			"<br>Caso não pediu para recuperar a sua senha entre em contato com o Suporte pelo e-mail <a href='mailto:suporte@moon.com.br'>suporte@moon.com.br</a>"+
-	// 			'<br><br>Não mostre seu login e senha para ninguém. A sua conta é responsabilidade sua.'+
-	// 			'<br>Não responda esta mensagem, ela é enviada automaticamente.';
-	// 			var text = "Olá, você está recebendo este e-mail pois pediu para recuperar sua senha"+
-	// 			"<br>Sua nova senha no Moon é: "+nova_senha+
-	// 			"<br>Caso não pediu para recuperar a sua senha entre em contato com o Suporte pelo e-mail <a href='mailto:suporte@moon.com.br'>suporte@moon.com.br</a>"+
-	// 			'<br><br>Não mostre seu login e senha para ninguém. A sua conta é responsabilidade sua.'+
-	// 			'<br>Não responda esta mensagem, ela é enviada automaticamente.';
-	// 			control.SendMail(POST.email, 'Recuperação de Senha - Moon',text,html);				
-	// 			res.json(data_alterado_sucesso);
-	// 		});
 
-	// 	}else{
-	// 		res.json(['email_nao_cadastrado']);
-	// 	}
-	// });
-
-
-
-
-
-
-
-
-
-
-	module.exports = router;
+module.exports = router;

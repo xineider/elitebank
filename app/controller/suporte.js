@@ -15,10 +15,7 @@ const usuarioModel = require('../model/usuariosModel.js');
 router.get('/', function(req, res, next) {
 	data.link_sistema = '/sistema';
 	data.numero_menu = 4;
-	console.log('MMmmMMMmMMMmMMMMMM Meus Dados MMMMMmmMMmMMMMM');
-	console.log(data);
-	console.log('MMmmMMMmMMMmMMMMMMmmmmmmmmmMMMMMmmMmMmMMMMmMM');
-	res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'suporte/suporte', data: data, usuario: req.session.usuario});
+	res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'suporte/ajuda', data: data, usuario: req.session.usuario});
 });
 
 

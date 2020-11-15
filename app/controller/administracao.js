@@ -192,7 +192,6 @@ router.get('/', function(req, res, next) {
 });
 
 
-
 router.get('/alterar-senha-usuario/:id_usuario', function(req, res, next) {
 
 	console.log(req.params.id_usuario);
@@ -244,24 +243,30 @@ router.post('/alterar-senha', function(req, res, next) {
 				return handleError(err);
 			}else{
 
-				var html = "<div style='background:#ffffff;background-color:#ffffff;margin:0px auto; max-width:600px;'>\
-				<div style='background:rgba(219,101,116,0.95);width:100%;height:50px; padding:20px; text-align:center;color:#ffffff;width:100%;'>\
-				<div style='width:100%;font-size:20px;'>Elite Bank</div>\
+				var html = "<div style='background: linear-gradient(135deg, #59a7ab 0%,#965da4 98%);width:100%;'>\
+				<div style='margin:0px auto; max-width:600px;padding: 40px 0px;'>\
+				<div style='background:#ffffff;width:100%;height:140px; padding:20px; text-align:center;color:#ffffff;width:100%;'>\
+				<img style='max-width:280px;' src='http://copyelitebank.com.br/public/images/logo_elite.png'>\
 				</div>\
-				<div style='background:#2d3035;color:#8a8d93;width:100%;padding:20px;'>"+
-				"Olá, você está recebendo este e-mail pois a administração resetou a sua senha"+
+				<div style='background: #f3f2ee;color:#8a8d93;width:100%;padding:20px;'>"+
+				"Olá, você está recebendo este e-mail pois a administração resetou a sua senha."+
 				"<br>Sua nova senha no Elite Bank é: "+nova_senha+
+				"<br>Caso não pediu para recuperar a sua senha entre em contato com o Suporte pelo telegram."+
 				'<br><br>Não mostre sua senha para ninguém. A sua conta é responsabilidade sua.'+
 				'</div>'+
-				'<div style="width:100%;height:20px; padding:5px 20px;color:#8a8d93;width:100%;font-size:14px;">\
+				'<div style="width:100%;height:20px; padding:10px 20px;color:#8a8d93;width:100%;font-size:14px;background:#f3f2ee">\
 				* Não responda esta mensagem, ela é enviada automaticamente.'+
 				'</div>\
+				</div>\
 				</div>';
-
-				var text = "Olá, você está recebendo este e-mail pois a administração resetou a sua senha"+
+				var text = "Olá, você está recebendo este e-mail pois a administração resetou a sua senha."+
 				"<br>Sua nova senha no Elite Bank é: "+nova_senha+
+				"<br>Caso não pediu para recuperar a sua senha entre em contato com o Suporte pelo telegram"+
 				'<br><br>Não mostre sua senha para ninguém. A sua conta é responsabilidade sua.'+
-				'<br> * Não responda esta mensagem, ela é enviada automaticamente.';
+				'<br>* Não responda esta mensagem, ela é enviada automaticamente.';
+
+
+
 
 				control.SendMail(data_usuario.email, 'Recuperação de Senha - Elite Bank',text,html);				
 				res.json(data);

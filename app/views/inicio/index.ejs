@@ -4,9 +4,25 @@
 
 	<div class="page-header">
 		<div class="container-fluid">
-			<h2 class="h5 no-margin-bottom">Dashboard</h2>
+			<h2 class="h5 no-margin-bottom">Dashboard</h5>
 		</div>
 	</div>
+
+	<% if(data.conta_user.acao == 'iniciar' || (data.conta_user.acao == 'iniciar' && data.conta_user.status != 'desconectado')){ %>
+
+	<section class="margin-bottom-sm">
+		<div class="container-fluid">
+			<div class="sucess-block padding-20 text-center sucess-block-trader-color">
+				<strong>Parabéns você está conectado!!!</strong>
+
+				<br><br>O navegador poderá ser fechado, que o sistema continuará funcionando.
+				<br><br>
+				Você pode voltar no site a qualquer momento e parar as operações.
+
+			</div>
+		</div>
+	</section>
+	<%}%>
 
 	<%- include('primeira_vez'); %>
 
@@ -187,10 +203,14 @@
 			<div class="container-fluid">
 				<div class="block">
 					<% if(data.conta_user.acao == 'parar' || data.conta_user.status == 'desconectado'){ %>
-					<button type="button" <%= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado') ? 'disabled' : '' %> data-href="/sistema/iniciar-operacao/" id="botao_iniciar_sistema" class="btn <%= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado')  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit" title="Para Iniciar o Sistema, Teste a conexão antes!" data-conect_teste='conectar' data-action="/sistema">Conectar</button>
+					<button type="button" <%= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado') ? 'disabled' : '' %> data-href="/sistema/popup-confirmacao-iniciar-operacao/" id="botao_iniciar_sistema" class="btn <%= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado')  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit-open-modal" title="Para Iniciar o Sistema, Teste a conexão antes!" data-modal='#modalinfo'>Conectar</button>
+
+					<!-- 						<button type="button" <%#= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado') ? 'disabled' : '' %> data-href="/sistema/iniciar-operacao/" id="botao_iniciar_sistema" class="btn <%#= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado')  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit" title="Para Iniciar o Sistema, Teste a conexão antes!" data-conect_teste='conectar' data-action="/sistema">Conectar</button> -->
+
 
 					<%}else {%>
-					<button type="button" id="botao_parar_sistema" data-href="/sistema/parar-operacao/" class="btn btn-danger btn-block margin-t-10 margin-b-10 ajax-submit" title="Parar Sistema" data-conect_teste='desconectar' data-action="/sistema">Desconectar</button>
+					<button type="button" id="botao_parar_sistema" data-href="/sistema/popup-confirmacao-parar-operacao/" class="btn btn-danger btn-block margin-t-10 margin-b-10 ajax-submit-open-modal" title="Parar Sistema" data-conect_teste='desconectar' data-modal='#modalinfo'>Desconectar</button>
+					<!-- <button type="button" id="botao_parar_sistema" data-href="/sistema/parar-operacao/" class="btn btn-danger btn-block margin-t-10 margin-b-10 ajax-submit" title="Parar Sistema" data-conect_teste='desconectar' data-action="/sistema">Desconectar</button> -->
 					<% }%>
 					<div class="block-body error-block" id="error_mensagem_conexao"></div>
 				</div>

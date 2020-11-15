@@ -31,12 +31,6 @@ router.get('/', function(req, res, next) {
 		entradasUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_entradas){
 			var acertos = 0;
 			var dia;
-
-			console.log('--------------------- data_entradas ----------------');
-			console.log(data_entradas);
-			console.log('----------------------------------------------------');
-
-
 			var dias = [];
 			var vitorias = [];
 
@@ -58,10 +52,6 @@ router.get('/', function(req, res, next) {
 							acertos++;
 						}
 					}
-
-					console.log('dias: '+dias);
-					console.log('vitorias:' + vitorias);
-
 
 					var current = null;
 					var cnt = 0;
@@ -105,28 +95,32 @@ router.get('/', function(req, res, next) {
 						data_grafico.acertos.push(acertos_grafico);
 					}
 
-					maior_valor = 0;
-					console.log('estou aqui no maior_valor');
+					//se tiver mais de 1 dia ele exibe
+					if(data_grafico.dias.length > 1){
 
+						maior_valor = 0;
 
-					for(i=0;i < data_grafico.operacoes.length;i++){
-						if(data_grafico.operacoes[i] > maior_valor){
-							maior_valor = data_grafico.operacoes[i];
+						for(i=0;i < data_grafico.operacoes.length;i++){
+							if(data_grafico.operacoes[i] > maior_valor){
+								maior_valor = data_grafico.operacoes[i];
+							}
 						}
-					}
 
-					console.log('maior_valor: ' + maior_valor);
 
-					if(maior_valor % 2 == 0){
-						maior_valor = maior_valor + 4;
+						if(maior_valor % 2 == 0){
+							maior_valor = maior_valor + 4;
+						}else{
+							maior_valor = maior_valor + 5;
+						}
+
+						data.maior_valor = maior_valor;
+						data.grafico = data_grafico;
+						data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
 					}else{
-						maior_valor = maior_valor + 5;
+						data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
+						data.acertividade = {total_operacoes:0,total_acertos:0};
+						data.maior_valor = 0;
 					}
-
-					data.maior_valor = maior_valor;
-
-					data.grafico = data_grafico;
-					data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
 				}else{
 					data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
 					data.acertividade = {total_operacoes:0,total_acertos:acertos};
@@ -137,12 +131,6 @@ router.get('/', function(req, res, next) {
 				data.acertividade = {total_operacoes:0,total_acertos:acertos};
 				data.maior_valor = 0;
 			}
-
-
-			console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHH Histórico HHHHHHHHHHHHHHHHHHHHHHHH');
-			console.log(data);
-			console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
-
 
 			res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'historico/historico_tudo', data: data, usuario: req.session.usuario});
 		}).sort({'timestamp':1});
@@ -235,30 +223,38 @@ router.get('/ultimos-30dias', function(req, res, next) {
 				data_grafico.acertos.push(acertos_grafico);
 			}
 
-			maior_valor = 0;
-			console.log('estou aqui no maior_valor');
+			//se tiver mais de 1 dia ele exibe
+			if(data_grafico.dias.length > 1){
+
+				maior_valor = 0;
+				console.log('estou aqui no maior_valor');
 
 
-			for(i=0;i < data_grafico.operacoes.length;i++){
-				if(data_grafico.operacoes[i] > maior_valor){
-					maior_valor = data_grafico.operacoes[i];
+				for(i=0;i < data_grafico.operacoes.length;i++){
+					if(data_grafico.operacoes[i] > maior_valor){
+						maior_valor = data_grafico.operacoes[i];
+					}
+					console.log('estou dentro das operaçoes');
+					console.log('i:'+i);
 				}
-				console.log('estou dentro das operaçoes');
-				console.log('i:'+i);
-			}
 
-			console.log('maior_valor: ' + maior_valor);
+				console.log('maior_valor: ' + maior_valor);
 
-			if(maior_valor % 2 == 0){
-				maior_valor = maior_valor + 4;
+				if(maior_valor % 2 == 0){
+					maior_valor = maior_valor + 4;
+				}else{
+					maior_valor = maior_valor + 5;
+				}
+
+				data.maior_valor = maior_valor;
+
+				data.grafico = data_grafico;
+				data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
 			}else{
-				maior_valor = maior_valor + 5;
+				data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
+				data.acertividade = {total_operacoes:0,total_acertos:0};
+				data.maior_valor = 0;
 			}
-
-			data.maior_valor = maior_valor;
-
-			data.grafico = data_grafico;
-			data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
 		}else{
 			data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
 			data.acertividade = {total_operacoes:0,total_acertos:acertos};
@@ -361,26 +357,34 @@ router.get('/ultimos-7dias', function(req, res, next) {
 				data_grafico.acertos.push(acertos_grafico);
 			}
 
-			maior_valor = 0;
-			console.log('estou aqui no maior_valor');
+			if(data_grafico.dias.length > 1){
 
-			for(i=0;i < data_grafico.operacoes.length;i++){
-				if(data_grafico.operacoes[i] > maior_valor){
-					maior_valor = data_grafico.operacoes[i];
+				maior_valor = 0;
+				console.log('estou aqui no maior_valor');
+
+				for(i=0;i < data_grafico.operacoes.length;i++){
+					if(data_grafico.operacoes[i] > maior_valor){
+						maior_valor = data_grafico.operacoes[i];
+					}
+					console.log('estou dentro das operaçoes');
+					console.log('i:'+i);
 				}
-				console.log('estou dentro das operaçoes');
-				console.log('i:'+i);
-			}
 
-			if(maior_valor % 2 == 0){
-				maior_valor = maior_valor + 4;
+				if(maior_valor % 2 == 0){
+					maior_valor = maior_valor + 4;
+				}else{
+					maior_valor = maior_valor + 5;
+				}
+
+				data.maior_valor = maior_valor;
+				data.grafico = data_grafico;
+				data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
+
 			}else{
-				maior_valor = maior_valor + 5;
+				data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
+				data.acertividade = {total_operacoes:0,total_acertos:0};
+				data.maior_valor = 0;
 			}
-
-			data.maior_valor = maior_valor;
-			data.grafico = data_grafico;
-			data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
 		}else{
 			data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
 			data.acertividade = {total_operacoes:0,total_acertos:acertos};
@@ -413,8 +417,8 @@ router.post('/filtrar-data', function(req, res, next) {
 
 
 			var hoje = new Date().toISOString().slice(0,10);
-			console.log('hoje');
-			console.log(hoje);
+			// console.log('hoje');
+			// console.log(hoje);
 
 			if(hoje >= POST.data_inicial){
 
@@ -427,11 +431,11 @@ router.post('/filtrar-data', function(req, res, next) {
 
 
 
-						console.log('dia_inicial: '+dia_inicial);
-						console.log('dia_final: ' + dia_final);
+						// console.log('dia_inicial: '+dia_inicial);
+						// console.log('dia_final: ' + dia_final);
 
 
-						console.log('dia_inicial.getDate: '+dia_inicial.getDate());
+						// console.log('dia_inicial.getDate: '+dia_inicial.getDate());
 
 						dia_inicial_timestamp = Math.floor(dia_inicial.getTime()/1000);
 						dia_final.setDate(dia_final.getDate() + 1);
@@ -447,9 +451,9 @@ router.post('/filtrar-data', function(req, res, next) {
 							var acertos = 0;
 							var dia;
 
-							console.log('--------------------- data_entradas ----------------');
-							console.log(data_entradas);
-							console.log('----------------------------------------------------');
+							// console.log('--------------------- data_entradas ----------------');
+							// console.log(data_entradas);
+							// console.log('----------------------------------------------------');
 
 
 							var dias = [];
@@ -516,28 +520,36 @@ router.post('/filtrar-data', function(req, res, next) {
 									data_grafico.acertos.push(acertos_grafico);
 								}
 
-								maior_valor = 0;
-								console.log('estou aqui no maior_valor');
+								if(data_grafico.dias.length > 1){
 
-								for(i=0;i < data_grafico.operacoes.length;i++){
-									if(data_grafico.operacoes[i] > maior_valor){
-										maior_valor = data_grafico.operacoes[i];
+									maior_valor = 0;
+									// console.log('estou aqui no maior_valor');
+
+									for(i=0;i < data_grafico.operacoes.length;i++){
+										if(data_grafico.operacoes[i] > maior_valor){
+											maior_valor = data_grafico.operacoes[i];
+										}
+										// console.log('estou dentro das operaçoes');
+										// console.log('i:'+i);
 									}
-									console.log('estou dentro das operaçoes');
-									console.log('i:'+i);
-								}
 
-								console.log('maior_valor:' + maior_valor);
+									// console.log('maior_valor:' + maior_valor);
 
-								if(maior_valor % 2 == 0){
-									maior_valor = maior_valor + 4;
+									if(maior_valor % 2 == 0){
+										maior_valor = maior_valor + 4;
+									}else{
+										maior_valor = maior_valor + 5;
+									}
+
+									data.maior_valor = maior_valor;
+									data.grafico = data_grafico;
+									data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
+
 								}else{
-									maior_valor = maior_valor + 5;
+									data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
+									data.acertividade = {total_operacoes:0,total_acertos:0};
+									data.maior_valor = 0;
 								}
-
-								data.maior_valor = maior_valor;
-								data.grafico = data_grafico;
-								data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
 							}else{
 								data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
 								data.acertividade = {total_operacoes:0,total_acertos:acertos};
@@ -545,9 +557,9 @@ router.post('/filtrar-data', function(req, res, next) {
 							}
 
 
-							console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHH Histórico HHHHHHHHHHHHHHHHHHHHHHHH');
-							console.log(data);
-							console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
+							// console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHH Histórico HHHHHHHHHHHHHHHHHHHHHHHH');
+							// console.log(data);
+							// console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
 
 
 							res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'historico/grafico', data: data, usuario: req.session.usuario});

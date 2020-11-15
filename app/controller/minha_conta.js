@@ -36,8 +36,6 @@ router.get('/', function(req, res, next) {
 			data.config_sistema = {possui_creditos:true};
 		}
 		licencaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_licenca){
-			console.log('achei o documento? q');
-			console.log(data_licenca);
 
 			if(data_licenca != null){
 				data.licenca_user = data_licenca;
@@ -53,9 +51,6 @@ router.get('/', function(req, res, next) {
 				data.licenca_user_dias = 0;
 			}
 
-			console.log('MMmmMMMmMMMmMMMMMM Meus Dados MMMMMmmMMmMMMMM');
-			console.log(data);
-			console.log('MMmmMMMmMMMmMMMMMMmmmmmmmmmMMMMMmmMmMmMMMMmMM');
 			res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'minha_conta/minha_conta', data: data, usuario: req.session.usuario});
 		});
 	});

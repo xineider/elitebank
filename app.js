@@ -45,37 +45,46 @@ app.use(session({
 //   next();
 // });
 
+app.use(function(req, res, next) {
+  res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  next();
+});
 
-// Verifica usuario se esta logado ou não
+//Verifica usuario se esta logado ou não
 // app.use(function (req, res, next) {
 //   var pathname = parseurl(req).pathname;
-//   if ((pathname != '/' && pathname != '') && 
-//       (pathname.indexOf("css") == -1 && pathname.indexOf("js") == -1 && pathname.indexOf("imgs") == -1 && pathname.indexOf("fonts") == -1) && 
-//         req.isAjaxRequest() == true){
-//     var id = req.headers['authority-optima-id'];
-//     var hash = req.headers['authority-optima-hash'];
-//     var nivel = req.headers['authority-optima-nivel'];
-//     verificacao.VerificarUsuario(id, hash,nivel).then(data => {
-//       if (data.length > 0) {
-//         req.session.usuario = {};
-//         req.session.usuario.id = id;
-//         req.session.usuario.hash_login = hash;
-//         req.session.usuario.nivel = nivel;
-//         req.session.usuario.id_empresa = data[0].id_empresa;
-//         next();
-//       } else {
-//         req.session.destroy(function(err) {
-//           res.json('<img src="/assets/imgs/logout.gif"><script>setTimeout(function(){ window.location.replace("/"); }, 4100);</script>');
-//         });
-//       }
-//     });
-//   } else if (control.Isset(req.session.usuario, false)
-//     && (pathname != '/' && pathname != '')
-//       && (pathname.indexOf("css") == -1 && pathname.indexOf("js") == -1 && pathname.indexOf("imgs") == -1 && pathname.indexOf("fonts") == -1)) {
-//     res.redirect('/');
-//   } else {
-//     next();
-//   }
+
+  // var id = req.headers['authority-optima-id'];
+  // var hash = req.headers['authority-optima-hash'];
+  // var nivel = req.headers['authority-optima-nivel'];
+
+  // if ((pathname != '/' && pathname != '') && 
+  //     (pathname.indexOf("css") == -1 && pathname.indexOf("js") == -1 && pathname.indexOf("imgs") == -1 && pathname.indexOf("fonts") == -1) && 
+  //       req.isAjaxRequest() == true){
+  //   var id = req.headers['authority-optima-id'];
+  //   var hash = req.headers['authority-optima-hash'];
+  //   var nivel = req.headers['authority-optima-nivel'];
+  //   verificacao.VerificarUsuario(id, hash,nivel).then(data => {
+  //     if (data.length > 0) {
+  //       req.session.usuario = {};
+  //       req.session.usuario.id = id;
+  //       req.session.usuario.hash_login = hash;
+  //       req.session.usuario.nivel = nivel;
+  //       req.session.usuario.id_empresa = data[0].id_empresa;
+  //       next();
+  //     } else {
+  //       req.session.destroy(function(err) {
+  //         res.json('<img src="/assets/imgs/logout.gif"><script>setTimeout(function(){ window.location.replace("/"); }, 4100);</script>');
+  //       });
+  //     }
+  //   });
+  // } else if (control.Isset(req.session.usuario, false)
+  //   && (pathname != '/' && pathname != '')
+  //     && (pathname.indexOf("css") == -1 && pathname.indexOf("js") == -1 && pathname.indexOf("imgs") == -1 && pathname.indexOf("fonts") == -1)) {
+  //   res.redirect('/');
+  // } else {
+  //   next();
+  // }
 // });
 
 // view engine setup
@@ -144,12 +153,12 @@ app.use(function(err, req, res, next) {
     res.render('login/index', { erro: 'Página não existente, faça o login para acessar o sistema.', tipo_erro: '404' });
   }
 
-	if (typeof req.session.id_usuario != 'undefined' && req.session.id_usuario != 0) {
+  if (typeof req.session.id_usuario != 'undefined' && req.session.id_usuario != 0) {
     console.log('entrei no primeiro if');
-  	res.render('error', { erro: 'Página não existente.', tipo_erro: '404' });
+    res.render('error', { erro: 'Página não existente.', tipo_erro: '404' });
   } else {
     console.log('entrei aqui')
-  	res.render('login/index', { erro: 'Usuário Deslogado.', tipo_erro: '410' });
+    res.render('login/index', { erro: 'Usuário Deslogado.', tipo_erro: '410' });
   }
 });
 // app.listen(3000);

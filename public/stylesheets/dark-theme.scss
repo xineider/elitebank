@@ -225,17 +225,17 @@ nav#sidebar a[aria-expanded="true"] {
 }
 
 .login-page input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px #2d3035 inset;
-    -webkit-text-fill-color: #8a8d93;
+	-webkit-box-shadow: 0 0 0px 1000px #2d3035 inset;
+	-webkit-text-fill-color: #8a8d93;
 }
 
 .login-page input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 50px #2d3035 inset;
-    -webkit-text-fill-color: #8a8d93;
+	-webkit-box-shadow: 0 0 0 50px #2d3035 inset;
+	-webkit-text-fill-color: #8a8d93;
 }
 
 .login-page input {
-  filter: none;
+	filter: none;
 }
 
 .error_border{
@@ -275,10 +275,43 @@ nav#sidebar a[aria-expanded="true"] {
 }
 
 
- .btn-success-color{
-    background:#8af953;
- }
+.btn-success-color{
+	background:#8af953;
 
-  .sucess-block-trader-color{
-  	border:1px solid #8af953;
- }
+	&:hover{
+		background:#4bab1c;
+	}
+
+	&:focus{
+		-webkit-box-shadow: 0 0 0 0.2rem rgba(138,249,83,0.25);
+		box-shadow: 0 0 0 0.2rem rgba(138,249,83,0.25);
+	}
+
+}
+
+.sucess-block-trader-color{
+	border:1px solid #8af953;
+}
+
+::-webkit-calendar-picker-indicator{
+	filter: invert(72%) sepia(43%) saturate(5216%) hue-rotate(310deg) brightness(89%) contrast(91%);
+}
+
+
+.btn_modal_close{
+	background:#eaeaea;
+
+	&:hover{
+		background:#d0d0d0;  
+	}
+
+	&:focus{
+		-webkit-box-shadow: 0 0 0 0.2rem rgba(234,234,234,0.25);
+		box-shadow: 0 0 0 0.2rem rgba(234,234,234,0.25);
+	}  
+
+}
+
+.border-sucess{
+  border:1px solid #8af953;
+}
