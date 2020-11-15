@@ -114,3 +114,8 @@ nav#sidebar li a:hover i{
 .checkbox-template:checked::before, .radio-template:checked::before{
   background:$primary-color;
 }
+
+
+::-webkit-calendar-picker-indicator{
+  filter: invert(55%) sepia(5%) saturate(3562%) hue-rotate(241deg) brightness(86%) contrast(86%);
+}
