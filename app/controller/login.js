@@ -107,7 +107,7 @@ router.post('/recuperar/senha', function(req, res, next) {
 	usuarioModel.findOne({'email':POST.email},function(err,data){
 		console.log('usuario find model');
 		if(data != null){
-			nova_senha = Math.random().toString(36).substring(7);
+			nova_senha = Math.random().toString(36).substring(5);
 
 			var novaSenhaCriptografa = control.Encrypt(nova_senha);
 

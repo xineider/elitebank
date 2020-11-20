@@ -313,7 +313,7 @@ router.post('/alterar-senha', function(req, res, next) {
 
 
 	console.log('usuario find model');
-	nova_senha = Math.random().toString(36).substring(7);
+	nova_senha = Math.random().toString(36).substring(5);
 
 	var novaSenhaCriptografa = control.Encrypt(nova_senha);
 
