@@ -119,7 +119,7 @@ router.get('/', function(req, res, next) {
 				}
 
 				res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'minha_conta/minha_conta', data: data, usuario: req.session.usuario});
-			}).sort({'data_registro':-1});
+			}).sort({'data_registro':-1}).limit(30);
 		});
 	});
 });
