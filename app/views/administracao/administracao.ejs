@@ -11,15 +11,18 @@
 	</div>
 
 	<div class="container-fluid">
-		<section class="no-padding-bottom">
+
+		
+		<section class="no-padding-bottom accordion accordion" id="accordion-pagamentos">
+
 			<div class="container-fluid">
 				<div class="row d-flex align-items-stretch">
 					<div class="col-lg-12">
 						<div class="block">
-							<div class="title">
+							<div class="title pointer" data-toggle="collapse" data-toggle="collapse" data-target="#collapse-pagamentos" aria-expanded="true" aria-controls="collapse-pagamentos">
 								<strong>Pagamentos</strong>
 							</div>
-							<div class="block-body">
+							<div class="block-body collapse show" id="collapse-pagamentos" class="" aria-labelledby="Pagamentos" data-parent="#accordion-pagamentos">
 								<div class="row margin-b-10">
 									<div class="col-sm-12 col-lg-3">
 										<div>Total Aprovado: R$ <%= data.valor_total_aprovado %></div>
@@ -42,7 +45,7 @@
 									</div>
 								</div>
 
-								<div class="w100 inline">
+								<div class="w100 inline overflow-auto">
 									<table class="table centered highlight responsive-table cell-border tabela_filtrada" id="">
 										<thead>
 											<tr>
@@ -68,7 +71,7 @@
 														<td>
 															<%= data.pagamento[i].nome %>
 														</td>
-														<td>
+														<td class="word-break-all">
 															<%= data.pagamento[i].email %>
 														</td>
 														<td>
@@ -128,15 +131,17 @@
 
 
 
-		<section class="no-padding-bottom">
+		<section class="no-padding-bottom" id="accordion-usuarios">
 			<div class="container-fluid">
 				<div class="row d-flex align-items-stretch">
 					<div class="col-lg-12">
 						<div class="block">
 							<div class="title">
-								<strong>Usuários</strong>
+								<div class="title pointer" data-toggle="collapse" data-toggle="collapse" data-target="#collapse-usuarios" aria-expanded="true" aria-controls="collapse-usuarios">
+									<strong>Usuários</strong>
+								</div>
 							</div>
-							<div class="block-body">
+							<div class="block-body collapse show" id="collapse-usuarios" class="" aria-labelledby="Usuários" data-parent="#accordion-usuarios">
 
 								<section class="no-padding-top no-padding-bottom">
 									<div class="container-fluid">
@@ -147,7 +152,7 @@
 								</section>
 
 
-								<div class="w100 inline">
+								<div class="w100 inline overflow-auto">
 									<table class="table centered highlight responsive-table cell-border tabela_filtrada" id="tabela_administracao">
 										<thead>
 											<tr>
@@ -173,6 +178,10 @@
 																Alterar Senha
 															</button>
 
+															<button class="btn btn-primary modal-mount margin-t-10 margin-r-10 width100-mobile" data-modal='#modalinfo' data-link="/sistema/administracao/get-mensagens-usuario/<%= data.usuarios[i]._id%>" >
+																Mensagens Usuário
+															</button>
+
 														</td>
 														
 													</tr>
@@ -195,20 +204,22 @@
 		</section>
 
 
+		
 
 
-		<section class="no-padding-bottom">
+		<section class="no-padding-bottom" id="accordion-licenca">
 			<div class="container-fluid">
 				<div class="row d-flex align-items-stretch">
 					<div class="col-lg-12">
 						<div class="block">
-							<div class="title">
+							<div class="title pointer" data-toggle="collapse" data-toggle="collapse" data-target="#collapse-licenca" aria-expanded="true" aria-controls="collapse-licenca">
 								<strong>Liçenca/Créditos</strong>
 							</div>
-							<div class="block-body">
+
+							<div class="block-body collapse show" id="collapse-licenca" class="" aria-labelledby="Liçenca" data-parent="#accordion-licenca">
 
 
-								<div class="w100 inline">
+								<div class="w100 inline overflow-auto">
 									<table class="table centered highlight responsive-table cell-border tabela_filtrada" id="tabela_licenca_creditos">
 										<thead>
 											<tr>

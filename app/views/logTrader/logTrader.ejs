@@ -17,7 +17,7 @@
 				<div class="block margin-b-0">
 					<form method="POST" action="" enctype="multipart/form-data">
 						<div class="title">
-							<strong class="d-block">Mensagens
+							<strong class="d-block">Log
 								<button type="button" class="btn transparent float-right w100px ajax-load" data-action="/sistema">Atualizar</button>
 							</strong>
 						</div>
@@ -29,11 +29,11 @@
 							for (var i = 0; i < data.mensagem.length; i++) {%>
 							<div class="alert <%=
 							data.mensagem[i].tipo_mensagem == 1 ? 'sucess-block' : data.mensagem[i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
-							<%= data.mensagem[i].descricao_mensagem %>
+							<%= data.mensagem_horario[i]%><%= data.mensagem[i].descricao_mensagem %>
 						</div>
 						<%}
 					}else{%>
-					<div class="text-center">Não há nenhuma mensagem no momento.</div>
+					<div class="text-center">Não há nenhum log no momento.</div>
 
 					<%}%>
 				</div>

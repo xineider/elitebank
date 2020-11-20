@@ -43,6 +43,11 @@ body{
 
 .login-page .form-holder .form a.forgot-pass, .login-page .form-holder .form a.signup{
   color: #333;
+
+  &:hover{
+    color: $primary-color;
+  }
+
 }
 
 .login-page input.input-material:focus {

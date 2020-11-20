@@ -19,6 +19,8 @@
 						</div>
 					</div>
 
+					<% if(data.licenca_user_dias < 0 && data.licenca_user.creditos < 0){%>
+
 					<div class="margin-t-10">
 						Ative sua licença ou adicione créditos utilizando o código de transação enviado para o seu e-mail.
 					</div>
@@ -36,6 +38,8 @@
 							</form>
 						</div>
 					</div>
+
+					<%}%>
 				</div>
 			</div>
 		</div>
@@ -71,6 +75,8 @@
 						</div>
 					</div>
 
+					<% if(data.licenca_user_dias < 0){%>
+
 					<div class="margin-t-10">
 						Ative sua licença utilizando o código de transação enviado para o seu e-mail.
 					</div>
@@ -88,6 +94,9 @@
 							</form>
 						</div>
 					</div>
+
+					<%}%>
+					
 				</div>
 			</div>
 		</div>

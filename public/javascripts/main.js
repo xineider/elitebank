@@ -7,6 +7,7 @@ $(document).ready(function () {
 
 	console.log('estou aqui no ready do começo');
 	FormatInputs();
+	LogSistema('GET','/sistema');
 	
 	$(document).ajaxError(function () {
 		AddErrorAjax();
@@ -182,6 +183,28 @@ $(document).ready(function () {
 		if (VerificarForm(form) == true) {
 			SubmitAjaxSucessMessage(post, link, back,sucesso);
 		}
+	});
+
+	$(document).on('click','.alterar-conta-teste-conexao',function(e){
+		$('#testar_conexao').prop('disabled',false);
+		$('#testar_conexao').removeClass('disabled').addClass('btn-primary');
+		$('#botao_iniciar_sistema').prop('disabled',true);
+		$('#botao_iniciar_sistema').addClass('disabled').removeClass('btn-success');
+		$('#caixa_alert_conectado').addClass('hide').removeClass('show');
+
+		$('#form_operacional_entrada').prop('disabled',true);
+		$('#form_operacional_limite_perda').prop('disabled',true);
+		$('.form_operacional_tipo_conta').prop('disabled',true);
+		$('#alterar_operacional_porcentagem').prop('disabled',true);
+
+		$('#form_trader_qtd_usuarios').prop('disabled',true);
+		$('#form_trader_liquidez').prop('disabled',true);
+		
+		$('.js-input-change-color').addClass('color-disabled');
+
+		zerarIntervalo();
+
+		
 	});
 
 
@@ -360,6 +383,43 @@ function GoTo(link, state) {
 		success: function(data) {
 			zerarIntervalo();
 			$('main').html(data);
+			LogSistema('GET',link);
+		},
+    error: function(xhr) { // if error occured
+    },
+    complete: function() {
+    	removerLoader();
+    	console.log('estou no complete do GoTo');
+    	$('.material-tooltip').remove();
+    	$('.tooltipped').tooltip({delay: 50});
+    	//$('.modal').modal('close');
+    	FormatInputs();
+    	fecharMenu();
+    }
+});
+	if (state == true) {
+		window.history.pushState('Sistema Quorp', 'Sistema Quorp', link);
+	}
+}
+
+function GoToNoLog(link, state) {
+	$.ajax({
+		method: "GET",
+		async: true,
+		url: link,
+		beforeSend: function(request) {
+			console.log('setando');
+			request.setRequestHeader("Authority-Moon-hash", $('input[name="hash_usuario_sessao"]').val());
+			request.setRequestHeader("Authority-Moon-id", $('input[name="id_usuario_sessao"]').val());
+			request.setRequestHeader("Authority-Moon-nivel", $('input[name="nivel_usuario_sessao"]').val());
+			adicionarLoader();
+			console.log('requestHeader');
+			console.log(request);
+			console.log('D:D:D:D:D:D:')
+		},
+		success: function(data) {
+			zerarIntervalo();
+			$('main').html(data);
 		},
     error: function(xhr) { // if error occured
     },
@@ -397,6 +457,7 @@ function GoToSuccess(link, state,sucesso) {
 		success: function(data) {
 			$('main').html(data);
 			$(sucesso).removeClass('none');
+			LogSistema('GET',link);
 		},
     error: function(xhr) { // if error occured
     },
@@ -432,6 +493,7 @@ function LoadTo(link, to) {
 		success: function(data) {
 			$('.'+to).empty();
 			$('.'+to).append(data);
+			LogSistema('GET',link);
 		},
     error: function(xhr) { // if error occured
     },
@@ -1105,7 +1167,7 @@ function timer60sec(){
 
 			if(timing_n == 0){
 				clearInterval(intervalo);
-				GoTo('/sistema', true);
+				GoToNoLog('/sistema', true);
 			}
 
 		}
@@ -1127,7 +1189,7 @@ function timer120sec(link){
 
 			if(timing_n == 0){
 				clearInterval(intervalo);
-				GoTo(link, true);
+				GoToNoLog(link, true);
 			}
 
 		}

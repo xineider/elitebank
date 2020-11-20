@@ -6,7 +6,7 @@ const mensagemSchema = new mongoose.Schema({
 	descricao_mensagem:String,
 	status:Number,
 	deletado:Number,
-	data_cadastro:Date
+	data_registro:Date
 });
 
 module.exports = mongoose.model('usuario_mensagem', mensagemSchema,'usuario_mensagem'); 

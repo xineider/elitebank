@@ -1,0 +1,23 @@
+
+
+<div class="padding-10">
+	<h5>Confirmar Alterar Conta de Conexão</h5>
+
+	<div class="margin-b-10">
+
+		Você tem certeza que deseja alterar a conexão de <%= data.dados_c.email %> ?
+		<br><br>Se você fizer isso terá que testar uma nova conta de operação.
+
+	</div>
+
+	<form method="POST" action="" enctype="multipart/form-data">
+
+		<div class="modal-footer">
+
+			<button class="btn btn_modal btn_modal_close margin-r-10 pointer" data-dismiss="modal">Não</button>
+
+			<button class="btn btn-primary ajax-load-to alterar-conta-teste-conexao" data-to="container_teste_conexao" href="/sistema/load-container-testar-conexao" data-dismiss="modal">Sim</button>
+		</div>
+	</form>
+
+</div>

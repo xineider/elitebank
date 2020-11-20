@@ -119,7 +119,7 @@ router.post('/recuperar/senha', function(req, res, next) {
 					return handleError(err);
 				}else{
 
-					var html = "<div style='background: linear-gradient(135deg, #59a7ab 0%,#965da4 98%);width:100%;'>\
+					var html = "<div style='background:965da4;background: linear-gradient(135deg, #59a7ab 0%,#965da4 98%);width:100%;'>\
 					<div style='margin:0px auto; max-width:600px;padding: 40px 0px;'>\
 					<div style='background:#ffffff;width:100%;height:140px; padding:20px; text-align:center;color:#ffffff;width:100%;'>\
 					<img style='max-width:280px;' src='http://copyelitebank.com.br/public/images/logo_elite.png'>\

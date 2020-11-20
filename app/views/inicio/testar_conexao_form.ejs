@@ -1,0 +1,16 @@
+							<div class="block-body">
+								<div class="form-group">
+									<label class="form-control-label">Email corretora</label>
+									<input type="email" placeholder="exemplo@exemplo.com" class="form-control input-text-email-senha" name="email" <%= data.conta_user.acao != 'parar' ? 'disabled' : ''%>>
+								</div>
+
+								<div class="form-group">       
+									<label class="form-control-label">Senha corretora</label>
+									<input type="password" placeholder="**********" class="form-control input-text-email-senha" name="senha" placeholder="Senha" <%= data.conta_user.acao != 'parar' ? 'disabled' : ''%>>
+								</div>
+
+								<div class="form-group">       
+									<button data-href="/sistema/testar-conexao/" <%= data.conexao.senha != '' && data.conexao.email!= '' && (data.conexao.status == 'conectado' || data.conexao.status == '') ? 'disabled' : '' %> title="Testar Conexão" type="submit" class="btn  <%= data.conexao.senha != '' && data.conexao.email!= '' && (data.conexao.status == 'conectado' || data.conexao.status == '') ? 'disabled' : 'btn-primary' %> ajax-submit-timer" id="testar_conexao" data-conect_teste='teste' data-action="/sistema">Testar Conexão</button>
+								</div>
+
+							</div>

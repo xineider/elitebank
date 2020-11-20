@@ -72,19 +72,13 @@ router.get('/', function(req, res, next) {
 			}
 
 			licencaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_licenca){
-				// console.log(data_licenca);
 
 				if(data_licenca != null){
-					data.licenca_user = data_licenca;
-					/*Calcular quantos dias faltam para a licença expirar*/
+					data.licenca_user = data_licenca;					
 					hoje = new Date();
 					data_fim = data_licenca.data_fim;
-					// console.log('data_fim: '+data_fim);
-					// console.log('hoje: '+hoje);
 					data_fim.setDate(data_fim.getDate() + 1);
-					// console.log('data_fim: '+data_fim);
 					diferencaData = data_fim - hoje;
-					// console.log('diferencaData: ' + diferencaData);
 					dias_faltantes = Math.floor(diferencaData / (1000 * 60 * 60 * 24)) + 1;
 					data.licenca_user_dias = dias_faltantes;
 					req.session.usuario.creditos = data_licenca.creditos;
@@ -103,13 +97,66 @@ router.get('/', function(req, res, next) {
 					}
 
 					teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
+
+
+
 						if(data_conexao != null){
 							data.conexao = data_conexao;
 						}else{
 							data.conexao = {email:'',senha:'',status:'primeira_vez'};
 						}
+
 						mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'deletado':0},function(err,data_mensagem){
 							data.mensagem = data_mensagem;
+
+							arrayMensagemData = [];
+
+							if(data_mensagem.length > 0){
+
+								for(i=0;i<data_mensagem.length;i++){
+
+									dia_mensagem = data_mensagem[i].data_registro.getDate();
+
+									if(dia_mensagem > 0 && dia_mensagem < 10){
+										dia_mensagem = "0" + dia_mensagem;
+									}
+
+									mes_mensagem = data_mensagem[i].data_registro.getMonth() + 1;
+									if(mes_mensagem > 0 && mes_mensagem < 10){
+										mes_mensagem = "0" + mes_mensagem;
+									}
+
+									ano_mensagem = data_mensagem[i].data_registro.getFullYear();
+
+									hora_mensagem = data_mensagem[i].data_registro.getHours();
+
+									if(hora_mensagem >= 0 && hora_mensagem < 10){
+										hora_mensagem = "0" + hora_mensagem;
+									}
+
+									minuto_mensagem = data_mensagem[i].data_registro.getMinutes();
+
+									if(minuto_mensagem >= 0 && minuto_mensagem < 10){
+										minuto_mensagem = "0" + minuto_mensagem;
+									}
+
+									segundo_mensagem = data_mensagem[i].data_registro.getSeconds();
+
+									if(segundo_mensagem >= 0 && segundo_mensagem < 10){
+										segundo_mensagem = "0" + segundo_mensagem;
+									}
+
+
+									data_concatenada = dia_mensagem + '/' + mes_mensagem + '/' + ano_mensagem + ' ' + hora_mensagem + ':' + minuto_mensagem + ':' + segundo_mensagem + ' - ';
+
+									arrayMensagemData.push(data_concatenada);
+								}
+
+							}
+
+
+							data.mensagem_horario = arrayMensagemData;
+
 							data.acertividade = {entradas:0,porcentagem:100};
 
 							ts = Math.round(new Date().getTime() / 1000);
@@ -118,7 +165,7 @@ router.get('/', function(req, res, next) {
 							entradasUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'deletado':0,timestamp:{$gte:tsYesterday}},function(err,data_acertividade){
 								var acertos = 0;
 
-								/* calcular acertividade contando os acertos */
+
 								for(i=0;i<data_acertividade.length;i++){
 									if(data_acertividade[i].vitoria == true){
 										acertos++;
@@ -134,148 +181,182 @@ router.get('/', function(req, res, next) {
 
 								data.acertividade = {entradas:data_acertividade.length,porcentagem:porcentagem_round};
 
-								console.log('ddddddddddd data ddddddddddddddddddddddd');
+								console.log('00000000000000 data 000000000000000000000');
 								console.log(data);
-								console.log('ddddddddddddddddddddddd');
-
-
+								console.log('00000000000000000000000000000000000000000');
 
 								res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/index', data: data, usuario: req.session.usuario});
 							});
-						});
+						}).sort({'data_registro':-1}).limit(20);
 					}).sort({'data_cadastro':-1});
 				}).sort({'data_cadastro':-1});
 			});
-		});
-	}else{
+});
+}else{
 
-		sessaoStatusModel.find({},function(err,data_sessao_status){
+	sessaoStatusModel.find({},function(err,data_sessao_status){
 
-			if(data_sessao_status !=null){
-				data.sessao_status = data_sessao_status;
-			}else{
-				data.sessao_status = {quantidade_usuarios:0};
+		if(data_sessao_status !=null){
+			data.sessao_status = data_sessao_status;
+		}else{
+			data.sessao_status = {quantidade_usuarios:0};
+		}
+
+		sessao_usuarioModel.find({},function(err,data_usuarios_sessao){
+			usuariosSessao = 0;
+
+			console.log('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+			console.log('data_usuarios_sessao');
+			console.log(data_usuarios_sessao);
+			console.log('data_usuarios_sessao.length');
+			console.log(data_usuarios_sessao.length);
+
+
+			if(data_usuarios_sessao != null){
+				usuariosSessao = data_usuarios_sessao.length;
 			}
 
-			sessao_usuarioModel.find({},function(err,data_usuarios_sessao){
-				usuariosSessao = 0;
+			data.qtd_usuario_sessao = usuariosSessao;
 
-				console.log('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
-				console.log('data_usuarios_sessao');
-				console.log(data_usuarios_sessao);
-				console.log('data_usuarios_sessao.length');
-				console.log(data_usuarios_sessao.length);
+			sessaoTotalModel.find({},function(err,data_sessao_total){
 
-
-				if(data_usuarios_sessao != null){
-					usuariosSessao = data_usuarios_sessao.length;
+				if(data_sessao_total != null){
+					data.sessao_total = data_sessao_total;
+				}else{
+					data.sessao_total = {total_participantes_sessao:0,total_usuarios_conectados:0};
 				}
 
-				data.qtd_usuario_sessao = usuariosSessao;
 
-				sessaoTotalModel.find({},function(err,data_sessao_total){
+				usuariosModel.find({nivel:3},function(err,data_clientes_trader){
 
-					if(data_sessao_total != null){
-						data.sessao_total = data_sessao_total;
-					}else{
-						data.sessao_total = {total_participantes_sessao:0,total_usuarios_conectados:0};
+					usuarios_clientes = 0;
+
+					if(data_clientes_trader != null){
+						usuarios_clientes = data_clientes_trader.length;
 					}
 
-					// contaUser.find({
-					// 	$and:[
-					// 	{acao:'iniciar'},
-					// 	{tipo:'cliente'},
-					// 	{$or:[{status:'standby'},{status:'conectado'}]}
-					// 	]
-					// },function(err,data_usuarios_conc_stand){
-
-						// var gente_que_ja_esta_sessao = 0;
-
-						// console.log('data_usuarios_sessao.length:' + data_usuarios_sessao.length);
-						// console.log('data_usuarios_conc_stand.length:' + data_usuarios_conc_stand.length);
-
-						// for(i=0;i < data_usuarios_conc_stand.length;i++){
-
-						// 	for(j=0;j < data_usuarios_sessao.length;j++){
-
-						// 		if(data_usuarios_sessao[j].id_usuario.equals(data_usuarios_conc_stand[i].id_usuario)){
-						// 			gente_que_ja_esta_sessao = gente_que_ja_esta_sessao + 1;
-						// 		}
-						// 	}
-
-						// }
-
-						// console.log('gente_que_ja_esta_sessao');
-						// console.log(gente_que_ja_esta_sessao);
+					data.qtd_clientes_trader = usuarios_clientes;
 
 
+					traderLimiteModel.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_trader_limite){
 
-						// usuarios_stand_conectados = 0;
-						// usuarios_stand_conectados_total = 0;
+						if(data_trader_limite !=null){
+							data.trader_limite = data_trader_limite;
+						}else{
+							data.trader_limite = {limite_usuarios:200,limite_liquidez:50};
+						}
 
-						// if(data_usuarios_conc_stand != null){
-						// 	usuarios_stand_conectados = data_usuarios_conc_stand.length - gente_que_ja_esta_sessao;
-						// 	usuarios_stand_conectados_total = data_usuarios_conc_stand.length;
-						// }
-
-						// data.qtd_usuario_stand_con = usuarios_stand_conectados;
-						// data.qtd_usuario_stand_con_total = usuarios_stand_conectados_total;
-
-						usuariosModel.find({nivel:3},function(err,data_clientes_trader){
-
-							usuarios_clientes = 0;
-
-							if(data_clientes_trader != null){
-								usuarios_clientes = data_clientes_trader.length;
+						contaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conta){
+							if(data_conta !=null){
+								data.conta_user = data_conta;
+							}else{
+								data.conta_user = {conta_real:false,email:'',senha:'',tipo_banca:0,valor_entrada:100,limite_perda:50,acao:'parar',status:'desconectado'};
 							}
 
-							data.qtd_clientes_trader = usuarios_clientes;
+							teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
 
-
-							traderLimiteModel.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_trader_limite){
-
-								if(data_trader_limite !=null){
-									data.trader_limite = data_trader_limite;
+								if(data_conexao != null){
+									data.conexao = data_conexao;
 								}else{
-									data.trader_limite = {limite_usuarios:200,limite_liquidez:50};
+									data.conexao = {email:'',senha:''};
 								}
+								mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'deletado':0},function(err,data_mensagem){
 
-								contaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conta){
-									if(data_conta !=null){
-										data.conta_user = data_conta;
-									}else{
-										data.conta_user = {conta_real:false,email:'',senha:'',tipo_banca:0,valor_entrada:100,limite_perda:50,acao:'parar',status:'desconectado'};
+									data.mensagem = data_mensagem;
+
+									arrayMensagemData = [];
+
+									if(data_mensagem.length > 0){
+
+										for(i=0;i<data_mensagem.length;i++){
+											dia_mensagem = data_mensagem[i].data_registro.getDate();
+
+											if(dia_mensagem > 0 && dia_mensagem < 10){
+												dia_mensagem = "0" + dia_mensagem;
+											}
+
+											mes_mensagem = data_mensagem[i].data_registro.getMonth() + 1;
+											if(mes_mensagem > 0 && mes_mensagem < 10){
+												mes_mensagem = "0" + mes_mensagem;
+											}
+
+											ano_mensagem = data_mensagem[i].data_registro.getFullYear();
+
+											hora_mensagem = data_mensagem[i].data_registro.getHours();
+
+											if(hora_mensagem >= 0 && hora_mensagem < 10){
+												hora_mensagem = "0" + hora_mensagem;
+											}
+
+											minuto_mensagem = data_mensagem[i].data_registro.getMinutes();
+
+											if(minuto_mensagem >= 0 && minuto_mensagem < 10){
+												minuto_mensagem = "0" + minuto_mensagem;
+											}
+
+											segundo_mensagem = data_mensagem[i].data_registro.getSeconds();
+
+											if(segundo_mensagem >= 0 && segundo_mensagem < 10){
+												segundo_mensagem = "0" + segundo_mensagem;
+											}
+
+
+											data_concatenada = dia_mensagem + '/' + mes_mensagem + '/' + ano_mensagem + ' ' + hora_mensagem + ':' + minuto_mensagem + ':' + segundo_mensagem + ' - ';
+
+											arrayMensagemData.push(data_concatenada);
+										}
+
 									}
 
-									teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
 
-										if(data_conexao != null){
-											data.conexao = data_conexao;
-										}else{
-											data.conexao = {email:'',senha:''};
-										}
-										mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'deletado':0},function(err,data_mensagem){
+									data.mensagem_horario = arrayMensagemData;
 
-											data.mensagem = data_mensagem;
+									console.log(data);
 
-											console.log(data);
-											
 
-											res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexTrader', data: data, usuario: req.session.usuario});
+									res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexTrader', data: data, usuario: req.session.usuario});
 
-										});
-									}).sort({'data_cadastro':-1});
-								}).sort({'data_cadastro':-1});
+								});
 							}).sort({'data_cadastro':-1});
-						});
-					});
-
-				// });
+						}).sort({'data_cadastro':-1});
+					}).sort({'data_cadastro':-1});
+				});
 			});
 		});
-	}
+	});
+}
 
 
+});
+
+
+
+router.post('/popup-confirmacao-alterar-testar-conexao', function(req, res, next) {
+
+	POST = req.body;
+
+	teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao_p){
+		data.dados_c = data_conexao_p;
+		console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
+		console.log('estou dentro do load-container-testar-conexao');
+		console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR')
+
+		console.log(data_conexao_p);
+		res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/confirmar_alterar_conta_conexao', data: data, usuario: req.session.usuario});
+
+	}).sort({'data_cadastro':-1});
+
+});
+
+
+
+router.get('/load-container-testar-conexao', function(req, res, next) {
+
+	console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
+	console.log('estou dentro do load-container-testar-conexao');
+	console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
+
+	res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/testar_conexao_form', data: data, usuario: req.session.usuario});
 });
 
 
@@ -394,13 +475,18 @@ router.post('/popup-confirmacao-iniciar-operacao', function(req, res, next) {
 
 							if((creditos_restantes > 0) || data_configuracoes[0].possui_creditos == false){
 
-								data.dados = POST;
+								teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
 
-								console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDD Data DDDDDDDDDDDDDDDDDDDDDDDDDDD');
-								console.log(data);
-								console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
+									data.dados = POST;
+									data.email = data.conexao.email;
 
-								res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/confirmar_inicio_operacao', data: data, usuario: req.session.usuario});
+									console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDD Data DDDDDDDDDDDDDDDDDDDDDDDDDDD');
+									console.log(data);
+									console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
+
+									res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/confirmar_inicio_operacao', data: data, usuario: req.session.usuario});
+
+								}).sort({'data_cadastro':-1});
 
 							}else{
 								res.json({error:'sem_creditos',element:'#error_mensagem_conexao',texto:'Você está sem créditos, por-favor recarregue os créditos!'});
@@ -490,15 +576,13 @@ router.post('/iniciar-operacao', function(req, res, next) {
 								};
 
 
-
-								if(data_configuracoes[0].possui_creditos == false){
+								teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
 
 									const new_conta_user = new contaUser({ 
 										id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
 										tipo:tipo_cliente,
-										data_fim_licenca:req.session.usuario.licenca_data,
-										email: POST.email, 
-										senha:POST.senha,
+										email: data_conexao.email, 
+										senha:data_conexao.senha,
 										conta_real:tipo_conta_n,
 										tipo_banca:tipo_banca,
 										valor_entrada:POST.valor_entrada,
@@ -506,7 +590,6 @@ router.post('/iniciar-operacao', function(req, res, next) {
 										acao:'iniciar',
 										status:'standby',
 										deletado:0,
-										process:12,
 										data_cadastro: new Date()
 									});
 
@@ -517,33 +600,11 @@ router.post('/iniciar-operacao', function(req, res, next) {
 											res.json(data);
 										}
 									});
-								}else{
-									const new_conta_user_x = new contaUser({ 
-										id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
-										tipo:tipo_cliente,
-										data_fim_licenca:req.session.usuario.licenca_data,
-										creditos_licenca:req.session.usuario.creditos,		
-										email: POST.email, 
-										senha:POST.senha,
-										conta_real:tipo_conta_n,
-										tipo_banca:tipo_banca,
-										valor_entrada:POST.valor_entrada,
-										limite_perda:POST.limite_perda,
-										acao:'iniciar',
-										status:'standby',
-										deletado:0,
-										process:12,
-										data_cadastro: new Date()
-									});
 
-									new_conta_user_x.save(function (err) {
-										if (err) {
-											return handleError(err);
-										}else{
-											res.json(data);
-										}
-									});
-								}
+
+								}).sort({'data_cadastro':-1});
+
+								
 
 
 							}else{
@@ -567,144 +628,6 @@ router.post('/iniciar-operacao', function(req, res, next) {
 	});
 
 });
-
-
-// router.post('/iniciar-operacao', function(req, res, next) {
-// 	POST = req.body;
-
-// 	console.log('JJJJJJJJJJJJJJJ ESTOU NO INICIAR OPERACAO JJJJJJJJJJJJJJJJJJJJJ');
-// 	console.log(POST);
-// 	console.log('JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ');
-
-
-// 	configuracoes_sistema.find({},function(err,data_configuracoes){
-
-// 		if(data_configuracoes != null){
-// 			data.config_sistema = data_configuracoes;
-// 		}else{
-// 			data.config_sistema = {possui_creditos:true};
-// 		}
-
-
-// 		if(POST.valor_entrada >= 2){
-// 			if(POST.limite_perda > 0){
-// 				if(POST.valor_entrada % 1 === 0){
-// 					if(POST.limite_perda % 1 ===0){
-// 						tipo_conta_n = true;
-// 						if(POST.tipo_conta == 0){
-// 							tipo_conta_n = false;
-// 						}else{
-// 							tipo_conta_n = true;
-// 						}
-
-// 						var dias_faltantes_licenca;
-
-// 						if(req.session.usuario.licenca_dias == undefined){
-// 							dias_faltantes_licenca = -1;
-// 						}else{
-// 							dias_faltantes_licenca = req.session.usuario.licenca_dias;
-// 						}
-
-
-// 						if(dias_faltantes_licenca >= 0){
-
-// 							var creditos_restantes;
-
-// 							if(req.session.usuario.creditos == undefined){
-// 								creditos_restantes = 0;
-// 							}else{
-// 								creditos_restantes = req.session.usuario.creditos;
-// 							}
-
-
-// 							if((creditos_restantes > 0) || data_configuracoes[0].possui_creditos == false){
-
-// 								tipo_cliente = 'cliente';
-
-// 								tipo_banca = 'numero';
-
-// 								if(POST.tipo_banca == 1){
-// 									tipo_banca = 'percentual';
-// 								};
-
-
-
-// 								if(data_configuracoes[0].possui_creditos == false){
-
-// 									const new_conta_user = new contaUser({ 
-// 										id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
-// 										tipo:tipo_cliente,
-// 										data_fim_licenca:req.session.usuario.licenca_data,
-// 										email: POST.email, 
-// 										senha:POST.senha,
-// 										conta_real:tipo_conta_n,
-// 										tipo_banca:tipo_banca,
-// 										valor_entrada:POST.valor_entrada,
-// 										limite_perda:POST.limite_perda,
-// 										acao:'iniciar',
-// 										status:'standby',
-// 										deletado:0,
-// 										process:12,
-// 										data_cadastro: new Date()
-// 									});
-
-// 									new_conta_user.save(function (err) {
-// 										if (err) {
-// 											return handleError(err);
-// 										}else{
-// 											res.json(data);
-// 										}
-// 									});
-// 								}else{
-// 									const new_conta_user_x = new contaUser({ 
-// 										id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
-// 										tipo:tipo_cliente,
-// 										data_fim_licenca:req.session.usuario.licenca_data,
-// 										creditos_licenca:req.session.usuario.creditos,		
-// 										email: POST.email, 
-// 										senha:POST.senha,
-// 										conta_real:tipo_conta_n,
-// 										tipo_banca:tipo_banca,
-// 										valor_entrada:POST.valor_entrada,
-// 										limite_perda:POST.limite_perda,
-// 										acao:'iniciar',
-// 										status:'standby',
-// 										deletado:0,
-// 										process:12,
-// 										data_cadastro: new Date()
-// 									});
-
-// 									new_conta_user_x.save(function (err) {
-// 										if (err) {
-// 											return handleError(err);
-// 										}else{
-// 											res.json(data);
-// 										}
-// 									});
-// 								}
-
-
-// 							}else{
-// 								res.json({error:'sem_creditos',element:'#error_mensagem_conexao',texto:'Você está sem créditos, por-favor recarregue os créditos!'});
-// 							}
-// 						}else{
-// 							res.json({error:'acabou_licenca',element:'#error_mensagem_conexao',texto:'Sua licença expirou, por-favor recarregar a licença para poder continuar usando o sistema!'});
-// 						}
-// 					}else{
-// 						res.json({error:'limite_perda_num',element:'input[name="limite_perda"]',texto:'*Somente valores inteiros. Ex: 100'});
-// 					}
-// 				}else{
-// 					res.json({error:'qtd_valor_negativo',element:'input[name="valor_entrada"]',texto:'*Somente valores inteiros. Ex: 100'});
-// 				}
-// 			}else{
-// 				res.json({error:'qtd_valor_negativo',element:'input[name="limite_perda"]',texto:'*Valor não pode ser 0 ou Negativo!'});
-// 			}
-// 		}else{
-// 			res.json({error:'valor_maior_que_2',element:'input[name="valor_entrada"]',texto:'*Valor minimo é de 2!'});
-// 		}
-// 	});
-
-// });
 
 
 router.post('/parar-operacao', function(req, res, next) {
@@ -752,37 +675,38 @@ router.post('/iniciar-operacao-trader', function(req, res, next) {
 						tipo_banca = 'percentual';
 					};
 
-					const new_conta_user = new contaUser({ 
-						id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
-						tipo:'trader',
-						data_fim_licenca:new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
-						creditos_licenca:100,		
-						email: POST.email, 
-						senha:POST.senha,
-						conta_real:tipo_conta_n,
-						tipo_banca:tipo_banca,
-						valor_entrada:valor_entrada,
-						limite_perda:limite_perda,
-						acao:'iniciar',
-						status:'',
-						deletado:0,
-						process:12,
-						data_cadastro: new Date()
-					});
+					teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
 
-					new_conta_user.save(function (err) {
-						if (err) {
-							return handleError(err);
-						}else{
-							traderLimiteModel.findOneAndUpdate({'deletado':0},{'$set':{'limite_liquidez':POST.limite_liquidez,'limite_usuarios':POST.limite_usuarios}},function(err){
-								if (err) {
-									return handleError(err);
-								}else{
-									res.json(data);
-								}
-							}).sort({'data_cadastro':-1});;
-						}
-					});
+						const new_conta_user = new contaUser({ 
+							id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
+							tipo:'trader',		
+							email: data_conexao.email, 
+							senha:data_conexao.senha,
+							conta_real:tipo_conta_n,
+							tipo_banca:tipo_banca,
+							valor_entrada:valor_entrada,
+							limite_perda:limite_perda,
+							acao:'iniciar',
+							status:'',
+							deletado:0,
+							data_cadastro: new Date()
+						});
+
+						new_conta_user.save(function (err) {
+							if (err) {
+								return handleError(err);
+							}else{
+								traderLimiteModel.findOneAndUpdate({'deletado':0},{'$set':{'limite_liquidez':POST.limite_liquidez,'limite_usuarios':POST.limite_usuarios}},function(err){
+									if (err) {
+										return handleError(err);
+									}else{
+										res.json(data);
+									}
+								}).sort({'data_cadastro':-1});;
+							}
+						});
+
+					}).sort({'data_cadastro':-1});
 
 				}else{
 					res.json({error:'muitos_usuarios',element:'input[name="limite_usuarios"]',texto:'*Não é possivel ter mais de 200 usuários ativos!'});

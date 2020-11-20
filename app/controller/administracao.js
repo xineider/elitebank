@@ -19,7 +19,9 @@ var produtoModel = require('../model/produtoModel.js');
 
 var userModel = require('../model/usuariosModel.js');
 
-const entradasUser = require('../model/entradasModel.js');
+const mensagemModel = require('../model/mensagemModel.js');
+
+const entradasModel = require('../model/entradasModel.js');
 
 router.get('/', function(req, res, next) {
 	data.link_sistema = '/sistema';
@@ -39,7 +41,7 @@ router.get('/', function(req, res, next) {
 				data.usuarios = data_usuarios;
 				pagamentoModel.find({},function(err,data_pagamento){
 
-					entradasUser.find({},function(err,data_entradas){
+					entradasModel.find({},function(err,data_entradas){
 						data.entradas = data_entradas;
 
 						if(data_pagamento != null){
@@ -188,6 +190,88 @@ router.get('/', function(req, res, next) {
 			//
 		});
 		//
+	});
+});
+
+
+
+router.get('/get-mensagens-usuario/:id_usuario', function(req, res, next) {
+
+	console.log(req.params.id_usuario);
+
+	id_usuario = req.params.id_usuario;
+
+	console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+	console.log('estou no getMensagensUsuario');
+	console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
+	mensagemModel.find({'id_usuario':mongoose.Types.ObjectId(id_usuario)},function(err,data_mensagem_a){
+
+
+		arrayMensagemData = [];
+
+		if(data_mensagem_a.length > 0){
+
+			for(i=0;i<data_mensagem_a.length;i++){
+				console.log('data_mensagem[i].data_registro: ' + data_mensagem_a[i].data_registro);
+				console.log('data_mensagem[i].data_registro.getDate(): ' + data_mensagem_a[i].data_registro.getDate());
+				console.log('data_mensagem[i].data_registro.getMonth(): ' + data_mensagem_a[i].data_registro.getMonth() + 1);
+				console.log('data_mensagem[i].data_registro.getYear(): ' + data_mensagem_a[i].data_registro.getYear());
+
+
+
+				dia_mensagem = data_mensagem_a[i].data_registro.getDate();
+
+				if(dia_mensagem > 0 && dia_mensagem < 10){
+					dia_mensagem = "0" + dia_mensagem;
+				}
+
+				mes_mensagem = data_mensagem_a[i].data_registro.getMonth() + 1;
+				if(mes_mensagem > 0 && mes_mensagem < 10){
+					mes_mensagem = "0" + mes_mensagem;
+				}
+
+				ano_mensagem = data_mensagem_a[i].data_registro.getFullYear();
+
+				hora_mensagem = data_mensagem_a[i].data_registro.getHours();
+
+				if(hora_mensagem >= 0 && hora_mensagem < 10){
+					hora_mensagem = "0" + hora_mensagem;
+				}
+
+				minuto_mensagem = data_mensagem_a[i].data_registro.getMinutes();
+
+				if(minuto_mensagem >= 0 && minuto_mensagem < 10){
+					minuto_mensagem = "0" + minuto_mensagem;
+				}
+
+				segundo_mensagem = data_mensagem_a[i].data_registro.getSeconds();
+
+				if(segundo_mensagem >= 0 && segundo_mensagem < 10){
+					segundo_mensagem = "0" + segundo_mensagem;
+				}
+
+
+				data_concatenada = dia_mensagem + '/' + mes_mensagem + '/' + ano_mensagem + ' ' + hora_mensagem + ':' + minuto_mensagem + ':' + segundo_mensagem + ' - ';
+
+				arrayMensagemData.push(data_concatenada);
+			}
+
+		}
+
+		console.log('arrayMensagemData');
+		console.log(arrayMensagemData);
+
+		data.mensagem_horario = arrayMensagemData;
+
+
+		console.log(data_mensagem_a);
+		data.mensagem_a = data_mensagem_a;
+
+		// console.log('ddddddddddddddddddddd data dddddddddddddddddddddd');
+		// console.log(data);
+		// console.log('ddddddddddddddddddddddddddddddddddddddddddddddddd');
+		res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'administracao/mensagem_usuarios', data: data, usuario: req.session.usuario});
 	});
 });
 

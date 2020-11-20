@@ -105,7 +105,7 @@
 				<%}%>
 
 				<div class="col-lg-4 col-xl-4">   
-					<div class="stats-with-chart-1 block <%= data.conta_user.status == 'standby' && data.conta_user.acao == 'iniciar' ? 'dashborder-5' : data.conta_user.status == 'conectado' ? 'border-sucess' : ''%>">
+					<div class="stats-with-chart-1 block <%= data.conta_user.status == 'standby' && data.conta_user.acao == 'iniciar' ? 'dashborder-5' : data.conta_user.status == 'conectado' ? 'border-sucess sucess-block-trader-color' : ''%>">
 						<div class="title"> <strong class="d-block">Status</strong></div>
 						<div class="row d-flex align-items-end justify-content-between">
 							<div class="col-sm-12">
@@ -117,9 +117,11 @@
 									data.conta_user.status ==  'standby' && data.conta_user.acao == 'iniciar' ? 'Aguardando Trader':
 									'Desconectado' %>
 
+
+
 								</strong>
 								<span class="d-block">Status de conexão</span>
-								<% if(data.conta_user.acao == 'parar'){%>
+								<% if(data.conta_user.acao == 'parar' || data.conta_user.status == 'desconectado'){%>
 								<small class="d-block">Atualizado a pouco</small>
 								<%}else{%>
 								<small class="d-block">Próxima atualização em 
@@ -128,40 +130,44 @@
 									</span>
 								</small>
 
-								<%}%>
-							</div>
-						</div>
+								<%if(data.conta_user.status ==  'standby'){%>
+								<i class="margin-t-10 red-text">Por motivo de liquidez do mercado, todos participam de uma fila aleatória. Mas não se preocupe, a operação só encerra depois que todos participarem.</i>
 
+								<%}
+							}%>
+						</div>
 					</div>
+
 				</div>
 			</div>
-
-
-			<div class="col-lg-4 col-xl-4">
-				<div class="stats-with-chart-1 block">
-					<div class="title"> <strong class="d-block">Performance</strong></div>
-					<div class="row d-flex align-items-end justify-content-between">
-
-						<div class="col-sm-12 col-md-5">
-							<div class="text"><strong class="d-block dashtext-2"><%= data.acertividade.entradas %></strong>
-								<span class="d-block">Entradas</span>
-								<small class="d-block">Ações realizadas</small>
-							</div>
-						</div>
-						<div class="col-sm-12 col-md-5">
-							<div class="text">
-								<strong class="d-block dashtext-2"><%= data.acertividade.porcentagem %>%</strong>
-								<span class="d-block">Acertividade</span>
-								<small class="d-block">Relatório geral</small>
-							</div>
-						</div>
-
-					</div>
-				</div>
-			</div>
-
 		</div>
+
+
+		<div class="col-lg-4 col-xl-4">
+			<div class="stats-with-chart-1 block">
+				<div class="title"> <strong class="d-block">Performance</strong></div>
+				<div class="row d-flex align-items-end justify-content-between">
+
+					<div class="col-sm-12 col-md-5">
+						<div class="text"><strong class="d-block dashtext-2"><%= data.acertividade.entradas %></strong>
+							<span class="d-block">Entradas</span>
+							<small class="d-block">Ações realizadas</small>
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-5">
+						<div class="text">
+							<strong class="d-block dashtext-2"><%= data.acertividade.porcentagem %>%</strong>
+							<span class="d-block">Acertividade</span>
+							<small class="d-block">Relatório geral</small>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
 	</div>
+</div>
 </section>
 
 <%}%>

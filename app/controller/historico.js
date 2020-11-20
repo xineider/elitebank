@@ -13,6 +13,7 @@ const entradasUser = require('../model/entradasModel.js');
 
 const contaUser = require('../model/contaModel.js');
 
+
 /* GET pagina de login. */
 
 router.get('/', function(req, res, next) {
@@ -27,6 +28,8 @@ router.get('/', function(req, res, next) {
 		}else{
 			data.conta_user = {conta_real:true,email:'',senha:'',tipo_banca:0,valor_entrada:100,limite_perda:50,acao:'parar',status:'desconectado'};
 		}
+
+
 
 		entradasUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_entradas){
 			var acertos = 0;
@@ -95,7 +98,7 @@ router.get('/', function(req, res, next) {
 						data_grafico.acertos.push(acertos_grafico);
 					}
 
-					//se tiver mais de 1 dia ele exibe
+
 					if(data_grafico.dias.length > 1){
 
 						maior_valor = 0;

@@ -36,11 +36,11 @@
 									<span class="d-block dashtext-3 margin-b-10 margin-t-10">Ativação Liçença/Crédito</span>
 									<span class="margin-b-10">Ative sua licença ou adicione créditos utilizando o código de transação enviado para o seu e-mail.<br>
 
-									
-									<%}else{%>
+
+										<%}else{%>
 										<span class="d-block dashtext-3 margin-b-10 margin-t-10">Ativação Liçença</span>
 										<span class="margin-b-10">Ative sua licença utilizando o código de transação enviado para o seu e-mail.<br>
-									<%}%>
+											<%}%>
 
 											<form method="POST" action="" enctype="multipart/form-data">
 												<div class="form-group margin-t-10">
@@ -112,13 +112,46 @@
 			</section>
 
 
+			<%if(usuario.nivel==3){%>
+			<section class="margin-bottom-sm">
+				<div class="container-fluid">
+					<div class="block margin-b-0">
+
+						<div class="title">
+							<strong class="d-block">Mensagens do Sistema</strong>
+						</div>
+
+
+						<div class="block-body">
+							<% if (typeof data.mensagem != 'undefined' && data.mensagem.length > 0) {
+								for (var i = 0; i < data.mensagem.length; i++) {%>
+
+								<div class="alert <%=
+								data.mensagem[i].tipo_mensagem == 1 ? 'sucess-block' : data.mensagem[i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
+								<%= data.mensagem_horario[i]%><%= data.mensagem[i].descricao_mensagem %>
+
+							</div>
+							<%}
+						}else{%>
+						<div class="text-center">Não há nenhuma mensagem no momento.</div>
+
+						<%}%>
+					</div>
+
+				</div>
+			</div>
+
+		</section>
+
+		<%}%>
+
+
+
+
+	</div>
 
 
 
 
 
 
-
-
-
-		</div>
