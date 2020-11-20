@@ -125,6 +125,15 @@ nav#sidebar li li a:hover {
 	color: #fff;
 }
 
+.warning2-block{
+	border: 1px solid #f7d350;
+	color: #8a8d93;
+
+	.warning2-block-title{
+		color:#f7d350
+	}
+}
+
 .error-block{
 	background: #d44658a6;
 	color: #fff;
@@ -192,6 +201,16 @@ nav#sidebar a[aria-expanded="true"] {
 
 .form-control::-ms-input-placeholder { 
 	color: #afafaf;
+}
+
+.form-control:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px #505358 inset;
+	-webkit-text-fill-color: #afafaf;
+}
+
+.form-control:-webkit-autofill:focus {
+	-webkit-box-shadow: 0 0 0 50px #505358 inset;
+	-webkit-text-fill-color: #afafaf;
 }
 
 .color-disabled{

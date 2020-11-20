@@ -258,6 +258,14 @@
 
 							</div>
 
+							<%if((data.conexao.status == 'primeira_vez') || (data.conexao.status == 'erro de conexao')){%>
+							<div class="block-body warning2-block alert">
+								<span class="warning2-block-title">O sistema não aceita a Autenticação em duas etapas!!!</span>
+								<br> <span>Antes de testar a conexão certifique-se que não está ativada a Autenticação em duas etapas da sua conta, na corretora.</span>
+							</div>
+
+							<%}%>
+
 						</div>
 
 					</div>
