@@ -51,39 +51,34 @@ router.get('/', function(req, res, next) {
 				if(data_mensagem.length > 0){
 
 					for(i=0;i<data_mensagem.length;i++){
-						console.log('data_mensagem[i].data_registro: ' + data_mensagem[i].data_registro);
-						console.log('data_mensagem[i].data_registro.getDate(): ' + data_mensagem[i].data_registro.getDate());
-						console.log('data_mensagem[i].data_registro.getMonth(): ' + data_mensagem[i].data_registro.getMonth() + 1);
-						console.log('data_mensagem[i].data_registro.getYear(): ' + data_mensagem[i].data_registro.getYear());
-
-
-
-						dia_mensagem = data_mensagem[i].data_registro.getDate();
+						var horario = new Date(data_mensagem[i].data_registro);
+						horario.setHours(horario.getHours() - 3);
+						dia_mensagem = horario.getDate();
 
 						if(dia_mensagem > 0 && dia_mensagem < 10){
 							dia_mensagem = "0" + dia_mensagem;
 						}
 
-						mes_mensagem = data_mensagem[i].data_registro.getMonth() + 1;
+						mes_mensagem = horario.getMonth() + 1;
 						if(mes_mensagem > 0 && mes_mensagem < 10){
 							mes_mensagem = "0" + mes_mensagem;
 						}
 
-						ano_mensagem = data_mensagem[i].data_registro.getFullYear();
+						ano_mensagem = horario.getFullYear();
 
-						hora_mensagem = data_mensagem[i].data_registro.getHours();
+						hora_mensagem = horario.getHours();
 
 						if(hora_mensagem >= 0 && hora_mensagem < 10){
 							hora_mensagem = "0" + hora_mensagem;
 						}
 
-						minuto_mensagem = data_mensagem[i].data_registro.getMinutes();
+						minuto_mensagem = horario.getMinutes();
 
 						if(minuto_mensagem >= 0 && minuto_mensagem < 10){
 							minuto_mensagem = "0" + minuto_mensagem;
 						}
 
-						segundo_mensagem = data_mensagem[i].data_registro.getSeconds();
+						segundo_mensagem = horario.getSeconds();
 
 						if(segundo_mensagem >= 0 && segundo_mensagem < 10){
 							segundo_mensagem = "0" + segundo_mensagem;
