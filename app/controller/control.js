@@ -90,21 +90,20 @@ class Control {
 
 					// create reusable transporter object using the default SMTP transport
 					let transporter = nodemailer.createTransport({
-						host: 'smtp-mail.outlook.com',
-						secureConnection: false,
+						host: 'mail.elitetradersoficial.com.br',
+						secure: false,
 						port: 587,						
 						auth: {
-							user: 'naoresponda_deuwin@outlook.com',
-							pass: 'senha_D3uWinNo_Reply'
-						},
-						tls: {
-							ciphers:'SSLv3'
-						},
+							user: 'naoresponda@elitetradersoficial.com.br',
+							pass: 'MPav7HlgoMag'
+						}, tls: {
+							rejectUnauthorized:false
+						}
 					});
 
 					// setup email data with unicode symbols
 					let mailOptions = {
-							from: '"Deu Win - Não Responda" <naoresponda_deuwin@outlook.com>', // sender address
+							from: '"Elite Bank - Não Responda" <naoresponda@elitetradersoficial.com.br>', // sender address
 							to: para, // list of receivers
 							subject: assunto, // Subject line
 							text: text, 
@@ -129,21 +128,20 @@ class Control {
 
 					// create reusable transporter object using the default SMTP transport
 					let transporter = nodemailer.createTransport({
-						host: 'smtp-mail.outlook.com',
+						host: 'mail.elitetradersoficial.com.br',
 						secureConnection: false,
 						port: 587,						
 						auth: {
-							user: 'naoresponda_deuwin@outlook.com',
-							pass: 'senha_D3uWinNo_Reply'
-						},
-						tls: {
-							ciphers:'SSLv3'
-						},
+							user: 'naoresponda@elitetradersoficial.com.br',
+							pass: 'MPav7HlgoMag'
+						}, tls: {
+							rejectUnauthorized:false
+						}
 					});
 
 					// setup email data with unicode symbols
 					let mailOptions = {
-							from: '"Deu Win - Não Responda" <naoresponda_deuwin@outlook.com>', // sender address
+							from: '"Elite Bank - Não Responda" <naoresponda@elitetradersoficial.com.br>', // sender address
 							to: para, // list of receivers
 							subject: assunto, // Subject line
 							text: text, 

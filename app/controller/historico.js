@@ -9,7 +9,7 @@ app.use(require('express-is-ajax-request'));
 
 const mongoose = require('mongoose');
 
-const entradasUser = require('../model/entradasModel.js');
+const entradasModel = require('../model/entradasModel.js');
 
 const contaUser = require('../model/contaModel.js');
 
@@ -31,7 +31,7 @@ router.get('/', function(req, res, next) {
 
 
 
-		entradasUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_entradas){
+		entradasModel.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'executada':true},function(err,data_entradas){
 			var acertos = 0;
 			var dia;
 			var dias = [];
@@ -153,7 +153,7 @@ router.get('/ultimos-30dias', function(req, res, next) {
 	console.log('timestamp mes_atras: ' + mes_atras_timestamp);
 
 
-	entradasUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),timestamp:{$gte:mes_atras_timestamp}},function(err,data_entradas){
+	entradasModel.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'executada':true,timestamp:{$gte:mes_atras_timestamp}},function(err,data_entradas){
 		var acertos = 0;
 		var dia;
 
@@ -287,7 +287,7 @@ router.get('/ultimos-7dias', function(req, res, next) {
 	console.log('timestamp mes_atras: ' + dias_7_atras_timestamp);
 
 
-	entradasUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),timestamp:{$gte:dias_7_atras_timestamp}},function(err,data_entradas){
+	entradasModel.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'executada':true,timestamp:{$gte:dias_7_atras_timestamp}},function(err,data_entradas){
 		var acertos = 0;
 		var dia;
 
@@ -450,7 +450,7 @@ router.post('/filtrar-data', function(req, res, next) {
 
 
 
-						entradasUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),timestamp:{$gte:dia_inicial_timestamp,$lt:dia_final_timestamp}},function(err,data_entradas){
+						entradasModel.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'executada':true,timestamp:{$gte:dia_inicial_timestamp,$lt:dia_final_timestamp}},function(err,data_entradas){
 							var acertos = 0;
 							var dia;
 

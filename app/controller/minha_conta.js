@@ -285,69 +285,157 @@ router.post('/ativar-codigo-transacao', function(req, res, next) {
 									licencaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_licenca){
 										//verifico se existe a licença
 										if(data_licenca != null){
-											console.log(data_licenca);
-											//se existir a licença adiciono a quantidade dias na licença
-											var nova_data = data_licenca.data_fim;
-											console.log('nova_data:' + nova_data);
-											var hoje = new Date();
 
-											console.log('hoje:' + hoje);
-											if(nova_data < hoje){
-												console.log('é bem menor do que hoje');
-												hoje.setDate(hoje.getDate() - 1);
-												nova_data.setTime(hoje);
-											}
-											console.log('nova_data.getDate(): ' + nova_data.getDate());
-											console.log('data_produto.quantidade:' + data_produto.quantidade);
-											nova_data.setDate(nova_data.getDate() + data_produto.quantidade);
-											console.log('nova_data:' + nova_data);
+											//Verifico se possui creditos nas configurações
+											configuracoes_sistema.find({},function(err,data_configuracoes){
 
-											//dou update com os novos créditos
-											licencaUser.findOneAndUpdate({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},{'$set':{'data_fim':nova_data}},function(err,data_new_licenca){
-												if (err) {
-													return handleError(err);
-												}else{
-													//atualizo o procesado em true para indicar que não pode ser reutilizado o código
-													pagamentoModel.findOneAndUpdate({'codigo':POST.codigo_transacao},{'$set':{'processado':true}},function(err,data_new_pagamento){
+												console.log('---------- data_configuracoes -----------------');
+												console.log(data_configuracoes);
+												console.log('-----------------------------------------------');
+
+												if(data_configuracoes[0].possui_creditos == false){
+													console.log('nao possui_creditos');
+													console.log(data_licenca);
+													var nova_data = data_licenca.data_fim;
+													console.log('nova_data:' + nova_data);
+													var hoje = new Date();
+
+													console.log('hoje:' + hoje);
+													if(nova_data < hoje){
+														console.log('é bem menor do que hoje');
+														hoje.setDate(hoje.getDate() - 1);
+														nova_data.setTime(hoje);
+													}
+													console.log('nova_data.getDate(): ' + nova_data.getDate());
+													console.log('data_produto.quantidade:' + data_produto.quantidade);
+													nova_data.setDate(nova_data.getDate() + data_produto.quantidade);
+													console.log('nova_data:' + nova_data);
+
+													licencaUser.findOneAndUpdate({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},{'$set':{'data_fim':nova_data,'creditos':9999}},function(err,data_new_licenca){
 														if (err) {
 															return handleError(err);
 														}else{
-															res.json(data);
+															//atualizo o procesado em true para indicar que não pode ser reutilizado o código
+															pagamentoModel.findOneAndUpdate({'codigo':POST.codigo_transacao},{'$set':{'processado':true}},function(err,data_new_pagamento){
+																if (err) {
+																	return handleError(err);
+																}else{
+																	res.json(data);
+																}
+															});
 														}
 													});
+
+
+												}else{
+													console.log(data_licenca);
+													//se existir a licença adiciono a quantidade dias na licença
+													var nova_data = data_licenca.data_fim;
+													console.log('nova_data:' + nova_data);
+													var hoje = new Date();
+
+													console.log('hoje:' + hoje);
+													if(nova_data < hoje){
+														console.log('é bem menor do que hoje');
+														hoje.setDate(hoje.getDate() - 1);
+														nova_data.setTime(hoje);
+													}
+													console.log('nova_data.getDate(): ' + nova_data.getDate());
+													console.log('data_produto.quantidade:' + data_produto.quantidade);
+													nova_data.setDate(nova_data.getDate() + data_produto.quantidade);
+													console.log('nova_data:' + nova_data);
+
+													//dou update com os novos créditos
+													licencaUser.findOneAndUpdate({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},{'$set':{'data_fim':nova_data}},function(err,data_new_licenca){
+														if (err) {
+															return handleError(err);
+														}else{
+															//atualizo o procesado em true para indicar que não pode ser reutilizado o código
+															pagamentoModel.findOneAndUpdate({'codigo':POST.codigo_transacao},{'$set':{'processado':true}},function(err,data_new_pagamento){
+																if (err) {
+																	return handleError(err);
+																}else{
+																	res.json(data);
+																}
+															});
+														}
+													});
+
 												}
 											});
 
 										}else{
 
-											var nova_data_fim = new Date();
-											nova_data_fim.setDate((nova_data_fim.getDate() - 1 ) + data_produto.quantidade);
+											//verifico se possui nas configurações crédito, se não possuir créditos seto os créditos para 9999
+											configuracoes_sistema.find({},function(err,data_configuracoes){
+
+												console.log('---------- data_configuracoes -----------------');
+												console.log(data_configuracoes);
+												console.log('-----------------------------------------------');
+
+												if(data_configuracoes[0].possui_creditos == false){
+													console.log('estou aqui no não tem licenca e não possui créditos no sistema');
+
+													var nova_data_fim = new Date();
+													nova_data_fim.setDate((nova_data_fim.getDate() - 1 ) + data_produto.quantidade);
 
 
-											const nova_licenca = new licencaUser({ 
-												id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
-												creditos:0,
-												data_fim: nova_data_fim,
-												deletado:0,
-												ativa:true
-											});
+													const nova_licenca = new licencaUser({ 
+														id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
+														creditos:9999,
+														data_fim: nova_data_fim,
+														deletado:0,
+														ativa:true
+													});
 
-											console.log('xxxxxxxxxxxxx nova licenca xxxxxxxxxxxxx');
-											console.log(nova_licenca);
-											console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-
-											nova_licenca.save(function (err) {
-												if (err) {
-													return handleError(err);
-												}else{
-													//atualizo o procesado em true para indicar que não pode ser reutilizado o código
-													pagamentoModel.findOneAndUpdate({'codigo':POST.codigo_transacao},{'$set':{'processado':true}},function(err,data_new_pagamento){
+													nova_licenca.save(function (err) {
 														if (err) {
 															return handleError(err);
 														}else{
-															res.json(data);
+															//atualizo o procesado em true para indicar que não pode ser reutilizado o código
+															pagamentoModel.findOneAndUpdate({'codigo':POST.codigo_transacao},{'$set':{'processado':true}},function(err,data_new_pagamento){
+																if (err) {
+																	return handleError(err);
+																}else{
+																	res.json(data);
+																}
+															});
 														}
 													});
+
+
+												}else{
+													var nova_data_fim = new Date();
+													nova_data_fim.setDate((nova_data_fim.getDate() - 1 ) + data_produto.quantidade);
+
+
+													const nova_licenca = new licencaUser({ 
+														id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
+														creditos:0,
+														data_fim: nova_data_fim,
+														deletado:0,
+														ativa:true
+													});
+
+													console.log('xxxxxxxxxxxxx nova licenca xxxxxxxxxxxxx');
+													console.log(nova_licenca);
+													console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
+													nova_licenca.save(function (err) {
+														if (err) {
+															return handleError(err);
+														}else{
+															//atualizo o procesado em true para indicar que não pode ser reutilizado o código
+															pagamentoModel.findOneAndUpdate({'codigo':POST.codigo_transacao},{'$set':{'processado':true}},function(err,data_new_pagamento){
+																if (err) {
+																	return handleError(err);
+																}else{
+																	res.json(data);
+																}
+															});
+														}
+													});
+
 												}
 											});
 
@@ -355,6 +443,7 @@ router.post('/ativar-codigo-transacao', function(req, res, next) {
 										}
 									});
 
+									//se o tipo(crédito/recarga) não existe									
 								}else{
 									res.json({error:'tipo_inexistente',element:'input[name="codigo_transacao"]',texto:'*Erro, entre em contato com o suporte!'});
 								}

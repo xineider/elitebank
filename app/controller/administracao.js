@@ -41,7 +41,7 @@ router.get('/', function(req, res, next) {
 				data.usuarios = data_usuarios;
 				pagamentoModel.find({},function(err,data_pagamento){
 
-					entradasModel.find({},function(err,data_entradas){
+					entradasModel.find({'deletado':0,'executada':true},function(err,data_entradas){
 						data.entradas = data_entradas;
 
 						if(data_pagamento != null){
