@@ -9,6 +9,9 @@ var bodyParser = require('body-parser');
 var Control = require('./app/controller/control.js');
 const fileUpload = require('express-fileupload');
 
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session);
+
 var login = require('./app/controller/login');
 var index = require('./app/controller/index');
 var api = require('./app/controller/api');
@@ -31,11 +34,37 @@ var sassMiddleware = require('node-sass-middleware');
 app.use(require('express-is-ajax-request'));
 // INICIANDO SESSION
 app.set('trust proxy', 1); // trust first proxy
+
+
+const uri = 'mongodb+srv://admin_87:GaluCuDt6WGUTR2w@cluster0.z4jia.azure.mongodb.net/e98m41?retryWrites=true&w=majority';
+
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
+});
+
+
 app.use(session({
-  secret: 'sistemamoon',
-  resave: true,
-  saveUninitialized: true
+  secret: 'senha_complexa_do_elite',
+  resave: false,
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  saveUninitialized: false
 }));
+
+
+// app.use(function(req, res, next){
+//   console.log('req.session');
+//   console.log(req.session);
+//   console.log("===================");
+//   next();
+// });
+
+
+
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 
 // app.use(function(req,res,next){
@@ -102,10 +131,13 @@ app.use(cookieParser());
 
 
 
+
+
+
 app.use(sassMiddleware({
-    src: __dirname,
-    debug: true,
-    outputStyle: 'compressed'
+  src: __dirname,
+  debug: true,
+  outputStyle: 'compressed'
 }));
 
 

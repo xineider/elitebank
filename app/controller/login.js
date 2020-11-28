@@ -7,7 +7,6 @@ var data = {};
 var app = express();
 
 
-
 app.use(require('express-is-ajax-request'));
 
 const mongoose = require('mongoose');
@@ -15,16 +14,7 @@ const mongoose = require('mongoose');
 
 /* Conexão Mongo Db*/
 
-const uri = 'mongodb+srv://admin_87:GaluCuDt6WGUTR2w@cluster0.z4jia.azure.mongodb.net/e98m41?retryWrites=true&w=majority';
 
-async function start(){
-	await mongoose.connect(uri, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-		useFindAndModify: false,
-		useCreateIndex: true
-	});
-}
 
 
 const usuarioModel = require('../model/usuariosModel.js');
@@ -52,14 +42,17 @@ router.post('/', function(req, res, next) {
 	console.log(POST);
 	console.log('NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN');
 
-	start();
+	usuarioModel.findOne({'email':POST.email,'senha':POST.senha},function(err,data_login){
+		console.log('************ data_login **************');
+		console.log(data_login);
+		console.log('**************************************');
 
-	usuarioModel.findOne({'email':POST.email,'senha':POST.senha},function(err,data){
-		if(data != null){
+		if(data_login != null){
 			req.session.usuario = {};
-			req.session.usuario.id = data['_id'];
-			req.session.usuario.nivel = data['nivel'];
-			req.session.usuario.nome = data['nome'];
+			req.session.usuario.id = data_login['_id'];
+			req.session.usuario.nivel = data_login['nivel'];
+			req.session.usuario.nome = data_login['nome'];
+			req.session.usuario.email = data_login['email'];
 			console.log('req.session.usuario');
 			console.log(req.session.usuario);
 			res.redirect('/sistema');
@@ -71,18 +64,7 @@ router.post('/', function(req, res, next) {
 	});
 
 
-	// model.Login(POST).then(data => {
-	// 	if (data.length > 0) {
-	// 		req.session.usuario = {};
-	// 		req.session.usuario.id = data[0].id;
-	// 		req.session.usuario.hash_login = data[0].hash_login;
-	// 		req.session.usuario.nivel = data[0].nivel;
-	// 		req.session.usuario.nome = data[0].nome;
-	// 		res.redirect('/sistema');
-	// 	} else {
-	// 		res.render('login/index', { erro: 'Login ou senha incorreto(s).', tipo_erro: 'login' });
-	// 	}
-	// });
+
 });
 
 /* GET pagina de login. */

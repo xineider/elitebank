@@ -113,6 +113,10 @@ router.get('/', function(req, res, next) {
 					data.licenca_user_dias = 0;
 				}
 
+				console.log('ddddddddddddddddddddddddddddddd');
+				console.log(data);
+				console.log('ddddddddddddddddddddddddddddddd');
+
 				res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'minha_conta/minha_conta', data: data, usuario: req.session.usuario});
 			}).sort({'data_registro':-1}).limit(30);
 		});

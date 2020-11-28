@@ -60,7 +60,8 @@ router.get('/', function(req, res, next) {
 	data.link_sistema = '/sistema';
 	data.numero_menu = 1;
 
-
+	console.log('req.session.usuario');
+	console.log(req.session.usuario);
 	if(req.session.usuario.nivel == 3){
 
 		configuracoes_sistema.find({},function(err,data_configuracoes){
@@ -98,12 +99,12 @@ router.get('/', function(req, res, next) {
 
 					teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
 
-
-
 						if(data_conexao != null){
 							data.conexao = data_conexao;
 						}else{
 							data.conexao = {email:'',senha:'',status:'primeira_vez'};
+
+							data_conexao = {email:'',senha:'',status:'primeira_vez'};
 						}
 
 						mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'deletado':0},function(err,data_mensagem){
@@ -156,6 +157,12 @@ router.get('/', function(req, res, next) {
 
 							}
 
+							var id_user = req.session.usuario.id;
+					
+
+							data[id_user+'_mensagem_horario']= arrayMensagemData;
+							data[id_user+'_acertividade']= {entradas:0,porcentagem:100};
+
 
 							data.mensagem_horario = arrayMensagemData;
 
@@ -192,7 +199,7 @@ router.get('/', function(req, res, next) {
 								console.log(data);
 								console.log('00000000000000000000000000000000000000000');
 
-								res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/index', data: data, usuario: req.session.usuario});
+								res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/index', data: data, usuario: req.session.usuario,data_conexao_b:data_conexao,data_mensagem_b:arrayMensagemData});
 							});
 						}).sort({'data_registro':-1}).limit(20);
 					}).sort({'data_cadastro':-1});
@@ -266,6 +273,8 @@ router.get('/', function(req, res, next) {
 									data.conexao = data_conexao;
 								}else{
 									data.conexao = {email:'',senha:''};
+									
+									data_conexao = {email:'',senha:''};
 								}
 								mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'deletado':0},function(err,data_mensagem){
 
@@ -324,7 +333,7 @@ router.get('/', function(req, res, next) {
 									console.log(data);
 
 
-									res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexTrader', data: data, usuario: req.session.usuario});
+									res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexTrader', data: data, usuario: req.session.usuario,data_conexao_b:data_conexao,data_mensagem_b:arrayMensagemData});
 
 								});
 							}).sort({'data_cadastro':-1});
@@ -444,6 +453,14 @@ router.post('/popup-confirmacao-iniciar-operacao', function(req, res, next) {
 	console.log(POST);
 	console.log('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
 
+	console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+	console.log('req.session.usuario.id');
+	console.log(req.session.usuario.id);
+
+	console.log(req.session.usuario);
+	console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+
+
 	configuracoes_sistema.find({},function(err,data_configuracoes){
 
 		if(data_configuracoes != null){
@@ -493,7 +510,7 @@ router.post('/popup-confirmacao-iniciar-operacao', function(req, res, next) {
 											teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
 
 												data.dados = POST;
-												data.email = data.conexao.email;
+												data.email = data_conexao.email;
 
 												console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDD Data DDDDDDDDDDDDDDDDDDDDDDDDDDD');
 												console.log(data);

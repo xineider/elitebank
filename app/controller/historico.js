@@ -21,6 +21,9 @@ router.get('/', function(req, res, next) {
 	data.numero_menu = 3;
 
 
+	var data_acertividade_f;
+
+
 	contaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conta){
 
 		if(data_conta !=null){
@@ -116,26 +119,47 @@ router.get('/', function(req, res, next) {
 							maior_valor = maior_valor + 5;
 						}
 
+						
+
 						data.maior_valor = maior_valor;
 						data.grafico = data_grafico;
 						data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
+
+						data_acertividade_f = {total_operacoes:data_entradas.length,total_acertos:acertos};
+
 					}else{
-						data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
+						data.grafico = {dias:[0],operacoes:[0],acertos:[0]};
 						data.acertividade = {total_operacoes:0,total_acertos:0};
 						data.maior_valor = 0;
+
+						data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
+						maior_valor = 0;
+						data_acertividade_f = {total_operacoes:0,total_acertos:0};
 					}
 				}else{
-					data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
+					data.grafico = {dias:[0],operacoes:[0],acertos:[0]};
 					data.acertividade = {total_operacoes:0,total_acertos:acertos};
 					data.maior_valor = 0;
+
+					data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
+					maior_valor = 0;
+					data_acertividade_f = {total_operacoes:0,total_acertos:0};
 				}
 			}else{
-				data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
+				data.grafico = {dias:[0],operacoes:[0],acertos:[0]};
 				data.acertividade = {total_operacoes:0,total_acertos:acertos};
 				data.maior_valor = 0;
+
+				data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
+				maior_valor = 0;
+				data_acertividade_f = {total_operacoes:0,total_acertos:0};
 			}
 
-			res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'historico/historico_tudo', data: data, usuario: req.session.usuario});
+			console.log('dddddddddddddddddddddddddddddddddddddddddddddd');
+			console.log(data);
+			console.log('dddddddddddddddddddddddddddddddddddddddddddddd');
+
+			res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'historico/historico_tudo', data: data, data_maior_valor: maior_valor,data_grafico_b:data_grafico, data_acertividade_b:data_acertividade_f, usuario: req.session.usuario});
 		}).sort({'timestamp':1});
 	}).sort({'data_cadastro':-1});
 });
@@ -165,66 +189,66 @@ router.get('/ultimos-30dias', function(req, res, next) {
 		var dias = [];
 		var vitorias = [];
 
+		if(data_entradas !=null){
+			if(data_entradas.length>0){
 
-		if(data_entradas.length>0){
+				for(i=0;i<data_entradas.length;i++){
 
-			for(i=0;i<data_entradas.length;i++){
+					data_t =  new Date(data_entradas[i].timestamp * 1000);
 
-				data_t =  new Date(data_entradas[i].timestamp * 1000);
+					dia = data_t.getDate();
+					mes = data_t.getMonth() + 1;
 
-				dia = data_t.getDate();
-				mes = data_t.getMonth() + 1;
+					dia_mes = dia + '/' + mes;
+					dias.push(dia_mes);
+					vitorias.push(data_entradas[i].vitoria);
 
-				dia_mes = dia + '/' + mes;
-				dias.push(dia_mes);
-				vitorias.push(data_entradas[i].vitoria);
-
-				if(data_entradas[i].vitoria == true){
-					acertos++;
-				}
-			}
-
-			var current = null;
-			var cnt = 0;
-			var acertos_grafico = 0;
-
-			var data_grafico = {
-				dias:[],
-				operacoes:[],
-				acertos:[]
-			};
-
-
-			for(var i=0 ; i< dias.length; i++){
-				if(dias[i] != current){
-					if(cnt>0){
-						data_grafico.dias.push(current);
-						data_grafico.operacoes.push(cnt);
-						data_grafico.acertos.push(acertos_grafico);
-
-					}
-					current = dias[i];
-					cnt = 1;
-					if(vitorias[i]==true){
-						acertos_grafico = 1;
-					}else{
-						acertos_grafico = 0;
-					}
-
-				} else {
-					cnt++;
-					if(vitorias[i]==true){
-						acertos_grafico++;
+					if(data_entradas[i].vitoria == true){
+						acertos++;
 					}
 				}
 
-			}
+				var current = null;
+				var cnt = 0;
+				var acertos_grafico = 0;
 
-			if(cnt>0){
-				data_grafico.dias.push(current);
-				data_grafico.operacoes.push(cnt);
-				data_grafico.acertos.push(acertos_grafico);
-			}
+				var data_grafico = {
+					dias:[],
+					operacoes:[],
+					acertos:[]
+				};
+
+
+				for(var i=0 ; i< dias.length; i++){
+					if(dias[i] != current){
+						if(cnt>0){
+							data_grafico.dias.push(current);
+							data_grafico.operacoes.push(cnt);
+							data_grafico.acertos.push(acertos_grafico);
+
+						}
+						current = dias[i];
+						cnt = 1;
+						if(vitorias[i]==true){
+							acertos_grafico = 1;
+						}else{
+							acertos_grafico = 0;
+						}
+
+					} else {
+						cnt++;
+						if(vitorias[i]==true){
+							acertos_grafico++;
+						}
+					}
+
+				}
+
+				if(cnt>0){
+					data_grafico.dias.push(current);
+					data_grafico.operacoes.push(cnt);
+					data_grafico.acertos.push(acertos_grafico);
+				}
 
 			//se tiver mais de 1 dia ele exibe
 			if(data_grafico.dias.length > 1){
@@ -253,25 +277,48 @@ router.get('/ultimos-30dias', function(req, res, next) {
 
 				data.grafico = data_grafico;
 				data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
+
+				data_acertividade_f = {total_operacoes:data_entradas.length,total_acertos:acertos};
 			}else{
 				data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
 				data.acertividade = {total_operacoes:0,total_acertos:0};
 				data.maior_valor = 0;
+
+				data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
+				maior_valor = 0;
+				data_acertividade_f = {total_operacoes:0,total_acertos:0};
 			}
 		}else{
 			data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
 			data.acertividade = {total_operacoes:0,total_acertos:acertos};
 			data.maior_valor = 0;
+
+			data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
+			maior_valor = 0;
+			data_acertividade_f = {total_operacoes:0,total_acertos:0};
+
+			console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
 		}
 
+	}else{
+		data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
+		data.acertividade = {total_operacoes:0,total_acertos:acertos};
+		data.maior_valor = 0;
 
-		console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHH Histórico HHHHHHHHHHHHHHHHHHHHHHHH');
-		console.log(data);
-		console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
+
+		data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
+		maior_valor = 0;
+		data_acertividade_f = {total_operacoes:0,total_acertos:0};
+	}
 
 
-		res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'historico/grafico', data: data, usuario: req.session.usuario});
-	}).sort({'timestamp':1});
+	console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHH Histórico HHHHHHHHHHHHHHHHHHHHHHHH');
+	console.log(data);
+	console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
+
+
+	res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'historico/grafico', data: data, data_maior_valor: maior_valor,data_grafico_b:data_grafico, data_acertividade_b:data_acertividade_f, usuario: req.session.usuario});
+}).sort({'timestamp':1});
 });
 
 
@@ -295,6 +342,8 @@ router.get('/ultimos-7dias', function(req, res, next) {
 		console.log(data_entradas);
 		console.log('----------------------------------------------------');
 
+		console.log('data_entradas.length:' + data_entradas.length);
+
 
 		var dias = [];
 		var vitorias = [];
@@ -312,6 +361,8 @@ router.get('/ultimos-7dias', function(req, res, next) {
 				dia_mes = dia + '/' + mes;
 				dias.push(dia_mes);
 				vitorias.push(data_entradas[i].vitoria);
+
+				console.log('dia_mes: ' + dia_mes);
 
 				if(data_entradas[i].vitoria == true){
 					acertos++;
@@ -383,15 +434,25 @@ router.get('/ultimos-7dias', function(req, res, next) {
 				data.grafico = data_grafico;
 				data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
 
+				data_acertividade_f = {total_operacoes:data_entradas.length,total_acertos:acertos};
+
 			}else{
 				data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
 				data.acertividade = {total_operacoes:0,total_acertos:0};
 				data.maior_valor = 0;
+
+				data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
+				maior_valor = 0;
+				data_acertividade_f = {total_operacoes:0,total_acertos:0};
 			}
 		}else{
 			data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
 			data.acertividade = {total_operacoes:0,total_acertos:acertos};
 			data.maior_valor = 0;
+
+			data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
+			maior_valor = 0;
+			data_acertividade_f = {total_operacoes:0,total_acertos:0};
 		}
 
 
@@ -400,7 +461,7 @@ router.get('/ultimos-7dias', function(req, res, next) {
 		console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
 
 
-		res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'historico/grafico', data: data, usuario: req.session.usuario});
+		res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'historico/grafico', data: data, data_maior_valor: maior_valor,data_grafico_b:data_grafico, data_acertividade_b:data_acertividade_f, usuario: req.session.usuario});
 	}).sort({'timestamp':1});
 });
 
@@ -427,7 +488,7 @@ router.post('/filtrar-data', function(req, res, next) {
 
 				if(hoje >= POST.data_final){
 
-					if(POST.data_final >= POST.data_inicial){
+					if(POST.data_final > POST.data_inicial){
 
 						var dia_inicial = new Date(POST.data_inicial);
 						var dia_final = new Date(POST.data_final);
@@ -547,16 +608,25 @@ router.post('/filtrar-data', function(req, res, next) {
 									data.maior_valor = maior_valor;
 									data.grafico = data_grafico;
 									data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
+									data_acertividade_f = {total_operacoes:data_entradas.length,total_acertos:acertos};
 
 								}else{
 									data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
 									data.acertividade = {total_operacoes:0,total_acertos:0};
 									data.maior_valor = 0;
+
+									data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
+									maior_valor = 0;
+									data_acertividade_f = {total_operacoes:0,total_acertos:0};
 								}
 							}else{
 								data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
 								data.acertividade = {total_operacoes:0,total_acertos:acertos};
 								data.maior_valor = 0;
+
+								data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
+								maior_valor = 0;
+								data_acertividade_f = {total_operacoes:0,total_acertos:0};
 							}
 
 
@@ -565,11 +635,11 @@ router.post('/filtrar-data', function(req, res, next) {
 							// console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
 
 
-							res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'historico/grafico', data: data, usuario: req.session.usuario});
+							res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'historico/grafico', data: data, data_maior_valor: maior_valor,data_grafico_b:data_grafico, data_acertividade_b:data_acertividade_f, usuario: req.session.usuario});
 						}).sort({'timestamp':1});
 
 					}else{
-						res.json({error:'data_final_menor',element:'input[name="data_final"]',texto:'*Data Final não pode ser menor que a Data Inicial!'});
+						res.json({error:'data_final_menor',element:'input[name="data_final"]',texto:'*Data Final não pode ser menor ou igual que a Data Inicial!'});
 					}
 
 				}else{

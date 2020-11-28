@@ -4,7 +4,7 @@
 		<div class="col-sm-12 col-md-6">
 			<div class="total_operacoes_color f20 text-center">Total de Operações: 
 				<span class="total_operacoes_color_n">
-					<%= data.acertividade.total_operacoes %>				
+					<%= data_acertividade_b.total_operacoes %>				
 				</span>
 			</div>
 		</div>
@@ -12,7 +12,7 @@
 		<div class="col-sm-12 col-md-6">
 			<div class="numero_acertos_color f20 text-center">Número de Acertos: 
 				<span class="numero_acertos_color_n">
-					<%= data.acertividade.total_acertos %>
+					<%= data_acertividade_b.total_acertos %>
 				</span>
 			</div>
 		</div>
@@ -20,7 +20,7 @@
 </div>
 
 <div>
-	<canvas id="grafico_historico_porcentagem" data-canvas-dias="<%= data.grafico.dias %>"data-canvas-qtd_operacoes="<%= data.grafico.operacoes %>" data-canvas-qtd_acertos="<%= data.grafico.acertos %>"></canvas>
+	<canvas id="grafico_historico_porcentagem" data-canvas-dias="<%= data_grafico_b.dias %>"data-canvas-qtd_operacoes="<%= data_grafico_b.operacoes %>" data-canvas-qtd_acertos="<%= data.grafico.acertos %>"></canvas>
 </div>
 
 <div class="w100 none historico_mensagem_sem_operacao warning-block">
@@ -75,7 +75,7 @@
 					yAxes: [{
 						ticks: {
 							beginAtZero: true,
-							max: <%= data.maior_valor %>,
+							max: <%= data_maior_valor %>,
 							min: 0
 						},
 						display: true,

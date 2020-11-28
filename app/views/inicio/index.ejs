@@ -77,7 +77,6 @@
 	<%- include('data_header'); %>
 
 
-
 	<form method="POST" action="" enctype="multipart/form-data">
 
 
@@ -107,7 +106,7 @@
 										<%}else{%>
 										<label class="form-control-label dashtext-5">Testando Conta Como:</label>
 										<%}%>
-										<input type="email" class="form-control" name="email" disabled value="<%= data.conexao.email%>">
+										<input type="email" class="form-control" name="email" disabled value="<%= data_conexao_b.email%>">
 									</div>
 
 									<div class="form-group"> 
@@ -266,7 +265,7 @@
 
 						<div class="alert <%=
 						data.mensagem[i].tipo_mensagem == 1 ? 'sucess-block' : data.mensagem[i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
-						<%= data.mensagem_horario[i]%><%= data.mensagem[i].descricao_mensagem %>
+						<%= data_mensagem_b[i]%><%= data.mensagem[i].descricao_mensagem %>
 						<button type="button" data-href="/sistema/limpar-mensagem/<%= data.mensagem[i]._id %>" class="close ajax-submit-close" data-dismiss="alert" aria-label="Close" data-action="/sistema">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -285,6 +284,11 @@
 </div>
 
 
+<%- console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');%>
+<%- console.log(data.conexao.email); %>
+<%- console.log(data_conexao_b.email); %>
+<%- console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');%>
+
 
 <script type="text/javascript">
 	<% if(data.conta_user.acao == 'iniciar' || data.conexao.status == ''){ %>
@@ -292,5 +296,8 @@
 	setarPararTimer();
 	timer60sec();
 
+
 	<%}%>
+
 </script>
+
