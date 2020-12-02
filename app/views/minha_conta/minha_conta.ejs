@@ -17,9 +17,9 @@
 						<div class="row d-flex justify-content-between">
 							<div class="col-sm-12 col-md-5">
 								<div class="text">
-									<%if(data.licenca_user_dias >= 0){%>
+									<%if(data[usuario.id +'_licenca_user_dias'] >= 0){%>
 									<strong class="d-block dashtext-3"> 
-										<%= data.licenca_user_dias %> dias
+										<%= data[usuario.id +'_licenca_user_dias'] %> dias
 									</strong>
 									<span class="d-block">Dias restantes</span>
 									<%}else{%>
@@ -123,12 +123,12 @@
 
 
 						<div class="block-body">
-							<% if (typeof data.mensagem != 'undefined' && data.mensagem.length > 0) {
-								for (var i = 0; i < data.mensagem.length; i++) {%>
+							<% if (typeof data[usuario.id +'_mensagem'] != 'undefined' && data[usuario.id +'_mensagem'].length > 0) {
+								for (var i = 0; i < data[usuario.id +'_mensagem'].length; i++) {%>
 
 								<div class="alert <%=
-								data.mensagem[i].tipo_mensagem == 1 ? 'sucess-block' : data.mensagem[i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
-								<%= data.mensagem_horario[i]%><%= data.mensagem[i].descricao_mensagem %>
+								data[usuario.id +'_mensagem'][i].tipo_mensagem == 1 ? 'sucess-block' : data[usuario.id +'_mensagem'][i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
+								<%= data[usuario.id +'_mensagem_horario'][i]%><%= data[usuario.id +'_mensagem'][i].descricao_mensagem %>
 
 							</div>
 							<%}

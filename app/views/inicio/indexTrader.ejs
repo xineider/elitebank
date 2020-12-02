@@ -25,10 +25,10 @@
 										Já Participaram
 									</div>
 									<div class="text text-center">
-										<strong class="d-block"> <%= data.sessao_total[0].total_participantes_sessao%></strong>
+										<strong class="d-block"> <%= data[usuario.id +'_sessao_total'][0].total_participantes_sessao%></strong>
 									</div>	
 
-									<% if(data.conta_user.acao == 'parar'){%>
+									<% if(data_conta_b.acao == 'parar'){%>
 									<small class="d-block">Atualizado a pouco</small>
 									<%}else{%>
 									<small class="d-block">Próxima atualização em 
@@ -47,11 +47,11 @@
 									</div>
 									<div class="text text-center">
 										<strong class="d-block dashtext-5">
-											<%= data.sessao_total[0].total_usuarios_conectados -  data.sessao_total[0].total_participantes_sessao%>
+											<%= data[usuario.id +'_sessao_total'][0].total_usuarios_conectados %>
 										</strong>
 									</div>
 
-									<% if(data.conta_user.acao == 'parar'){%>
+									<% if(data_conta_b.acao == 'parar'){%>
 									<small class="d-block">Atualizado a pouco</small>
 									<%}else{%>
 									<small class="d-block">Próxima atualização em 
@@ -85,14 +85,14 @@
 				<div class="row d-flex align-items-stretch">
 
 					<div class="col-lg-6">   
-						<div class="stats-with-chart-1 block <%= data.sessao_status[0].sessao_iniciada == true ? 'sucess-block-trader-color' : '' %>">
+						<div class="stats-with-chart-1 block <%= data[usuario.id +'_sessao_status'][0].sessao_iniciada == true ? 'sucess-block-trader-color' : '' %>">
 							<div class="title"> <strong class="d-block">Status</strong></div>
 							<div class="row d-flex align-items-start justify-content-between">
 								<div class="col-sm-12 col-md-6 text-center-mobile">
 									<div class="text">
-										<strong class="d-block <%= data.conta_user.acao == 'iniciar' ? 'dashtext-2' : 'dashtext-3'%>"> <%= data.conta_user.acao == 'iniciar' ? 'Conectado' : 'Desconectado' %></strong>
+										<strong class="d-block <%= data_conta_b.acao == 'iniciar' ? 'dashtext-2' : 'dashtext-3'%>"> <%= data_conta_b.acao == 'iniciar' ? 'Conectado' : 'Desconectado' %></strong>
 										<span class="d-block">Status de conexão</span>
-										<% if(data.conta_user.acao == 'parar'){%>
+										<% if(data_conta_b.acao == 'parar'){%>
 										<small class="d-block">Atualizado a pouco</small>
 										<%}else{%>
 										<small class="d-block">Próxima atualização em 
@@ -105,7 +105,7 @@
 									</div>
 								</div>
 
-								<% if(data.sessao_status[0].sessao_iniciada == true){%>
+								<% if(data[usuario.id +'_sessao_status'][0].sessao_iniciada == true){%>
 								
 
 								<div class="col-sm-12 col-md-6 text-center margin-t-20-mobile">
@@ -126,12 +126,12 @@
 								<div class="col-sm-12 col-md-5">
 									
 									<div class="form-group">
-										<label class="form-control-label js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">Definir Quantidade de Usuários:</label>
-										<input id="form_trader_qtd_usuarios" type="number" class="form-control" name="limite_usuarios" value="<%= data.trader_limite.limite_usuarios %>" maxlength="6" <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'disabled' : ''%>>
+										<label class="form-control-label js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">Definir Quantidade de Usuários:</label>
+										<input id="form_trader_qtd_usuarios" type="number" class="form-control" name="limite_usuarios" value="<%= data[usuario.id +'_trader_limite'].limite_usuarios %>" maxlength="6" <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'disabled' : ''%>>
 
-										<span class="d-block js-input-change-color margin-t-10 <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>"><i>* Máximo 200 usuários, por sessão.</i></span>
+										<span class="d-block js-input-change-color margin-t-10 <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>"><i>* Máximo 200 usuários, por sessão.</i></span>
 
-										<%if(data.conta_user.acao == 'iniciar'){%>
+										<%if(data_conta_b.acao == 'iniciar'){%>
 										<span class="d-block red-text margin-t-5">* Para Alterar o Número de Usuários desconecte da Sessão</span>
 
 										<%}%>
@@ -140,16 +140,16 @@
 
 								<div class="col-sm-12 col-md-4 text-center">
 									<div class="text">
-										<strong class="d-block <%= data.conta_user.acao == 'iniciar' ? 'dashtext-2' : 'dashtext-3'%>">
-											<% if(data.conta_user.acao == 'iniciar'){%>
-											<%= data.sessao_status[0].quantidade_usuarios %>
+										<strong class="d-block <%= data_conta_b.acao == 'iniciar' ? 'dashtext-2' : 'dashtext-3'%>">
+											<% if(data_conta_b.acao == 'iniciar'){%>
+											<%= data[usuario.id +'_sessao_status'][0].quantidade_usuarios %>
 											<%}else{%>
 											0
 											<%}%>
 										</strong>
 										<span class="d-block">Usuários em Sessão</span>
 
-										<% if(data.conta_user.acao == 'parar'){%>
+										<% if(data_conta_b.acao == 'parar'){%>
 										<small class="d-block">Atualizado a pouco</small>
 										<%}else{%>
 										<small class="d-block">Próxima atualização em 
@@ -191,11 +191,11 @@
 
 							<div class="container_teste_conexao">
 
-								<%if(data.conexao.status == 'conectado' || data.conexao.status == ''){%>
+								<%if(data_conexao_b.status == 'conectado' || data_conexao_b.status == ''){%>
 								<div class="block-body">
 
 									<div class="form-group">
-										<%if(data.conexao.status == 'conectado'){%>
+										<%if(data_conexao_b.status == 'conectado'){%>
 										<label class="form-control-label dashtext-2">Conta verificada Como:</label>
 										<%}else{%>
 										<label class="form-control-label dashtext-5">Testando Conta Como:</label>
@@ -205,19 +205,19 @@
 
 									<div class="form-group"> 
 
-										<button type="button" <%= data.conta_user.acao == 'iniciar' ? 'disabled' : '' %> data-href="/sistema/popup-confirmacao-alterar-testar-conexao" class="btn <%= data.conta_user.acao == 'iniciar' ? 'disabled' : 'btn-primary' %> ajax-submit-open-modal" data-modal='#modalinfo'>Alterar Conta</button>
+										<button type="button" <%= data_conta_b.acao == 'iniciar' ? 'disabled' : '' %> data-href="/sistema/popup-confirmacao-alterar-testar-conexao" class="btn <%= data_conta_b.acao == 'iniciar' ? 'disabled' : 'btn-primary' %> ajax-submit-open-modal" data-modal='#modalinfo'>Alterar Conta</button>
 
 									</div>
 
 								</div>
 
 								<div class="block-body">
-									<% if(data.conexao.status == 'conectado' && data.conta_user.acao != 'iniciar'){%>
+									<% if(data_conexao_b.status == 'conectado' && data_conta_b.acao != 'iniciar'){%>
 									<div class="alert sucess-block fade show justify" id="caixa_alert_conectado">
 										Conta testada com <b>sucesso!</b> Por-favor clique no botão <b>"Conectar"</b> para iniciar a operação.Após confirmar o seu operacional.
 									</div>
 
-									<%}else if(data.conexao.status == ''){%>
+									<%}else if(data_conexao_b.status == ''){%>
 									<div class="alert warning-block fade show" id="caixa_alert_conectado justify">
 										Não se preocupe, a sua conta ainda está sendo testada, tentando novamente em <span class="timer_header_container">
 											<span class="timer_header">59</span>'s
@@ -244,12 +244,12 @@
 							</div>
 
 							<div class="block-body">
-								<% if(data.conexao.status == 'erro de conexao'){%>
+								<% if(data_conexao_b.status == 'erro de conexao'){%>
 								<div class="alert error-block fade show justify" id="caixa_alert_conectado">
 									<b>Usuário</b> ou <b>senha</b> não conferem com a da plataforma! Por-favor verifique os seus dados, e teste a conexão novamente.
 								</div>
 
-								<%}else if(data.conexao.status == 'primeira_vez'){%>
+								<%}else if(data_conexao_b.status == 'primeira_vez'){%>
 								<div class="alert transparent-block justify">
 									Para poder utilizar o sistema, informe nos campos acima os dados da corretora e clique no botão testar conexão! 
 								</div>
@@ -258,7 +258,7 @@
 
 							</div>
 
-							<%if((data.conexao.status == 'primeira_vez') || (data.conexao.status == 'erro de conexao')){%>
+							<%if((data_conexao_b.status == 'primeira_vez') || (data_conexao_b.status == 'erro de conexao')){%>
 							<div class="block-body warning2-block alert">
 								<span class="warning2-block-title">O sistema não aceita a Autenticação em duas etapas!!!</span>
 								<br> <span>Antes de testar a conexão certifique-se que não está ativada a Autenticação em duas etapas da sua conta, na corretora.</span>
@@ -275,17 +275,18 @@
 						<div class="block h-100">
 
 							<div class="title">
-								<strong class="d-block js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">Limites</strong>
-								<span class="d-block js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">Deixe o valor em 0 (zero) se deseja que o usuário defina o valor da entrada!</span>
+								<strong class="d-block js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">Limites</strong>
+								<span class="d-block js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">Deixe o valor em 0 (zero) se deseja que o usuário defina o valor da entrada!</span>
 							</div>
 
 							<div class="block-body">
 								<div class="form-group">       
-									<label class="form-control-label js-input-change-color <%= (data.conexao.status != 'conectado') ? 'color-disabled' : ''%>">Determine o Valor Máximo de Entrada:(R$)</label>
-									<input id="form_trader_liquidez" type="number" class="form-control" name="limite_liquidez" value="<%= data.trader_limite.limite_liquidez %>" <%= (data.conexao.status != 'conectado') ? 'disabled' : ''%>>
+									<label class="form-control-label js-input-change-color <%= (data_conexao_b.status != 'conectado') ? 'color-disabled' : ''%>">Determine o Valor Máximo de Entrada:(R$)</label>
+									<input id="form_trader_liquidez" type="number" class="form-control" name="limite_liquidez" value="<%= data[usuario.id +'_trader_limite'].limite_liquidez %>" <%= (data_conexao_b.status != 'conectado') ? 'disabled' : ''%>>
 								</div>
+					
 
-								<button type="submit" class="btn <%= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado')  ? 'disabled': 'transparent' %> w100px float-right ajax-submit" title="Salvar os Limites dos Usuários" data-href="/sistema/salvar-limites-trader/">Salvar </button>
+								<button type="submit" class="btn <%= (data_conexao_b.email == '' && data_conexao_b.senha == '') || (data_conexao_b.status != 'conectado')  ? 'disabled': 'transparent' %> w100px float-right ajax-submit" title="Salvar os Limites dos Usuários" data-href="/sistema/salvar-limites-trader/">Salvar </button>
 
 							</div>
 
@@ -302,8 +303,8 @@
 		<section class="no-padding-bottom">
 			<div class="container-fluid">
 				<div class="block">
-					<% if(data.conta_user.acao == 'parar'){ %>
-					<button type="button" <%= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado') ? 'disabled' : '' %> data-href="/sistema/iniciar-operacao-trader/" id="botao_iniciar_sistema" class="btn <%= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado')  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit-timer" title="Para Iniciar o Sistema, Teste a conexão antes!" data-conect_teste='conectar'>Conectar</button>
+					<% if(data_conta_b.acao == 'parar'){ %>
+					<button type="button" <%= (data_conexao_b.email == '' && data_conexao_b.senha == '') || (data_conexao_b.status != 'conectado') ? 'disabled' : '' %> data-href="/sistema/iniciar-operacao-trader/" id="botao_iniciar_sistema" class="btn <%= (data_conexao_b.email == '' && data_conexao_b.senha == '') || (data_conexao_b.status != 'conectado')  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit-timer" title="Para Iniciar o Sistema, Teste a conexão antes!" data-conect_teste='conectar'>Conectar</button>
 
 					<%}else {%>
 					<button type="button" id="botao_parar_sistema" data-href="/sistema/parar-operacao/" class="btn btn-danger btn-block margin-t-10 margin-b-10 ajax-submit-timer-5" title="Parar Sistema" data-mensagem-sucesso="Sistema Parado com Sucesso" data-mensagem-sucesso-color="red" data-conect_teste='desconectar'>Desconectar</button>
@@ -329,12 +330,12 @@
 				</form>
 
 				<div class="block-body">
-					<% if (typeof data.mensagem != 'undefined' && data.mensagem.length > 0) {
-						for (var i = 0; i < data.mensagem.length; i++) {%>
+					<% if (typeof data[usuario.id +'_mensagem'] != 'undefined' && data[usuario.id +'_mensagem'].length > 0) {
+						for (var i = 0; i < data[usuario.id +'_mensagem'].length; i++) {%>
 						<div class="alert <%=
-						data.mensagem[i].tipo_mensagem == 1 ? 'sucess-block' : data.mensagem[i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
-						<%= data.mensagem_horario[i]%><%= data.mensagem[i].descricao_mensagem %>
-						<button type="button" data-href="/sistema/limpar-mensagem/<%= data.mensagem[i]._id %>" class="close ajax-submit-close" data-dismiss="alert" aria-label="Close">
+						data[usuario.id +'_mensagem'][i].tipo_mensagem == 1 ? 'sucess-block' : data[usuario.id +'_mensagem'][i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
+						<%= data_mensagem_b[i]%><%= data[usuario.id +'_mensagem'][i].descricao_mensagem %>
+						<button type="button" data-href="/sistema/limpar-mensagem/<%= data[usuario.id +'_mensagem'][i]._id %>" class="close ajax-submit-close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -357,7 +358,7 @@
 
 <script type="text/javascript">
 
-	<% if(data.conta_user.acao == 'iniciar'){ %>
+	<% if(data_conta_b.acao == 'iniciar'){ %>
 	zerarIntervalo();
 	setarPararTimer();
 	timer60sec();
@@ -365,5 +366,4 @@
 	<%}%>
 
 
-
-</script>
+	</script>

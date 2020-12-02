@@ -32,9 +32,8 @@ router.get('/', function(req, res, next) {
 				data.config_sistema = {possui_creditos:true};
 			}
 
-
 			if(data_licenca != null){
-				data.licenca_user = data_licenca;
+				data[req.session.usuario.id + '_licenca_user'] = data_licenca;
 				/*Calcular quantos dias faltam para a licença expirar*/
 				hoje = new Date();
 				data_fim = data_licenca.data_fim;
@@ -45,10 +44,11 @@ router.get('/', function(req, res, next) {
 				diferencaData = data_fim - hoje;
 				console.log('diferencaData: ' + diferencaData);
 				dias_faltantes = Math.floor(diferencaData / (1000 * 60 * 60 * 24)) + 1;
-				data.licenca_user_dias = dias_faltantes;
+
+				data[req.session.usuario.id + '_licenca_user_dias'] = dias_faltantes;	
 			}else{
-				data.licenca_user = {creditos:0,licenca_user_dias:-1,status:1};
-				data.licenca_user_dias = -1;
+				data[req.session.usuario.id + '_licenca_user'] = {creditos:0,licenca_user_dias:-1,status:1};
+				data[req.session.usuario.id + '_licenca_user_dias'] = -1;
 			}
 
 			console.log('ddddddddddddddddddddddddddddddddd');

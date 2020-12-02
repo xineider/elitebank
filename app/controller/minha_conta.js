@@ -40,7 +40,8 @@ router.get('/', function(req, res, next) {
 		licencaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_licenca){
 
 			mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),"tipo_mensagem":3},function(err,data_mensagem){
-				data.mensagem = data_mensagem;
+				
+				data[req.session.usuario.id + '_mensagem'] = data_mensagem;
 
 				console.log('------------------------------- data mensagem ----------------------');
 				console.log(data_mensagem);
@@ -95,22 +96,20 @@ router.get('/', function(req, res, next) {
 				console.log('arrayMensagemData');
 				console.log(arrayMensagemData);
 
-				data.mensagem_horario = arrayMensagemData;
-
-
+				data[req.session.usuario.id + '_mensagem_horario'] = arrayMensagemData;
 
 				if(data_licenca != null){
-					data.licenca_user = data_licenca;
+					data[req.session.usuario.id + '_licenca_user'] = data_licenca;
 					/*Calcular quantos dias faltam para a licença expirar*/
 					hoje = new Date();
 					data_fim = data_licenca.data_fim;
 					data_fim.setDate(data_fim.getDate() + 1);
 					diferencaData = data_fim - hoje;
 					dias_faltantes = Math.floor(diferencaData / (1000 * 60 * 60 * 24)) + 1;
-					data.licenca_user_dias = dias_faltantes;
+					data[req.session.usuario.id + '_licenca_user_dias'] = dias_faltantes;
 				}else{
-					data.licenca_user = {creditos:0,licenca_user_dias:0,status:1};
-					data.licenca_user_dias = 0;
+					data[req.session.usuario.id + '_licenca_user'] = {creditos:0,licenca_user_dias:0,status:1};
+					data[req.session.usuario.id + '_licenca_user_dias'] = -1;
 				}
 
 				console.log('ddddddddddddddddddddddddddddddd');

@@ -8,7 +8,7 @@
 		</div>
 	</div>
 
-	<% if(data.conta_user.acao == 'iniciar' || (data.conta_user.acao == 'iniciar' && data.conta_user.status != 'desconectado')){ %>
+	<% if(data_conta_b.acao == 'iniciar' || (data_conta_b.acao == 'iniciar' && data_conta_b.status != 'desconectado')){ %>
 
 	<section class="margin-bottom-sm">
 		<div class="container-fluid">
@@ -26,14 +26,14 @@
 
 	<%- include('primeira_vez'); %>
 
-	<%if((data.licenca_user_dias < 0 || (data.licenca_user.creditos == 0 && data.config_sistema[0].possui_creditos == true)) && data.conta_user.primeira_vez == undefined){%>
+	<%if((data[usuario.id +'_licenca_user_dias'] < 0 || (data[usuario.id +'_licenca_user'].creditos == 0 && data.config_sistema[0].possui_creditos == true)) && data_conta_b.primeira_vez == undefined){%>
 
 	<section class="no-padding-top no-padding-bottom">
 		<div class="container-fluid">
 			<div class="alert error-block">
 				<div class="text-center">
 					<div class="text-center">
-						<%if( data.licenca_user.creditos == 0 && data.config_sistema[0].possui_creditos == true){%>
+						<%if( data[usuario.id +'_licenca_user'].creditos == 0 && data.config_sistema[0].possui_creditos == true){%>
 						<h5>OhOh! Seu saldo está zerado.</h5>
 						Insira seu código de transação da recarga recebido no seu e-mail no campo abaixo, ou acesse o menu <a class="ajax-load dashtext-6" href="/sistema/recarga">recarregar</a> e escolha uma das opções de crédito:
 						<%}else{%>
@@ -97,11 +97,11 @@
 
 							<div class="container_teste_conexao">
 
-								<%if(data.conexao.status == 'conectado' || data.conexao.status == ''){%>
+								<%if(data_conexao_b.status == 'conectado' || data_conexao_b.status == ''){%>
 								<div class="block-body">
 
 									<div class="form-group">
-										<%if(data.conexao.status == 'conectado'){%>
+										<%if(data_conexao_b.status == 'conectado'){%>
 										<label class="form-control-label dashtext-2">Conta verificada Como:</label>
 										<%}else{%>
 										<label class="form-control-label dashtext-5">Testando Conta Como:</label>
@@ -111,19 +111,19 @@
 
 									<div class="form-group"> 
 
-										<button type="button" <%= data.conta_user.acao == 'iniciar' ? 'disabled' : '' %> data-href="/sistema/popup-confirmacao-alterar-testar-conexao" class="btn <%= data.conta_user.acao == 'iniciar' ? 'disabled' : 'btn-primary' %> ajax-submit-open-modal" data-modal='#modalinfo'>Alterar Conta</button>
+										<button type="button" <%= data_conta_b.acao == 'iniciar' ? 'disabled' : '' %> data-href="/sistema/popup-confirmacao-alterar-testar-conexao" class="btn <%= data_conta_b.acao == 'iniciar' ? 'disabled' : 'btn-primary' %> ajax-submit-open-modal" data-modal='#modalinfo'>Alterar Conta</button>
 
 									</div>
 
 								</div>
 
 								<div class="block-body">
-									<% if(data.conexao.status == 'conectado' && data.conta_user.acao != 'iniciar'){%>
+									<% if(data_conexao_b.status == 'conectado' && data_conta_b.acao != 'iniciar'){%>
 									<div class="alert sucess-block fade show justify" id="caixa_alert_conectado">
 										Conta testada com <b>sucesso!</b> Por-favor clique no botão <b>"Conectar"</b> para iniciar a operação.Após confirmar o seu operacional.
 									</div>
 
-									<%}else if(data.conexao.status == ''){%>
+									<%}else if(data_conexao_b.status == ''){%>
 									<div class="alert warning-block fade show" id="caixa_alert_conectado justify">
 										Não se preocupe, a sua conta ainda está sendo testada, tentando novamente em <span class="timer_header_container">
 											<span class="timer_header">59</span>'s
@@ -147,12 +147,12 @@
 							</div>
 
 							<div class="block-body">
-								<% if(data.conexao.status == 'erro de conexao'){%>
+								<% if(data_conexao_b.status == 'erro de conexao'){%>
 								<div class="alert error-block fade show justify" id="caixa_alert_conectado">
 									<b>Usuário</b> ou <b>senha</b> não conferem com a da plataforma! Por-favor verifique os seus dados, e teste a conexão novamente.
 								</div>
 
-								<%}else if(data.conexao.status == 'primeira_vez'){%>
+								<%}else if(data_conexao_b.status == 'primeira_vez'){%>
 								<div class="alert transparent-block justify">
 									Para poder utilizar o sistema, informe nos campos acima os dados da corretora e clique no botão testar conexão! 
 								</div>
@@ -162,7 +162,7 @@
 							</div>
 
 
-							<%if((data.conexao.status == 'primeira_vez') || (data.conexao.status == 'erro de conexao')){%>
+							<%if((data_conexao_b.status == 'primeira_vez') || (data_conexao_b.status == 'erro de conexao')){%>
 							<div class="block-body warning2-block alert">
 								<span class="warning2-block-title">O sistema não aceita a Autenticação em duas etapas!!!</span>
 								<br> <span>Antes de testar a conexão certifique-se que não está ativada a Autenticação em duas etapas da sua conta, na corretora.</span>
@@ -176,42 +176,42 @@
 					<div class="col-lg-6 margin-b-30">
 						<div class="block h-100">
 							<div class="title">
-								<strong class="d-block js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">Operacional</strong>
-								<span class="d-block js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">Defina as configurações de operaçao.</span>
+								<strong class="d-block js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">Operacional</strong>
+								<span class="d-block js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">Defina as configurações de operaçao.</span>
 							</div>
 
 							<div class="block-body">
 								<div class="i-checks">
-									<input type="checkbox" class="checkbox-template" id="alterar_operacional_porcentagem" name="tipo_banca" value="1" <%= data.conta_user.tipo_banca == 'percentual' ? 'checked' : '' %> <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'disabled' : ''%>>
-									<label class="form-check-label js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">Configurar operacional em porcentagem</label>
+									<input type="checkbox" class="checkbox-template" id="alterar_operacional_porcentagem" name="tipo_banca" value="1" <%= data_conta_b.tipo_banca == 'percentual' ? 'checked' : '' %> <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'disabled' : ''%>>
+									<label class="form-check-label js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">Configurar operacional em porcentagem</label>
 								</div>
 							</div>
 
 
 							<div class="form-group margin-t-10">
-								<label class="form-control-label js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">Valor da Entrada:(<span class="label_percentual_real"><%= data.conta_user.tipo_banca == 'percentual' ? '%' : 'R$' %></span>)</label>
-								<input id="form_operacional_entrada" type="number" class="form-control" name="valor_entrada" value="<%= data.conta_user.valor_entrada %>" maxlength="6" <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'disabled' : ''%>>
+								<label class="form-control-label js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">Valor da Entrada:(<span class="label_percentual_real"><%= data_conta_b.tipo_banca == 'percentual' ? '%' : 'R$' %></span>)</label>
+								<input id="form_operacional_entrada" type="number" class="form-control" name="valor_entrada" value="<%= data_conta_b.valor_entrada %>" maxlength="6" <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'disabled' : ''%>>
 							</div>
 
 							<div class="form-group">
-								<label class="form-control-label js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">Stop Loss:(<span class="label_percentual_real"><%= data.conta_user.tipo_banca == 'percentual' ? '%' : 'R$' %></span>)</label>
+								<label class="form-control-label js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">Stop Loss:(<span class="label_percentual_real"><%= data_conta_b.tipo_banca == 'percentual' ? '%' : 'R$' %></span>)</label>
 								
-								<input id="form_operacional_limite_perda" type="number" class="form-control" name="limite_perda" value="<%= data.conta_user.limite_perda %>" <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'disabled' : ''%>>
+								<input id="form_operacional_limite_perda" type="number" class="form-control" name="limite_perda" value="<%= data_conta_b.limite_perda %>" <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'disabled' : ''%>>
 							</div>
 
 							<div class="title">
-								<strong class="d-block js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">Tipo de Conta</strong>
+								<strong class="d-block js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">Tipo de Conta</strong>
 							</div>
 
 							<div class="form-check margin-t-10">
-								<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_conta" <%= data.conta_user.conta_real == false ? 'checked' : '' %> value="0" <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'disabled' : ''%>>
-								<label class="form-check-label js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">
+								<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_conta" <%= data_conta_b.conta_real == false ? 'checked' : '' %> value="0" <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'disabled' : ''%>>
+								<label class="form-check-label js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">
 									Treinamento
 								</label>
 							</div>
 							<div class="form-check margin-t-10">
-								<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_conta" <%= data.conta_user.conta_real == true ? 'checked' : '' %> value="1" <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'disabled' : ''%>>
-								<label class="form-check-label js-input-change-color <%= (data.conexao.status != 'conectado') || (data.conta_user.acao != 'parar') ? 'color-disabled' : ''%>">
+								<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_conta" <%= data_conta_b.conta_real == true ? 'checked' : '' %> value="1" <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'disabled' : ''%>>
+								<label class="form-check-label js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">
 									Real
 								</label>
 							</div>
@@ -228,10 +228,10 @@
 		<section class="no-padding-bottom">
 			<div class="container-fluid">
 				<div class="block">
-					<% if(data.conta_user.acao == 'parar' || data.conta_user.status == 'desconectado'){ %>
-					<button type="button" <%= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado') ? 'disabled' : '' %> data-href="/sistema/popup-confirmacao-iniciar-operacao/" id="botao_iniciar_sistema" class="btn <%= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado')  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit-open-modal" title="Para Iniciar o Sistema, Teste a conexão antes!" data-modal='#modalinfo'>Conectar</button>
+					<% if(data_conta_b.acao == 'parar' || data_conta_b.status == 'desconectado'){ %>
+					<button type="button" <%= (data_conexao_b.email == '' && data_conexao_b.senha == '') || (data_conexao_b.status != 'conectado') ? 'disabled' : '' %> data-href="/sistema/popup-confirmacao-iniciar-operacao/" id="botao_iniciar_sistema" class="btn <%= (data_conexao_b.email == '' && data_conexao_b.senha == '') || (data_conexao_b.status != 'conectado')  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit-open-modal" title="Para Iniciar o Sistema, Teste a conexão antes!" data-modal='#modalinfo'>Conectar</button>
 
-					<!-- 						<button type="button" <%#= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado') ? 'disabled' : '' %> data-href="/sistema/iniciar-operacao/" id="botao_iniciar_sistema" class="btn <%#= (data.conexao.email == '' && data.conexao.senha == '') || (data.conexao.status != 'conectado')  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit" title="Para Iniciar o Sistema, Teste a conexão antes!" data-conect_teste='conectar' data-action="/sistema">Conectar</button> -->
+					<!-- 						<button type="button" <%#= (data_conexao_b.email == '' && data_conexao_b.senha == '') || (data_conexao_b.status != 'conectado') ? 'disabled' : '' %> data-href="/sistema/iniciar-operacao/" id="botao_iniciar_sistema" class="btn <%#= (data_conexao_b.email == '' && data_conexao_b.senha == '') || (data_conexao_b.status != 'conectado')  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit" title="Para Iniciar o Sistema, Teste a conexão antes!" data-conect_teste='conectar' data-action="/sistema">Conectar</button> -->
 
 
 					<%}else {%>
@@ -259,14 +259,14 @@
 				</form>
 
 				<div class="block-body">
-					<% if (typeof data.mensagem != 'undefined' && data.mensagem.length > 0) {
-						for (var i = 0; i < data.mensagem.length; i++) {%>
+					<% if (typeof data[usuario.id +'_mensagem'] != 'undefined' && data[usuario.id +'_mensagem'].length > 0) {
+						for (var i = 0; i < data[usuario.id +'_mensagem'].length; i++) {%>
 
 
 						<div class="alert <%=
-						data.mensagem[i].tipo_mensagem == 1 ? 'sucess-block' : data.mensagem[i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
-						<%= data_mensagem_b[i]%><%= data.mensagem[i].descricao_mensagem %>
-						<button type="button" data-href="/sistema/limpar-mensagem/<%= data.mensagem[i]._id %>" class="close ajax-submit-close" data-dismiss="alert" aria-label="Close" data-action="/sistema">
+						data[usuario.id +'_mensagem'][i].tipo_mensagem == 1 ? 'sucess-block' : data[usuario.id +'_mensagem'][i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
+						<%= data_mensagem_b[i]%><%= data[usuario.id +'_mensagem'][i].descricao_mensagem %>
+						<button type="button" data-href="/sistema/limpar-mensagem/<%= data[usuario.id +'_mensagem'][i]._id %>" class="close ajax-submit-close" data-dismiss="alert" aria-label="Close" data-action="/sistema">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -284,14 +284,8 @@
 </div>
 
 
-<%- console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');%>
-<%- console.log(data.conexao.email); %>
-<%- console.log(data_conexao_b.email); %>
-<%- console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');%>
-
-
 <script type="text/javascript">
-	<% if(data.conta_user.acao == 'iniciar' || data.conexao.status == ''){ %>
+	<% if(data_conta_b.acao == 'iniciar' || data_conexao_b.status == ''){ %>
 	zerarIntervalo();
 	setarPararTimer();
 	timer60sec();

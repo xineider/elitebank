@@ -7,24 +7,24 @@
 
 				<%if (data.config_sistema[0].possui_creditos == true){%>
 				<div class="col-lg-4 col-xl-4">
-					<div class="stats-with-chart-1 block <%= data.licenca_user.creditos >= 30 && data.licenca_user.creditos < 50 ? 'dashborder-5' : data.licenca_user.creditos < 30 && data.conta_user.primeira_vez != true ? 'error_border' : '' %>">
+					<div class="stats-with-chart-1 block <%= data[usuario.id +'_licenca_user'].creditos >= 30 && data[usuario.id +'_licenca_user'].creditos < 50 ? 'dashborder-5' : data[usuario.id +'_licenca_user'].creditos < 30 && data_conta_b.primeira_vez != true ? 'error_border' : '' %>">
 						<div class="title"> <strong class="d-block">Créditos</strong></div>
 						<div class="row d-flex align-items-end justify-content-between">
 							<div class="col-sm-12">
 								<div class="text">
-									<strong class="d-block dashtext-3">$$ <%= data.licenca_user.creditos %></strong>
+									<strong class="d-block dashtext-3">$$ <%= data[usuario.id +'_licenca_user'].creditos %></strong>
 
-									<% if(data.licenca_user.creditos <= 0 && data.conta_user.primeira_vez != true){%>
+									<% if(data[usuario.id +'_licenca_user'].creditos <= 0 && data_conta_b.primeira_vez != true){%>
 									<span class="error-block padding-5 margin-b-10 margin-t-10">
 										Saldo - Você está sem crédito, vá para a página de <a class="ajax-load dashtext-6" href="/sistema/recarga"> recarga</a> para recarregar.
 									</span>
 									<%}%>
-									<% if(data.licenca_user.creditos > 0 && data.licenca_user.creditos < 30){%>
+									<% if(data[usuario.id +'_licenca_user'].creditos > 0 && data[usuario.id +'_licenca_user'].creditos < 30){%>
 									<span class="error-block padding-5 margin-b-10 margin-t-10">
 										Saldo restante - Seus créditos estão acabando, vá para a página de <a class="ajax-load dashtext-6" href="/sistema/recarga"> recarga</a> para recarregar.
 									</span>
 
-									<%}else if(data.licenca_user.creditos >= 30 && data.licenca_user.creditos < 50) {%>
+									<%}else if(data[usuario.id +'_licenca_user'].creditos >= 30 && data[usuario.id +'_licenca_user'].creditos < 50) {%>
 									<span class="warning-block padding-5 margin-b-10 margin-t-10">
 										Saldo restante - Não fique fora da operação, programe a sua recarga, acesse a página de <a class="ajax-load dashtext-7" href="/sistema/recarga">recarga </a> para recarregar.
 									</span>
@@ -34,19 +34,19 @@
 									<%}%>
 
 
-									<%if(data.licenca_user_dias < 0 && data.conta_user.primeira_vez == undefined){ %>
+									<%if(data[usuario.id +'_licenca_user_dias'] < 0 && data_conta_b.primeira_vez == undefined){ %>
 									
 									<span class="d-block dashtext-5">Liçenca expirada!! <a href="https://www.hotmart.com/pt-BR" target="_blank" class="dashtext-3">Clique aqui</a> para adquirir uma nova liçenca. </span>
 									
 									
-									<%} else if(data.licenca_user_dias >= 0){%>
-									<span class="d-block"><span class="dashtext-3"><%= data.licenca_user_dias %></span> dia(s) restantes de liçenca de uso do sistema</span>								
+									<%} else if(data[usuario.id +'_licenca_user_dias'] >= 0){%>
+									<span class="d-block"><span class="dashtext-3"><%= data[usuario.id +'_licenca_user_dias'] %></span> dia(s) restantes de liçenca de uso do sistema</span>								
 									
 									<%}else{%>
 									<span class="d-block">Você não possui licença.</span>
 									<%}%>
 
-									<% if(data.conta_user.acao == 'parar'){%>
+									<% if(data_conta_b.acao == 'parar'){%>
 									<small class="d-block">Atualizado a pouco</small>
 									<%}else{%>
 									<small class="d-block">Próxima atualização em 
@@ -65,16 +65,16 @@
 				<%}else{%>
 
 				<div class="col-lg-4 col-xl-4">
-					<div class="stats-with-chart-1 block <%= data.licenca_user_dias >= 7 && data.licenca_user_dias < 15 ? 'dashborder-5' : data.licenca_user_dias < 7 && data.conta_user.primeira_vez != true ? 'error_border' : '' %>">
+					<div class="stats-with-chart-1 block <%= data[usuario.id +'_licenca_user_dias'] >= 7 && data[usuario.id +'_licenca_user_dias'] < 15 ? 'dashborder-5' : data[usuario.id +'_licenca_user_dias'] < 7 && data_conta_b.primeira_vez != true ? 'error_border' : '' %>">
 						<div class="title"> <strong class="d-block">Liçenca</strong></div>
 						<div class="row d-flex align-items-end justify-content-between">
 							<div class="col-sm-12">
 								<div class="text">
 
-									<% if(data.licenca_user_dias >= 0){%>
-									<strong class="d-block dashtext-3"><%= data.licenca_user_dias %> dias</strong>
+									<% if(data[usuario.id +'_licenca_user_dias'] >= 0){%>
+									<strong class="d-block dashtext-3"><%= data[usuario.id +'_licenca_user_dias'] %> dias</strong>
 									
-									<%}else if(data.licenca_user_dias < 0 && data.conta_user.primeira_vez == undefined){ %>
+									<%}else if(data[usuario.id +'_licenca_user_dias'] < 0 && data_conta_b.primeira_vez == undefined){ %>
 									
 									<span class="d-block dashtext-5">Liçenca expirada!! <a href="https://www.hotmart.com/pt-BR" target="_blank" class="dashtext-3">Clique aqui</a> para adquirir uma nova liçenca. </span>
 									
@@ -82,7 +82,7 @@
 									<span class="d-block">Você não possui licença.</span>
 									<%}%>
 
-									<% if(data.conta_user.acao == 'parar'){%>
+									<% if(data_conta_b.acao == 'parar'){%>
 									<small class="d-block">Atualizado a pouco</small>
 									<%}else{%>
 									<small class="d-block">Próxima atualização em 
@@ -105,23 +105,23 @@
 				<%}%>
 
 				<div class="col-lg-4 col-xl-4">   
-					<div class="stats-with-chart-1 block <%= data.conta_user.status == 'standby' && data.conta_user.acao == 'iniciar' ? 'dashborder-5' : data.conta_user.status == 'conectado' ? 'border-sucess sucess-block-trader-color' : ''%>">
+					<div class="stats-with-chart-1 block <%= data_conta_b.status == 'standby' && data_conta_b.acao == 'iniciar' ? 'dashborder-5' : data_conta_b.status == 'conectado' ? 'border-sucess sucess-block-trader-color' : ''%>">
 						<div class="title"> <strong class="d-block">Status</strong></div>
 						<div class="row d-flex align-items-end justify-content-between">
 							<div class="col-sm-12">
 								<div class="text">
-									<strong class="d-block <%= data.conta_user.status == 'conectado' ? 'dashtext-2' : 
-									data.conta_user.status == 'standby' && data.conta_user.acao == 'iniciar' ? 'dashtext-5':
+									<strong class="d-block <%= data_conta_b.status == 'conectado' ? 'dashtext-2' : 
+									data_conta_b.status == 'standby' && data_conta_b.acao == 'iniciar' ? 'dashtext-5':
 									'dashtext-3'%>"> 
-									<%= data.conta_user.status == 'conectado' ? 'Conectado' : 
-									data.conta_user.status ==  'standby' && data.conta_user.acao == 'iniciar' ? 'Aguardando Trader':
+									<%= data_conta_b.status == 'conectado' ? 'Conectado' : 
+									data_conta_b.status ==  'standby' && data_conta_b.acao == 'iniciar' ? 'Aguardando Trader':
 									'Desconectado' %>
 
 
 
 								</strong>
 								<span class="d-block">Status de conexão</span>
-								<% if(data.conta_user.acao == 'parar' || data.conta_user.status == 'desconectado'){%>
+								<% if(data_conta_b.acao == 'parar' || data_conta_b.status == 'desconectado'){%>
 								<small class="d-block">Atualizado a pouco</small>
 								<%}else{%>
 								<small class="d-block">Próxima atualização em 
@@ -130,7 +130,7 @@
 									</span>
 								</small>
 
-								<%if(data.conta_user.status ==  'standby'){%>
+								<%if(data_conta_b.status ==  'standby'){%>
 								<i class="margin-t-10 red-text">Por motivo de liquidez do mercado, todos participam de uma fila aleatória. Mas não se preocupe, a operação só encerra depois que todos participarem.</i>
 
 								<%}
@@ -149,14 +149,14 @@
 				<div class="row d-flex align-items-end justify-content-between">
 
 					<div class="col-sm-12 col-md-5">
-						<div class="text"><strong class="d-block dashtext-2"><%= data.acertividade.entradas %></strong>
+						<div class="text"><strong class="d-block dashtext-2"><%= data[usuario.id +'_acertividade'].entradas %></strong>
 							<span class="d-block">Entradas</span>
 							<small class="d-block">Ações realizadas</small>
 						</div>
 					</div>
 					<div class="col-sm-12 col-md-5">
 						<div class="text">
-							<strong class="d-block dashtext-2"><%= data.acertividade.porcentagem %>%</strong>
+							<strong class="d-block dashtext-2"><%= data[usuario.id +'_acertividade'].porcentagem %>%</strong>
 							<span class="d-block">Acertividade</span>
 							<small class="d-block">Relatório geral</small>
 						</div>

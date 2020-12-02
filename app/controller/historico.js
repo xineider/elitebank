@@ -27,9 +27,9 @@ router.get('/', function(req, res, next) {
 	contaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conta){
 
 		if(data_conta !=null){
-			data.conta_user = data_conta;
+			data[req.session.usuario.id + '_conta'] = data_conta;
 		}else{
-			data.conta_user = {conta_real:true,email:'',senha:'',tipo_banca:0,valor_entrada:100,limite_perda:50,acao:'parar',status:'desconectado'};
+			data[req.session.usuario.id + '_conta'] = {conta_real:true,email:'',senha:'',tipo_banca:0,valor_entrada:100,limite_perda:50,acao:'parar',status:'desconectado'};
 		}
 
 
@@ -119,36 +119,24 @@ router.get('/', function(req, res, next) {
 							maior_valor = maior_valor + 5;
 						}
 
-						
-
-						data.maior_valor = maior_valor;
-						data.grafico = data_grafico;
-						data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
+					
 
 						data_acertividade_f = {total_operacoes:data_entradas.length,total_acertos:acertos};
 
 					}else{
-						data.grafico = {dias:[0],operacoes:[0],acertos:[0]};
-						data.acertividade = {total_operacoes:0,total_acertos:0};
-						data.maior_valor = 0;
 
 						data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
 						maior_valor = 0;
 						data_acertividade_f = {total_operacoes:0,total_acertos:0};
 					}
 				}else{
-					data.grafico = {dias:[0],operacoes:[0],acertos:[0]};
-					data.acertividade = {total_operacoes:0,total_acertos:acertos};
-					data.maior_valor = 0;
 
 					data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
 					maior_valor = 0;
 					data_acertividade_f = {total_operacoes:0,total_acertos:0};
 				}
 			}else{
-				data.grafico = {dias:[0],operacoes:[0],acertos:[0]};
-				data.acertividade = {total_operacoes:0,total_acertos:acertos};
-				data.maior_valor = 0;
+
 
 				data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
 				maior_valor = 0;
@@ -273,25 +261,14 @@ router.get('/ultimos-30dias', function(req, res, next) {
 					maior_valor = maior_valor + 5;
 				}
 
-				data.maior_valor = maior_valor;
-
-				data.grafico = data_grafico;
-				data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
-
 				data_acertividade_f = {total_operacoes:data_entradas.length,total_acertos:acertos};
 			}else{
-				data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
-				data.acertividade = {total_operacoes:0,total_acertos:0};
-				data.maior_valor = 0;
 
 				data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
 				maior_valor = 0;
 				data_acertividade_f = {total_operacoes:0,total_acertos:0};
 			}
 		}else{
-			data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
-			data.acertividade = {total_operacoes:0,total_acertos:acertos};
-			data.maior_valor = 0;
 
 			data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
 			maior_valor = 0;
@@ -301,10 +278,6 @@ router.get('/ultimos-30dias', function(req, res, next) {
 		}
 
 	}else{
-		data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
-		data.acertividade = {total_operacoes:0,total_acertos:acertos};
-		data.maior_valor = 0;
-
 
 		data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
 		maior_valor = 0;
@@ -430,25 +403,14 @@ router.get('/ultimos-7dias', function(req, res, next) {
 					maior_valor = maior_valor + 5;
 				}
 
-				data.maior_valor = maior_valor;
-				data.grafico = data_grafico;
-				data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
-
 				data_acertividade_f = {total_operacoes:data_entradas.length,total_acertos:acertos};
 
 			}else{
-				data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
-				data.acertividade = {total_operacoes:0,total_acertos:0};
-				data.maior_valor = 0;
-
 				data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
 				maior_valor = 0;
 				data_acertividade_f = {total_operacoes:0,total_acertos:0};
 			}
 		}else{
-			data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
-			data.acertividade = {total_operacoes:0,total_acertos:acertos};
-			data.maior_valor = 0;
 
 			data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
 			maior_valor = 0;
@@ -605,25 +567,15 @@ router.post('/filtrar-data', function(req, res, next) {
 										maior_valor = maior_valor + 5;
 									}
 
-									data.maior_valor = maior_valor;
-									data.grafico = data_grafico;
-									data.acertividade = {total_operacoes:data_entradas.length,total_acertos:acertos};
+
 									data_acertividade_f = {total_operacoes:data_entradas.length,total_acertos:acertos};
 
 								}else{
-									data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
-									data.acertividade = {total_operacoes:0,total_acertos:0};
-									data.maior_valor = 0;
-
 									data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
 									maior_valor = 0;
 									data_acertividade_f = {total_operacoes:0,total_acertos:0};
 								}
 							}else{
-								data.grafico = {dias:[0],operacoes:[0],acertos:[0]}
-								data.acertividade = {total_operacoes:0,total_acertos:acertos};
-								data.maior_valor = 0;
-
 								data_grafico = {dias:[0],operacoes:[0],acertos:[0]};
 								maior_valor = 0;
 								data_acertividade_f = {total_operacoes:0,total_acertos:0};

@@ -95,7 +95,7 @@
 
 
 <script type="text/javascript">
-	<% if(data.conta_user.acao == 'iniciar'){ %>
+	<% if(data[usuario.id +'_conta'].acao == 'iniciar'){ %>
 	zerarIntervalo();
 	setarPararTimer();
 	timer120sec('/sistema/historico');

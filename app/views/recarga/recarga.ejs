@@ -23,7 +23,7 @@
 						<div class="block-body public-user-block">
 							<div class="row">
 								<div class="col-lg-5">
-									<strong>Saldo atual: <div class="contributions">S$ <%= data.licenca_user.creditos %></div>
+									<strong>Saldo atual: <div class="contributions">S$ <%= data[usuario.id +'_licenca_user'].creditos %></div>
 									</strong>
 								</div>
 								<div class="col-lg-7">Precisa de saldo? Selecione uma das opções abaixo para recarregar.</div>
@@ -98,7 +98,7 @@
 						<div class="block-body public-user-block">
 							<div class="row">
 								<div class="col-lg-5">
-									<strong>Dias de Licença restante: <div class="contributions"><%= data.licenca_user_dias > 0 ? data.licenca_user_dias : 'Expirada'%></div>
+									<strong>Dias de Licença restante: <div class="contributions"><%= data[usuario.id +'_licenca_user_dias'] > 0 ? data[usuario.id +'_licenca_user_dias'] : 'Expirada'%></div>
 									</strong>
 								</div>
 								<div class="col-lg-7">Licença acabando? Selecione uma das opções abaixo para recarregar a licença.</div>

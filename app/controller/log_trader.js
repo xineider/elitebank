@@ -21,7 +21,8 @@ router.get('/', function(req, res, next) {
 	console.log('req.session.usuario');
 	console.log(req.session.usuario);
 	mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_mensagem){
-		data.mensagem = data_mensagem;
+		
+		data[req.session.usuario.id + '_mensagem'] = data_mensagem;
 
 		arrayMensagemData = [];
 
@@ -72,7 +73,9 @@ router.get('/', function(req, res, next) {
 		console.log('arrayMensagemData');
 		console.log(arrayMensagemData);
 
-		data.mensagem_horario = arrayMensagemData;
+		data[req.session.usuario.id + '_mensagem_horario'] = arrayMensagemData;
+
+
 		res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'logTrader/logTrader', data: data, usuario: req.session.usuario});
 	});
 });

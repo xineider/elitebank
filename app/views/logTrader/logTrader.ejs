@@ -25,11 +25,11 @@
 					</form>
 
 					<div class="block-body">
-						<% if (typeof data.mensagem != 'undefined' && data.mensagem.length > 0) {
-							for (var i = 0; i < data.mensagem.length; i++) {%>
+						<% if (typeof data[usuario.id +'_mensagem'] != 'undefined' && data[usuario.id +'_mensagem'].length > 0) {
+							for (var i = 0; i < data[usuario.id +'_mensagem'].length; i++) {%>
 							<div class="alert <%=
-							data.mensagem[i].tipo_mensagem == 1 ? 'sucess-block' : data.mensagem[i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
-							<%= data.mensagem_horario[i]%><%= data.mensagem[i].descricao_mensagem %>
+							data[usuario.id +'_mensagem'][i].tipo_mensagem == 1 ? 'sucess-block' : data[usuario.id +'_mensagem'][i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
+							<%= data[usuario.id +'_mensagem_horario'][i]%><%= data[usuario.id +'_mensagem'][i].descricao_mensagem %>
 						</div>
 						<%}
 					}else{%>

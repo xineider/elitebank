@@ -74,41 +74,41 @@ router.get('/', function(req, res, next) {
 
 			licencaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_licenca){
 
-				if(data_licenca != null){
-					data.licenca_user = data_licenca;					
+				if(data_licenca != null){	
+					data[req.session.usuario.id + '_licenca_user'] = data_licenca;				
 					hoje = new Date();
 					data_fim = data_licenca.data_fim;
 					data_fim.setDate(data_fim.getDate() + 1);
 					diferencaData = data_fim - hoje;
 					dias_faltantes = Math.floor(diferencaData / (1000 * 60 * 60 * 24)) + 1;
-					data.licenca_user_dias = dias_faltantes;
+					data[req.session.usuario.id + '_licenca_user_dias'] = dias_faltantes;
 					req.session.usuario.creditos = data_licenca.creditos;
 					req.session.usuario.licenca_data = data_fim;
 					req.session.usuario.licenca_dias = dias_faltantes;
 				}else{
-					data.licenca_user = {creditos:0,licenca_user_dias:-1,status:1};
-					data.licenca_user_dias = -1;
+					data[req.session.usuario.id + '_licenca_user'] = {creditos:0,licenca_user_dias:-1,status:1};
+					data[req.session.usuario.id + '_licenca_user_dias'] = -1;
 				}
 
 				contaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conta){
 					if(data_conta !=null){
-						data.conta_user = data_conta;
+						data[req.session.usuario.id+'_conta_user']= data_conta;
 					}else{
-						data.conta_user = {conta_real:false,email:'',senha:'',tipo_banca:0,valor_entrada:100,limite_perda:200,acao:'parar',status:'desconectado',primeira_vez:true};
+						data_conta = {conta_real:false,email:'',senha:'',tipo_banca:0,valor_entrada:100,limite_perda:200,acao:'parar',status:'desconectado',primeira_vez:true};
+						data[req.session.usuario.id+'_conta_user']= {conta_real:false,email:'',senha:'',tipo_banca:0,valor_entrada:100,limite_perda:200,acao:'parar',status:'desconectado',primeira_vez:true};
 					}
 
 					teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
 
 						if(data_conexao != null){
-							data.conexao = data_conexao;
+							
 						}else{
-							data.conexao = {email:'',senha:'',status:'primeira_vez'};
-
 							data_conexao = {email:'',senha:'',status:'primeira_vez'};
 						}
 
 						mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'deletado':0},function(err,data_mensagem){
-							data.mensagem = data_mensagem;
+							
+							data[req.session.usuario.id + '_mensagem'] = data_mensagem;
 
 							arrayMensagemData = [];
 
@@ -157,16 +157,6 @@ router.get('/', function(req, res, next) {
 
 							}
 
-							var id_user = req.session.usuario.id;
-					
-
-							data[id_user+'_mensagem_horario']= arrayMensagemData;
-							data[id_user+'_acertividade']= {entradas:0,porcentagem:100};
-
-
-							data.mensagem_horario = arrayMensagemData;
-
-							data.acertividade = {entradas:0,porcentagem:100};
 
 							ts = Math.round(new Date().getTime() / 1000);
 							tsYesterday = ts - (24 * 3600);
@@ -193,13 +183,14 @@ router.get('/', function(req, res, next) {
 									porcentagem_round = 100;
 								}
 
-								data.acertividade = {entradas:data_acertividade.length,porcentagem:porcentagem_round};
+
+								data[req.session.usuario.id+'_acertividade']= {entradas:data_acertividade.length,porcentagem:porcentagem_round};
 
 								console.log('00000000000000 data 000000000000000000000');
 								console.log(data);
 								console.log('00000000000000000000000000000000000000000');
 
-								res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/index', data: data, usuario: req.session.usuario,data_conexao_b:data_conexao,data_mensagem_b:arrayMensagemData});
+								res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/index', data: data, usuario: req.session.usuario,data_conexao_b:data_conexao,data_mensagem_b:arrayMensagemData,data_conta_b:data_conta});
 							});
 						}).sort({'data_registro':-1}).limit(20);
 					}).sort({'data_cadastro':-1});
@@ -211,9 +202,9 @@ router.get('/', function(req, res, next) {
 	sessaoStatusModel.find({},function(err,data_sessao_status){
 
 		if(data_sessao_status !=null){
-			data.sessao_status = data_sessao_status;
+			data[req.session.usuario.id+'_sessao_status'] = data_sessao_status;
 		}else{
-			data.sessao_status = {quantidade_usuarios:0};
+			data[req.session.usuario.id+'_sessao_status'] = {quantidade_usuarios:0};
 		}
 
 		sessao_usuarioModel.find({},function(err,data_usuarios_sessao){
@@ -230,14 +221,14 @@ router.get('/', function(req, res, next) {
 				usuariosSessao = data_usuarios_sessao.length;
 			}
 
-			data.qtd_usuario_sessao = usuariosSessao;
+			data[req.session.usuario.id+'_qtd_usuario_sessao'] = usuariosSessao;
 
 			sessaoTotalModel.find({},function(err,data_sessao_total){
 
 				if(data_sessao_total != null){
-					data.sessao_total = data_sessao_total;
+					data[req.session.usuario.id+'_sessao_total'] = data_sessao_total;
 				}else{
-					data.sessao_total = {total_participantes_sessao:0,total_usuarios_conectados:0};
+					data[req.session.usuario.id+'_sessao_total'] = {total_participantes_sessao:0,total_usuarios_conectados:0};
 				}
 
 
@@ -249,36 +240,35 @@ router.get('/', function(req, res, next) {
 						usuarios_clientes = data_clientes_trader.length;
 					}
 
-					data.qtd_clientes_trader = usuarios_clientes;
+					data[req.session.usuario.id+'_usuarios_clientes'] = usuarios_clientes;
 
 
 					traderLimiteModel.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_trader_limite){
 
 						if(data_trader_limite !=null){
-							data.trader_limite = data_trader_limite;
+							data[req.session.usuario.id+'_trader_limite'] = data_trader_limite;
 						}else{
-							data.trader_limite = {limite_usuarios:200,limite_liquidez:50};
+							data[req.session.usuario.id+'_trader_limite'] = {limite_usuarios:200,limite_liquidez:50};
 						}
 
 						contaUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conta){
-							if(data_conta !=null){
-								data.conta_user = data_conta;
+							if(data_conta != null){
+								
 							}else{
 								data.conta_user = {conta_real:false,email:'',senha:'',tipo_banca:0,valor_entrada:100,limite_perda:200,acao:'parar',status:'desconectado'};
+								data_conta = {conta_real:false,email:'',senha:'',tipo_banca:0,valor_entrada:100,limite_perda:200,acao:'parar',status:'desconectado'};
 							}
 
 							teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
 
 								if(data_conexao != null){
-									data.conexao = data_conexao;
-								}else{
-									data.conexao = {email:'',senha:''};
 									
+								}else{									
 									data_conexao = {email:'',senha:''};
 								}
 								mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id),'deletado':0},function(err,data_mensagem){
 
-									data.mensagem = data_mensagem;
+									data[req.session.usuario.id + '_mensagem'] = data_mensagem;
 
 									arrayMensagemData = [];
 
@@ -328,12 +318,12 @@ router.get('/', function(req, res, next) {
 									}
 
 
-									data.mensagem_horario = arrayMensagemData;
-
+									console.log('TTTTTTTTTTTTTTTTTTTTTTTTT TRADER TTTTTTTTTTTTTTTTTTTTTTTTTTTT');
 									console.log(data);
+									console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
 
 
-									res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexTrader', data: data, usuario: req.session.usuario,data_conexao_b:data_conexao,data_mensagem_b:arrayMensagemData});
+									res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexTrader', data: data, usuario: req.session.usuario,data_conexao_b:data_conexao,data_mensagem_b:arrayMensagemData,data_conta_b:data_conta});
 
 								});
 							}).sort({'data_cadastro':-1});
@@ -342,7 +332,7 @@ router.get('/', function(req, res, next) {
 				});
 			});
 		});
-	});
+});
 }
 
 
@@ -750,6 +740,10 @@ router.post('/iniciar-operacao-trader', function(req, res, next) {
 							deletado:0,
 							data_cadastro: new Date()
 						});
+
+						console.log('iniciar operacao trader');
+						console.log(POST);
+						console.log('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
 
 						new_conta_user.save(function (err) {
 							if (err) {
