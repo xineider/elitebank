@@ -3715,3 +3715,48 @@ table{
 .alert-dismissible .close:focus{
   outline:none;
 }
+
+.primary-text{
+  color: #DB6574;
+}
+
+.textarea-sinais-lista::-webkit-input-placeholder{
+  font-style: italic;
+  color: #979a9fa6;
+}
+
+.textarea-sinais-lista::-webkit-input-placeholder {
+  font-style: italic;
+  color: #979a9fa6;
+}
+
+.textarea-sinais-lista:-ms-input-placeholder {
+  font-style: italic;
+  color: #979a9fa6;
+}
+
+
+.btn-trader-operation{
+  color: #fff;
+  height: 100px;
+  width: 100px;
+  font-size: 1.2rem;
+
+  &.call{
+    background:#2eac50;
+    &:not(.disabled):hover{
+      background:#309154;
+      color: #fff;
+    }
+
+  }
+
+  &.put{
+    background:#db4941;
+    &:not(.disabled):hover{
+      background:#b54746;
+      color: #fff;
+    }
+  }
+}
+

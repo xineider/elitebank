@@ -124,3 +124,9 @@ nav#sidebar li a:hover i{
 ::-webkit-calendar-picker-indicator{
   filter: invert(55%) sepia(5%) saturate(3562%) hue-rotate(241deg) brightness(86%) contrast(86%);
 }
+
+
+.primary-block{
+  background:$primary-color;
+  color:#fff;
+}

@@ -199,6 +199,24 @@
 								<input id="form_operacional_limite_perda" type="number" class="form-control" name="limite_perda" value="<%= data_conta_b.limite_perda %>" <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'disabled' : ''%>>
 							</div>
 
+							<div class="form-group">
+								<label class="form-control-label js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">Stop Gain:</label>
+
+								<div class="margin-b-10 italic <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">É indicado que se utilize o Stop Gain, pois ele serve para reduzir a exposição  ao risco.
+								</div>
+								
+								<select type="number" class="form-control" name="stop_gain" <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'disabled' : ''%>>
+
+									<option value="0" <%= data_conta_b.stop_gain == 0? 'selected' : '' %>>Stop Gain Desativado </option>
+									<option value="3" <%= data_conta_b.stop_gain == 3? 'selected' : '' %>>3%</option>
+									<option value="5" <%= data_conta_b.stop_gain == 5? 'selected' : '' %>>5%</option>
+									<option value="7" <%= data_conta_b.stop_gain == 7? 'selected' : '' %>>7%</option>
+
+								</select>
+
+								
+							</div>
+
 							<div class="title">
 								<strong class="d-block js-input-change-color <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'color-disabled' : ''%>">Tipo de Conta</strong>
 							</div>
@@ -264,7 +282,7 @@
 
 
 						<div class="alert <%=
-						data[usuario.id +'_mensagem'][i].tipo_mensagem == 1 ? 'sucess-block' : data[usuario.id +'_mensagem'][i].tipo_mensagem == 2 ? 'warning-block' : 'error-block' %> alert-dismissible fade show" role="alert">
+						data[usuario.id +'_mensagem'][i].tipo_mensagem == 1 ? 'sucess-block' : data[usuario.id +'_mensagem'][i].tipo_mensagem == 2 ? 'warning-block' : data[usuario.id +'_mensagem'][i].tipo_mensagem == 0 ? 'primary-block' : 'error-block' %> alert-dismissible fade show" role="alert">
 						<%= data_mensagem_b[i]%><%= data[usuario.id +'_mensagem'][i].descricao_mensagem %>
 						<button type="button" data-href="/sistema/limpar-mensagem/<%= data[usuario.id +'_mensagem'][i]._id %>" class="close ajax-submit-close" data-dismiss="alert" aria-label="Close" data-action="/sistema">
 							<span aria-hidden="true">&times;</span>

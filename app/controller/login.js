@@ -84,7 +84,6 @@ router.post('/recuperar/senha', function(req, res, next) {
 	console.log('RECUPERAR SENHA @@@@@@@@@@@@');
 	console.log(POST);
 	console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-	start();
 
 	usuarioModel.findOne({'email':POST.email},function(err,data){
 		console.log('usuario find model');

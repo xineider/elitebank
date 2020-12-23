@@ -80,6 +80,13 @@ $(document).ready(function () {
 		$(this).addClass('active');
 	});
 
+	$(document).on('click', '.ajax-add-to', function(e) {
+		e.preventDefault();
+		var link = $(this).data('href');
+		var to = $(this).data('to');
+		AddTo(link, to);
+	});
+
 	$(document).on('click', '.remove', function (e) {
 		e.preventDefault();
 		$(this).closest('.pai').remove();
@@ -139,6 +146,8 @@ $(document).ready(function () {
 		$(this).addClass('active');
 	});
 
+
+	var menu_fechado = false;
 
 
 	$('.sidebar-toggle').on('click', function () {
@@ -258,6 +267,71 @@ $(document).ready(function () {
 			SubmitAjaxOpenModal(post, link, modal);
 		}
 	});
+
+
+	$(document).on('change','#par_trader_escolha',function(){
+		if($(this).val() != 0){
+
+			if($('#tempo_expiracao_trader_escolha').val() > 0 && $('#tipo_trader_escolha').val() != null){
+				$('.btn-trader-operation').removeClass('disabled');
+				$('.btn-trader-operation').prop('disabled',false);
+
+				$('#operacao_box_mensagem_escolha').removeClass('none');
+				$('#operacao_par_escolha_label').text($("#par_trader_escolha option:selected").text());
+
+
+				if($('#tipo_trader_escolha').val() == 'Binária'){
+					$('#operacao_tempo_expiracao_escolha_label').text('+' + $('#tempo_expiracao_trader_escolha').val());
+				}else{
+					$('#operacao_tempo_expiracao_escolha_label').text($('#tempo_expiracao_trader_escolha').val() + 'M');
+
+				}
+
+				$('#operacao_tipo_escolha_label').text($('#tipo_trader_escolha').val());
+
+
+			}
+		}
+	});
+
+	$(document).on('change','#tipo_trader_escolha',function(){
+		if($(this).val() != 0){
+			$('#tempo_expiracao_trader_escolha').prop('disabled',false);
+			if($(this).val() == 'Binária'){
+				LoadTo('/sistema/load-trader-opcoes-binarias', 'tempo_expiracao_trader_escolha');
+
+			}else if($(this).val() == 'Digital'){
+				LoadTo('/sistema/load-trader-opcoes-digital', 'tempo_expiracao_trader_escolha');
+			}
+
+		}
+	});
+
+	$(document).on('change','#tempo_expiracao_trader_escolha',function(){
+		if($(this).val() != 0){
+			if($('#par_trader_escolha').val() != null && $('#tipo_trader_escolha').val() != null){
+				$('.btn-trader-operation').removeClass('disabled');
+				$('.btn-trader-operation').prop('disabled',false);
+
+				$('#operacao_box_mensagem_escolha').removeClass('none');
+				$('#operacao_par_escolha_label').text($("#par_trader_escolha option:selected").text());
+
+				if($('#tipo_trader_escolha').val() == 'Binária'){
+					$('#operacao_tempo_expiracao_escolha_label').text('+' + $('#tempo_expiracao_trader_escolha').val());
+				}else{
+					$('#operacao_tempo_expiracao_escolha_label').text($('#tempo_expiracao_trader_escolha').val() + 'M');
+
+				}
+				$('#operacao_tipo_escolha_label').text($('#tipo_trader_escolha').val());
+
+			}
+		}
+	});
+
+
+
+
+
 
 
 	$(document).on('change', 'input[type="file"]', function () {
@@ -506,6 +580,36 @@ function LoadTo(link, to) {
     }
 });
 }
+
+function AddTo(link, to) {
+	$.ajax({
+		method: "GET",
+		async: true,
+		url: link,
+		beforeSend: function(request) {
+			request.setRequestHeader("Authority-Moon-hash", $('input[name="hash_usuario_sessao"]').val());
+			request.setRequestHeader("Authority-Moon-id", $('input[name="id_usuario_sessao"]').val());
+			request.setRequestHeader("Authority-Moon-nivel", $('input[name="nivel_usuario_sessao"]').val());
+			adicionarLoader();
+		},
+		success: function(data) {
+			$('.'+to).append(data);
+		},
+    error: function(xhr) { // if error occured
+    	removerLoader();
+    },
+    complete: function() {
+    	removerLoader();
+    	$('.material-tooltip').remove();
+    	$('.tooltipped').tooltip({delay: 50});
+    	// $('.modal').modal('close');
+    	FormatInputs();
+    }
+});
+}
+
+
+
 function FormatInputs(focus) {
 	$('.cnpj').mask('00.000.000/0000-00', {reverse: true});
 	$('.cpf').mask('000.000.000-00', {reverse: true});
@@ -521,6 +625,9 @@ function FormatInputs(focus) {
 	});
 	$('.money').mask('000000000000000,00', {reverse: true});
 	$('.data-sem-hora').mask('00/00/0000');
+	$('.data-com-hora').mask('00/00/0000 00:00:00');
+	$('.valicao_data').mask('99/99/9999 99:99:99');
+	$('.hora').mask('00:00:00');
 	validarDataTable($('.tabela_filtrada'));
 	$('[data-toggle="tooltip"]').tooltip();
 	$('.datepicker').datepicker({
