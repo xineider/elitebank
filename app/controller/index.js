@@ -64,7 +64,7 @@ router.get('/', function(req, res, next) {
 
 	console.log('req.session.usuario');
 	console.log(req.session.usuario);
-	if(req.session.usuario.nivel == 3){
+	if(req.session.usuario.nivel == 3 || req.session.usuario.nivel == 4 || req.session.usuario.nivel == 5){
 
 		configuracoes_sistema.find({},function(err,data_configuracoes){
 
@@ -456,6 +456,13 @@ router.post('/popup-confirmacao-iniciar-operacao', function(req, res, next) {
 	console.log(req.session.usuario);
 	console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
 
+	data[req.session.usuario.id + '_p_valor_entrada'] = parseInt(POST.valor_entrada);
+	data[req.session.usuario.id + '_p_valor_limite_perda'] = parseInt(POST.limite_perda);
+	data[req.session.usuario.id + '_p_valor_stop_gain'] = parseInt(POST.stop_gain);
+
+	console.log('weee');
+	console.log(data);
+
 
 	configuracoes_sistema.find({},function(err,data_configuracoes){
 
@@ -465,89 +472,111 @@ router.post('/popup-confirmacao-iniciar-operacao', function(req, res, next) {
 			data.config_sistema = {possui_creditos:true};
 		}
 
-		if(POST.valor_entrada >= 2){
-			if(POST.limite_perda > 0){
-				if(POST.valor_entrada % 1 === 0){
-					if(POST.limite_perda % 1 ===0){
-						if(parseInt(POST.limite_perda) > parseInt(POST.valor_entrada)){
+		if(data[req.session.usuario.id + '_p_valor_entrada'] != undefined){
+			if(data[req.session.usuario.id + '_p_valor_limite_perda'] != undefined){
+				if(data[req.session.usuario.id + '_p_valor_stop_gain'] != undefined){
 
-							tipo_conta_n = true;
-							if(POST.tipo_conta == 0){
-								tipo_conta_n = false;
-							}else{
-								tipo_conta_n = true;
-							}
-
-							var dias_faltantes_licenca;
-
-							if(req.session.usuario.licenca_dias == undefined){
-								dias_faltantes_licenca = -1;
-							}else{
-								dias_faltantes_licenca = req.session.usuario.licenca_dias;
-							}
+					if(parseInt(data[req.session.usuario.id + '_p_valor_entrada'])  >= 2){
+						if(parseInt(data[req.session.usuario.id + '_p_valor_limite_perda']) > 0){
+							if(parseInt(data[req.session.usuario.id + '_p_valor_entrada']) % 1 === 0){
+								if(parseInt(data[req.session.usuario.id + '_p_valor_limite_perda']) % 1 ===0){
+									if(parseInt(data[req.session.usuario.id + '_p_valor_limite_perda']) > parseInt(data[req.session.usuario.id + '_p_valor_entrada'])){
 
 
-							if(dias_faltantes_licenca >= 0){
+										if(parseInt(data[req.session.usuario.id + '_p_valor_limite_perda']) % parseInt(data[req.session.usuario.id + '_p_valor_entrada']) === 0){
 
-								var creditos_restantes;
+											tipo_conta_n = true;
+											if(POST.tipo_conta == 0){
+												tipo_conta_n = false;
+											}else{
+												tipo_conta_n = true;
+											}
 
-								if(req.session.usuario.creditos == undefined){
-									creditos_restantes = 0;
-								}else{
-									creditos_restantes = req.session.usuario.creditos;
-								}
+											var dias_faltantes_licenca;
+
+											if(req.session.usuario.licenca_dias == undefined){
+												dias_faltantes_licenca = -1;
+											}else{
+												dias_faltantes_licenca = req.session.usuario.licenca_dias;
+											}
 
 
-								if((creditos_restantes > 0) || data_configuracoes[0].possui_creditos == false){
+											if(dias_faltantes_licenca >= 0){
 
-									if(POST.tipo_banca != 1 || (POST.tipo_banca == 1 && (parseInt(POST.valor_entrada) > 0 && parseInt(POST.valor_entrada) <= 100))){
-										if(POST.tipo_banca != 1 || (POST.tipo_banca == 1 && (parseInt(POST.limite_perda) > 0 && parseInt(POST.limite_perda) <= 100))){
+												var creditos_restantes;
 
-											teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
+												if(req.session.usuario.creditos == undefined){
+													creditos_restantes = 0;
+												}else{
+													creditos_restantes = req.session.usuario.creditos;
+												}
 
-												data.dados = POST;
-												data.email = data_conexao.email;
 
-												console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDD Data DDDDDDDDDDDDDDDDDDDDDDDDDDD');
-												console.log(data);
-												console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
+												if((creditos_restantes > 0) || data_configuracoes[0].possui_creditos == false){
 
-												res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/confirmar_inicio_operacao', data: data, usuario: req.session.usuario});
+													if(POST.tipo_banca != 1 || (POST.tipo_banca == 1 && (parseInt(data[req.session.usuario.id + '_p_valor_entrada']) > 0 && parseInt(data[req.session.usuario.id + '_p_valor_entrada']) <= 100))){
+														if(POST.tipo_banca != 1 || (POST.tipo_banca == 1 && (parseInt(data[req.session.usuario.id + '_p_valor_limite_perda']) > 0 && parseInt(data[req.session.usuario.id + '_p_valor_limite_perda']) <= 100))){
 
-											}).sort({'data_cadastro':-1});
+															teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
+
+
+																data[req.session.usuario.id + '_dados_iniciar_operacao'] = POST;
+
+																data[req.session.usuario.id + '_email_iniciar_operacao'] = data_conexao.email;
+
+
+																console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDD Data DDDDDDDDDDDDDDDDDDDDDDDDDDD');
+																console.log(data);
+																console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
+
+																res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/confirmar_inicio_operacao', data: data, usuario: req.session.usuario});
+
+															}).sort({'data_cadastro':-1});
+
+														}else{
+															res.json({error:'perc_limite_perda_100',element:'input[name="limite_perda"]',texto:'*No percentual não é permitido ter mais que 100% do Stop Loss!'});
+														}
+
+													}else{
+														res.json({error:'perc_valor_entrada_100',element:'input[name="valor_entrada"]',texto:'*No percentual não é permitido ter mais que 100% do valor de entrada!'});
+													}
+
+												}else{
+													res.json({error:'sem_creditos',element:'#error_mensagem_conexao',texto:'Você está sem créditos, por-favor recarregue os créditos!'});
+												}
+											}else{
+												res.json({error:'acabou_licenca',element:'#error_mensagem_conexao',texto:'Sua licença expirou, por-favor recarregar a licença para poder continuar usando o sistema!'});
+											}
 
 										}else{
-											res.json({error:'perc_limite_perda_100',element:'input[name="limite_perda"]',texto:'*No percentual não é permitido ter mais que 100% do Stop Loss!'});
+											res.json({error:'limite_perda_num',element:'input[name="limite_perda"]',texto:'*Stop Loss deve ser divisível pelo valor de entrada: Exemplo: ' + (parseInt(data[req.session.usuario.id + '_p_valor_entrada']) * 3) + ' ou ' + (parseInt(data[req.session.usuario.id + '_p_valor_entrada']) * 4) + ' ou ' + (parseInt(data[req.session.usuario.id + '_p_valor_entrada']) * 5) + ' ou qualquer outro múltiplo do valor que você selecionou como entrada.'  });
 										}
 
 									}else{
-										res.json({error:'perc_valor_entrada_100',element:'input[name="valor_entrada"]',texto:'*No percentual não é permitido ter mais que 100% do valor de entrada!'});
+										res.json({error:'limite_perda_num',element:'input[name="limite_perda"]',texto:'*Stop Loss não pode ser menor ou igual que o Valor da Entrada.'});
 									}
 
 								}else{
-									res.json({error:'sem_creditos',element:'#error_mensagem_conexao',texto:'Você está sem créditos, por-favor recarregue os créditos!'});
+									res.json({error:'limite_perda_num',element:'input[name="limite_perda"]',texto:'*Somente valores inteiros. Ex: 100'});
 								}
 							}else{
-								res.json({error:'acabou_licenca',element:'#error_mensagem_conexao',texto:'Sua licença expirou, por-favor recarregar a licença para poder continuar usando o sistema!'});
+								res.json({error:'qtd_valor_negativo',element:'input[name="valor_entrada"]',texto:'*Somente valores inteiros. Ex: 100'});
 							}
-
 						}else{
-							res.json({error:'limite_perda_num',element:'input[name="limite_perda"]',texto:'*Stop Loss não pode ser menor ou igual que o Valor da Entrada.'});
+							res.json({error:'qtd_valor_negativo',element:'input[name="limite_perda"]',texto:'*Valor não pode ser 0 ou Negativo!'});
 						}
-
 					}else{
-						res.json({error:'limite_perda_num',element:'input[name="limite_perda"]',texto:'*Somente valores inteiros. Ex: 100'});
+						res.json({error:'valor_maior_que_2',element:'input[name="valor_entrada"]',texto:'*Valor minimo é de 2!'});
 					}
 				}else{
-					res.json({error:'qtd_valor_negativo',element:'input[name="valor_entrada"]',texto:'*Somente valores inteiros. Ex: 100'});
+					res.json({error:'valor_stop_gain_invalido',element:'#error_mensagem_conexao',texto:'*Problema no versão do seu navegador. Você deve utilizar outro navegador! Recomendamos utilizar a última versão do Google Chrome ou do Opera.'});
 				}
 			}else{
-				res.json({error:'qtd_valor_negativo',element:'input[name="limite_perda"]',texto:'*Valor não pode ser 0 ou Negativo!'});
+				res.json({error:'valor_limite_invalido',element:'#error_mensagem_conexao',texto:'*Problema no versão do seu navegador. Você deve utilizar outro navegador! Recomendamos utilizar a última versão do Google Chrome ou do Opera.'});
 			}
 		}else{
-			res.json({error:'valor_maior_que_2',element:'input[name="valor_entrada"]',texto:'*Valor minimo é de 2!'});
+			res.json({error:'valor_entrada_invalido',element:'#error_mensagem_conexao',texto:'*Problema no versão do seu navegador. Você deve utilizar outro navegador! Recomendamos utilizar a última versão do Google Chrome ou do Opera.'});
 		}
-
 	});
 });
 
@@ -561,9 +590,14 @@ router.post('/popup-confirmacao-parar-operacao', function(req, res, next) {
 router.post('/iniciar-operacao', function(req, res, next) {
 	POST = req.body;
 
+	data[req.session.usuario.id + '_i_valor_entrada'] = parseInt(POST.valor_entrada);
+	data[req.session.usuario.id + '_i_valor_limite_perda'] = parseInt(POST.limite_perda);
+	data[req.session.usuario.id + '_i_valor_stop_gain'] = parseInt(POST.stop_gain);
+
 	console.log('JJJJJJJJJJJJJJJ ESTOU NO INICIAR OPERACAO JJJJJJJJJJJJJJJJJJJJJ');
 	console.log(POST);
 	console.log('JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ');
+
 
 	configuracoes_sistema.find({},function(err,data_configuracoes){
 
@@ -573,120 +607,141 @@ router.post('/iniciar-operacao', function(req, res, next) {
 			data.config_sistema = {possui_creditos:true};
 		}
 
-		if(POST.valor_entrada >= 2){
-			if(POST.limite_perda > 0){
-				if(POST.valor_entrada % 1 === 0){
-					if(POST.limite_perda % 1 ===0){
-						if(parseInt(POST.limite_perda) > parseInt(POST.valor_entrada)){
+		if(data[req.session.usuario.id + '_i_valor_entrada'] != undefined){
+			if(data[req.session.usuario.id + '_i_valor_limite_perda'] != undefined){
+				if(data[req.session.usuario.id + '_i_valor_stop_gain'] != undefined){
 
-							tipo_conta_n = true;
-							if(POST.tipo_conta == 0){
-								tipo_conta_n = false;
-							}else{
-								tipo_conta_n = true;
-							}
+					if(parseInt(data[req.session.usuario.id + '_i_valor_entrada']) >= 2){
+						if(parseInt(data[req.session.usuario.id + '_i_valor_limite_perda']) > 0){
+							if(parseInt(data[req.session.usuario.id + '_i_valor_entrada']) % 1 === 0){
+								if(parseInt(data[req.session.usuario.id + '_i_valor_limite_perda']) % 1 ===0){
+									if(parseInt(data[req.session.usuario.id + '_i_valor_limite_perda']) > parseInt(data[req.session.usuario.id + '_i_valor_entrada'])){
 
-							var dias_faltantes_licenca;
-
-							if(req.session.usuario.licenca_dias == undefined){
-								dias_faltantes_licenca = -1;
-							}else{
-								dias_faltantes_licenca = req.session.usuario.licenca_dias;
-							}
-
-
-							if(dias_faltantes_licenca >= 0){
-
-								var creditos_restantes;
-
-								if(req.session.usuario.creditos == undefined){
-									creditos_restantes = 0;
-								}else{
-									creditos_restantes = req.session.usuario.creditos;
-								}
-
-
-								if((creditos_restantes > 0) || data_configuracoes[0].possui_creditos == false){
-
-									if(POST.tipo_banca != 1 || (POST.tipo_banca == 1 && (parseInt(POST.valor_entrada) > 0 && parseInt(POST.valor_entrada) <= 100))){
-										if(POST.tipo_banca != 1 || (POST.tipo_banca == 1 && (parseInt(POST.limite_perda) > 0 && parseInt(POST.limite_perda) <= 100))){
-
-											tipo_cliente = 'cliente';
-
-											tipo_banca = 'numero';
-
-											if(POST.tipo_banca == 1){
-												tipo_banca = 'percentual';
-											};
-
-
-											teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
-
-												contaUser.updateMany({'id_usuario':req.session.usuario.id},{'$set':{'acao':'parar'}},function(err2){
-
-													if (err2) {
-														return handleError(err2);
-													}else{
-														const new_conta_user = new contaUser({ 
-															id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
-															tipo:tipo_cliente,
-															email: data_conexao.email, 
-															senha:data_conexao.senha,
-															conta_real:tipo_conta_n,
-															tipo_banca:tipo_banca,
-															valor_entrada:POST.valor_entrada,
-															limite_perda:POST.limite_perda,
-															acao:'iniciar',
-															status:'standby',
-															stop_gain:POST.stop_gain,
-															deletado:0,
-															data_cadastro: new Date()
-														});
-
-														new_conta_user.save(function (err) {
-															if (err) {
-																return handleError(err);
-															}else{
-																res.json(data);
-															}
-														});
-
-													}
-												});
-
-
-											}).sort({'data_cadastro':-1});
-
+										tipo_conta_n = true;
+										if(POST.tipo_conta == 0){
+											tipo_conta_n = false;
 										}else{
-											res.json({error:'perc_limite_perda_100',element:'input[name="limite_perda"]',texto:'*No percentual não é permitido ter mais que 100% do Stop Loss!'});
+											tipo_conta_n = true;
+										}
+
+										var dias_faltantes_licenca;
+
+										if(req.session.usuario.licenca_dias == undefined){
+											dias_faltantes_licenca = -1;
+										}else{
+											dias_faltantes_licenca = req.session.usuario.licenca_dias;
+										}
+
+
+										if(dias_faltantes_licenca >= 0){
+
+											var creditos_restantes;
+
+											if(req.session.usuario.creditos == undefined){
+												creditos_restantes = 0;
+											}else{
+												creditos_restantes = req.session.usuario.creditos;
+											}
+
+
+											if((creditos_restantes > 0) || data_configuracoes[0].possui_creditos == false){
+
+												if(POST.tipo_banca != 1 || (POST.tipo_banca == 1 && (parseInt(data[req.session.usuario.id + '_i_valor_entrada']) > 0 && parseInt(data[req.session.usuario.id + '_i_valor_entrada']) <= 100))){
+													if(POST.tipo_banca != 1 || (POST.tipo_banca == 1 && (parseInt(data[req.session.usuario.id + '_i_valor_limite_perda']) > 0 && parseInt(data[req.session.usuario.id + '_i_valor_limite_perda']) <= 100))){
+
+														tipo_cliente = 'cliente';
+
+														if(req.session.usuario.nivel == 4){
+															tipo_cliente = 'fantasma';
+														}
+
+														if(req.session.usuario.nivel == 5){
+															tipo_cliente = 'master';
+														}
+
+														tipo_banca = 'numero';
+
+														if(POST.tipo_banca == 1){
+															tipo_banca = 'percentual';
+														};
+
+
+														teste_conexaoUser.findOne({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},function(err,data_conexao){
+
+															contaUser.updateMany({'id_usuario':req.session.usuario.id},{'$set':{'acao':'parar'}},function(err2){
+
+																if (err2) {
+																	return handleError(err2);
+																}else{
+																	const new_conta_user = new contaUser({ 
+																		id_usuario:mongoose.Types.ObjectId(req.session.usuario.id),
+																		tipo:tipo_cliente,
+																		email: data_conexao.email, 
+																		senha:data_conexao.senha,
+																		conta_real:tipo_conta_n,
+																		tipo_banca:tipo_banca,
+																		valor_entrada:parseInt(data[req.session.usuario.id + '_i_valor_entrada']),
+																		limite_perda:parseInt(data[req.session.usuario.id + '_i_valor_limite_perda']),
+																		acao:'iniciar',
+																		status:'standby',
+																		stop_gain:parseInt(data[req.session.usuario.id + '_i_valor_stop_gain']),
+																		deletado:0,
+																		data_cadastro: new Date()
+																	});
+
+																	new_conta_user.save(function (err) {
+																		if (err) {
+																			return handleError(err);
+																		}else{
+																			res.json(data);
+																		}
+																	});
+
+																}
+															});
+
+
+														}).sort({'data_cadastro':-1});
+
+													}else{
+														res.json({error:'perc_limite_perda_100',element:'input[name="limite_perda"]',texto:'*No percentual não é permitido ter mais que 100% do Stop Loss!'});
+													}
+
+												}else{
+													res.json({error:'perc_valor_entrada_100',element:'input[name="valor_entrada"]',texto:'*No percentual não é permitido ter mais que 100% do valor de entrada!'});
+												}
+
+											}else{
+												res.json({error:'sem_creditos',element:'#error_mensagem_conexao',texto:'Você está sem créditos, por-favor recarregue os créditos!'});
+											}
+										}else{
+											res.json({error:'acabou_licenca',element:'#error_mensagem_conexao',texto:'Sua licença expirou, por-favor recarregar a licença para poder continuar usando o sistema!'});
 										}
 
 									}else{
-										res.json({error:'perc_valor_entrada_100',element:'input[name="valor_entrada"]',texto:'*No percentual não é permitido ter mais que 100% do valor de entrada!'});
+										res.json({error:'limite_perda_num',element:'input[name="limite_perda"]',texto:'*Stop Loss não pode ser menor ou igual que o Valor da Entrada.'});
 									}
 
 								}else{
-									res.json({error:'sem_creditos',element:'#error_mensagem_conexao',texto:'Você está sem créditos, por-favor recarregue os créditos!'});
+									res.json({error:'limite_perda_num',element:'input[name="limite_perda"]',texto:'*Somente valores inteiros. Ex: 100'});
 								}
 							}else{
-								res.json({error:'acabou_licenca',element:'#error_mensagem_conexao',texto:'Sua licença expirou, por-favor recarregar a licença para poder continuar usando o sistema!'});
+								res.json({error:'qtd_valor_negativo',element:'input[name="valor_entrada"]',texto:'*Somente valores inteiros. Ex: 100'});
 							}
-
 						}else{
-							res.json({error:'limite_perda_num',element:'input[name="limite_perda"]',texto:'*Stop Loss não pode ser menor ou igual que o Valor da Entrada.'});
+							res.json({error:'qtd_valor_negativo',element:'input[name="limite_perda"]',texto:'*Valor não pode ser 0 ou Negativo!'});
 						}
-
 					}else{
-						res.json({error:'limite_perda_num',element:'input[name="limite_perda"]',texto:'*Somente valores inteiros. Ex: 100'});
+						res.json({error:'valor_maior_que_2',element:'input[name="valor_entrada"]',texto:'*Valor minimo é de 2!'});
 					}
 				}else{
-					res.json({error:'qtd_valor_negativo',element:'input[name="valor_entrada"]',texto:'*Somente valores inteiros. Ex: 100'});
+					res.json({error:'valor_stop_gain_invalido',element:'#error_mensagem_conexao',texto:'*Problema no versão do seu navegador. Você deve utilizar outro navegador! Recomendamos utilizar a última versão do Google Chrome ou do Opera.'});
 				}
 			}else{
-				res.json({error:'qtd_valor_negativo',element:'input[name="limite_perda"]',texto:'*Valor não pode ser 0 ou Negativo!'});
+				res.json({error:'valor_limite_invalido',element:'#error_mensagem_conexao',texto:'*Problema no versão do seu navegador. Você deve utilizar outro navegador! Recomendamos utilizar a última versão do Google Chrome ou do Opera.'});
 			}
 		}else{
-			res.json({error:'valor_maior_que_2',element:'input[name="valor_entrada"]',texto:'*Valor minimo é de 2!'});
+			res.json({error:'valor_entrada_invalido',element:'#error_mensagem_conexao',texto:'*Problema no versão do seu navegador. Você deve utilizar outro navegador! Recomendamos utilizar a última versão do Google Chrome ou do Opera.'});
 		}
 
 	});
@@ -760,17 +815,23 @@ router.post('/iniciar-operacao-trader', function(req, res, next) {
 						console.log(POST);
 						console.log('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
 
-						new_conta_user.save(function (err) {
+						sessaoStatusModel.findOneAndUpdate({'deletado':0},{'$set':{'tipo_sessao':POST.tipo_sessao}},function(err3){
 							if (err) {
-								return handleError(err);
+								return handleError(err3);
 							}else{
-								traderLimiteModel.findOneAndUpdate({'deletado':0},{'$set':{'limite_liquidez':POST.limite_liquidez,'limite_usuarios':POST.limite_usuarios}},function(err){
+								new_conta_user.save(function (err1) {
 									if (err) {
-										return handleError(err);
+										return handleError(err1);
 									}else{
-										res.json(data);
+										traderLimiteModel.findOneAndUpdate({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},{'$set':{'limite_liquidez':POST.limite_liquidez,'limite_usuarios':POST.limite_usuarios}},function(err2){
+											if (err) {
+												return handleError(err2);
+											}else{
+												res.json(data);
+											}
+										}).sort({'data_cadastro':-1});
 									}
-								}).sort({'data_cadastro':-1});
+								});							
 							}
 						});
 

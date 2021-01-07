@@ -130,3 +130,13 @@ nav#sidebar li a:hover i{
   background:$primary-color;
   color:#fff;
 }
+
+.entrar-canal-telegram-box{
+  border-radius: 50px;
+  background: #48bef1;
+  padding: 10px;
+
+  &:hover{
+    background:#36a7d8;
+  }
+}

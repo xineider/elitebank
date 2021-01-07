@@ -5,12 +5,12 @@
 
 	<div class="margin-b-10">
 
-		<% if(data.dados.tipo_banca == undefined){%>
+		<% if(data[usuario.id +'_dados_iniciar_operacao'].tipo_banca == undefined){%>
 
-		Você tem certeza que deseja conectar com o e-mail <%= data.email %> com o valor de entrada de <strong>R$<%= data.dados.valor_entrada%></strong> e com o limite de perda de <strong>R$<%= data.dados.limite_perda%></strong> e <% if(data.dados.stop_gain > 0){%>Stop Gain de <strong><%= data.dados.stop_gain %>%</strong><%}else{%><strong>Sem Stop Gain</strong><%}%> na conta <%= data.dados.tipo_conta == 0? 'de ' : '' %><strong class="uppercase"><%= data.dados.tipo_conta == 0? 'Treinamento' : 'Real' %></strong>?
+		Você tem certeza que deseja conectar com o e-mail <%= data[usuario.id +'_email_iniciar_operacao'] %> com o valor de entrada de <strong>R$<%= data[usuario.id +'_dados_iniciar_operacao'].valor_entrada%></strong> e com o limite de perda de <strong>R$<%= data[usuario.id +'_dados_iniciar_operacao'].limite_perda%></strong> e <% if(data[usuario.id +'_dados_iniciar_operacao'].stop_gain > 0){%>Stop Gain de <strong><%= data[usuario.id +'_dados_iniciar_operacao'].stop_gain %>%</strong><%}else{%><strong>Sem Stop Gain</strong><%}%> na conta <%= data[usuario.id +'_dados_iniciar_operacao'].tipo_conta == 0? 'de ' : '' %><strong class="uppercase"><%= data[usuario.id +'_dados_iniciar_operacao'].tipo_conta == 0? 'Treinamento' : 'Real' %></strong>?
 
 		<%}else{%>
-			Você tem certeza que deseja conectar com o e-mail <%= data.dados.email %> com o valor de entrada de <strong><%= data.dados.valor_entrada%>%</strong> da sua conta, e com o limite de perda de <strong><%= data.dados.limite_perda%>%</strong> e e <% if(data.dados.stop_gain > 0){%>Stop Gain de <strong><%= data.dados.stop_gain %>%</strong><%}else{%><strong>Sem Stop Gain</strong><%}%>, na conta <%= data.dados.tipo_conta == 0? 'de ' : '' %><strong class="uppercase"><%= data.dados.tipo_conta == 0? 'Treinamento' : 'Real' %></strong>?
+			Você tem certeza que deseja conectar com o e-mail <%= data[usuario.id +'_email_iniciar_operacao'] %> com o valor de entrada de <strong><%= data[usuario.id +'_dados_iniciar_operacao'].valor_entrada%>%</strong> da sua conta, e com o limite de perda de <strong><%= data[usuario.id +'_dados_iniciar_operacao'].limite_perda%>%</strong> e e <% if(data[usuario.id +'_dados_iniciar_operacao'].stop_gain > 0){%>Stop Gain de <strong><%= data[usuario.id +'_dados_iniciar_operacao'].stop_gain %>%</strong><%}else{%><strong>Sem Stop Gain</strong><%}%>, na conta <%= data[usuario.id +'_dados_iniciar_operacao'].tipo_conta == 0? 'de ' : '' %><strong class="uppercase"><%= data[usuario.id +'_dados_iniciar_operacao'].tipo_conta == 0? 'Treinamento' : 'Real' %></strong>?
 
 
 		<%}%>
@@ -18,13 +18,13 @@
 	</div>
 
 	<form method="POST" action="" enctype="multipart/form-data">
-		<input type="hidden" name="valor_entrada" value="<%= data.dados.valor_entrada %>">
-		<input type="hidden" name="limite_perda" value="<%= data.dados.limite_perda %>">
-		<input type="hidden" name="tipo_conta" value="<%= data.dados.tipo_conta %>">
-		<input type="hidden" name="stop_gain" value="<%= data.dados.stop_gain %>">
+		<input type="hidden" name="valor_entrada" value="<%= data[usuario.id +'_dados_iniciar_operacao'].valor_entrada %>">
+		<input type="hidden" name="limite_perda" value="<%= data[usuario.id +'_dados_iniciar_operacao'].limite_perda %>">
+		<input type="hidden" name="tipo_conta" value="<%= data[usuario.id +'_dados_iniciar_operacao'].tipo_conta %>">
+		<input type="hidden" name="stop_gain" value="<%= data[usuario.id +'_dados_iniciar_operacao'].stop_gain %>">
 
-		<% if(data.dados.tipo_banca != undefined){%>
-			<input type="hidden" name="tipo_banca" value="<%= data.dados.tipo_banca %>">
+		<% if(data[usuario.id +'_dados_iniciar_operacao'].tipo_banca != undefined){%>
+			<input type="hidden" name="tipo_banca" value="<%= data[usuario.id +'_dados_iniciar_operacao'].tipo_banca %>">
 		<%}%>
 
 		<div class="modal-footer">

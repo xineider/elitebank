@@ -320,6 +320,60 @@
 
 			</section>
 
+						<section class="margin-bottom-sm">
+				<div class="container-fluid">
+					<div class="row d-flex align-items-stretch">
+						<div class="col-sm-12">
+							<div class="stats-with-chart-1 block">
+								<div class="title"> <strong class="d-block">Tipo Sessão</strong></div>
+
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-check margin-t-10 text-center">
+											<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_sessao" value="padrao" <%= data[usuario.id +'_sessao_status'][0].tipo_sessao == 'padrao' ? 'checked' : '' %> <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'disabled' : ''%> >
+											<label class="form-check-label">
+												Padrão
+											</label>
+											<div>Padrão: Realiza o espelhamento das entradas de acordo com a configuração de operacional dos usuários, respeitando o máximo valor de entrada se aplicado pelo trader.</div>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="form-check margin-t-10 text-center">
+											<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_sessao" value="treinamento" <%= data[usuario.id +'_sessao_status'][0].tipo_sessao == 'treinamento' ? 'checked' : '' %> <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'disabled' : ''%>>
+											<label class="form-check-label">
+												Treinamento
+											</label>
+
+											<div>Treinamento: Realiza o espelhamento das entradas de acordo com a configuração de operacional dos usuários mas somente no tipo de conta <strong>TREINAMENTO</strong>, respeitando o máximo valor de entrada se aplicado pelo trader.</div>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="form-check margin-t-10 text-center">
+											<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_sessao" value="master" <%= data[usuario.id +'_sessao_status'][0].tipo_sessao == 'master' ? 'checked' : '' %> <%= (data_conexao_b.status != 'conectado') || (data_conta_b.acao != 'parar') ? 'disabled' : ''%>>
+											<label class="form-check-label">
+												Master
+											</label>
+											<div>Master: Realiza o espelhamento das entradas apenas para os usuários <b>master</b> de acordo com a configuração de operacional dos usuários, respeitando o máximo valor de entrada se aplicado pelo trader.</div>
+										</div>
+									</div>
+
+
+								</div>
+
+
+
+
+
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</section>
+
 
 			<%if(data[usuario.id +'_sessao_status'][0].sessao_iniciada == true){%>
 

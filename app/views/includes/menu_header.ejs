@@ -2,7 +2,7 @@
 	<ul class="list-unstyled">
 		<li class="<%= data.numero_menu == 1 ? 'active' : ''%>"><a class="ajax-load" href="/sistema"> <i class="icon-home"></i>Dashboard </a></li>
 		<li class="<%= data.numero_menu == 2 ? 'active' : ''%>" ><a class="ajax-load" href="/sistema/minha_conta"> <i class="icon-user"></i>Minha Conta </a></li>
-		<% if(usuario.nivel == 3){%>
+		<% if(usuario.nivel == 3 || usuario.nivel == 4 || usuario.nivel == 5){%>
 		<li class="<%= data.numero_menu == 5 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/recarga"> <i class="icon-dashboard"></i>Recarregar </a></li>
 		<li class="<%= data.numero_menu == 3 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/historico"> <i class="fas fa-chart-bar"></i>Histórico </a></li>
 		<%}else if(usuario.nivel == 2){%>

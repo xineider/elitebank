@@ -1,4 +1,4 @@
-	<% if(usuario.nivel ==3){%>
+	<% if(usuario.nivel ==3 || usuario.nivel == 4 || usuario.nivel == 5){%>
 
 	<section class="margin-bottom-sm">
 		<div class="container-fluid">
@@ -36,11 +36,11 @@
 
 									<%if(data[usuario.id +'_licenca_user_dias'] < 0 && data_conta_b.primeira_vez == undefined){ %>
 									
-									<span class="d-block dashtext-5">Liçenca expirada!! <a href="https://www.hotmart.com/pt-BR" target="_blank" class="dashtext-3">Clique aqui</a> para adquirir uma nova liçenca. </span>
+									<span class="d-block dashtext-5">Licença expirada!! <a href="https://www.hotmart.com/pt-BR" target="_blank" class="dashtext-3">Clique aqui</a> para adquirir uma nova licença. </span>
 									
 									
 									<%} else if(data[usuario.id +'_licenca_user_dias'] >= 0){%>
-									<span class="d-block"><span class="dashtext-3"><%= data[usuario.id +'_licenca_user_dias'] %></span> dia(s) restantes de liçenca de uso do sistema</span>								
+									<span class="d-block"><span class="dashtext-3"><%= data[usuario.id +'_licenca_user_dias'] %></span> dia(s) restantes de licença de uso do sistema</span>								
 									
 									<%}else{%>
 									<span class="d-block">Você não possui licença.</span>
@@ -66,7 +66,7 @@
 
 				<div class="col-lg-4 col-xl-4">
 					<div class="stats-with-chart-1 block <%= data[usuario.id +'_licenca_user_dias'] >= 7 && data[usuario.id +'_licenca_user_dias'] < 15 ? 'dashborder-5' : data[usuario.id +'_licenca_user_dias'] < 7 && data_conta_b.primeira_vez != true ? 'error_border' : '' %>">
-						<div class="title"> <strong class="d-block">Liçenca</strong></div>
+						<div class="title"> <strong class="d-block">Licença</strong></div>
 						<div class="row d-flex align-items-end justify-content-between">
 							<div class="col-sm-12">
 								<div class="text">
@@ -76,7 +76,7 @@
 									
 									<%}else if(data[usuario.id +'_licenca_user_dias'] < 0 && data_conta_b.primeira_vez == undefined){ %>
 									
-									<span class="d-block dashtext-5">Liçenca expirada!! <a href="https://www.hotmart.com/pt-BR" target="_blank" class="dashtext-3">Clique aqui</a> para adquirir uma nova liçenca. </span>
+									<span class="d-block dashtext-5">Licença expirada!! <a href="https://www.hotmart.com/pt-BR" target="_blank" class="dashtext-3">Clique aqui</a> para adquirir uma nova licença. </span>
 									
 									<%}else{%>
 									<span class="d-block">Você não possui licença.</span>
