@@ -36,7 +36,12 @@ app.use(require('express-is-ajax-request'));
 app.set('trust proxy', 1); // trust first proxy
 
 
-const uri = 'mongodb+srv://admin_87:GaluCuDt6WGUTR2w@cluster0.z4jia.azure.mongodb.net/e98m41?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://admin_33:4bCHv6rFBIPvskWA@cluster0.3wi5w.mongodb.net/f1j39?retryWrites=true&w=majority';
+
+
+
+
+
 
 mongoose.connect(uri, {
   useNewUrlParser: true,

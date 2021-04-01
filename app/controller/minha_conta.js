@@ -297,22 +297,18 @@ router.post('/ativar-codigo-transacao', function(req, res, next) {
 												console.log('-----------------------------------------------');
 
 												if(data_configuracoes[0].possui_creditos == false){
-													console.log('nao possui_creditos');
-													console.log(data_licenca);
-													var nova_data = data_licenca.data_fim;
-													console.log('nova_data:' + nova_data);
+													var nova_data = data_licenca.data_fim;												
 													var hoje = new Date();
-
-													console.log('hoje:' + hoje);
-													if(nova_data < hoje){
-														console.log('é bem menor do que hoje');
+													
+													//verifico se a data é menor que hoje caso o usuário tenha uma licença muito
+													//antiga, setamos o dia para "ontem" pois senão o usuario teria + 1 dia
+													if(nova_data < hoje){														
 														hoje.setDate(hoje.getDate() - 1);
-														nova_data.setTime(hoje);
+														nova_data.setDate(hoje);
 													}
-													console.log('nova_data.getDate(): ' + nova_data.getDate());
-													console.log('data_produto.quantidade:' + data_produto.quantidade);
+											
 													nova_data.setDate(nova_data.getDate() + data_produto.quantidade);
-													console.log('nova_data:' + nova_data);
+													
 
 													licencaUser.findOneAndUpdate({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},{'$set':{'data_fim':nova_data,'creditos':9999}},function(err,data_new_licenca){
 														if (err) {

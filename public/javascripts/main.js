@@ -1204,7 +1204,7 @@ function filtrarTabelaDataTablePt(tabela){
 			"lengthMenu":     "_MENU_ resultados por página",
 			"loadingRecords": "Carregando...",
 			"processing":     "Processando...",
-			"search":         "Pesquisar: <i class='fa fa-search primary-text'></i> ",
+			"search":         "Pesquisar: <i class='fa fa-search text-primary'></i> ",
 			"searchPlaceholder":"Pesquisar",
 			"zeroRecords":    "Nenhum registro encontrado",
 			"paginate": {
@@ -1237,7 +1237,7 @@ function filtrarTabelaDataTablePtNoSort(tabela){
 			"lengthMenu":     "_MENU_ resultados por página",
 			"loadingRecords": "Carregando...",
 			"processing":     "Processando...",
-			"search":         "Pesquisar: <i class='fa fa-search primary-text'></i> ",
+			"search":         "Pesquisar: <i class='fa fa-search text-primary'></i> ",
 			"searchPlaceholder":"Pesquisar",
 			"zeroRecords":    "Nenhum registro encontrado",
 			"paginate": {

@@ -1,0 +1,33 @@
+	<%if(usuario.nivel == 6){%>
+
+	<div class="modal-header primary">
+		<h5 class="modal-title">Mensagens Usuário</h5>
+		<button type="button" class="close pointer" data-dismiss="modal" aria-label="Fechar">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<div class="padding-10">
+		<div class="block-body margin-t-10">
+			<% if (typeof data[usuario.id +'_mensagem_usuario'] != 'undefined' && data[usuario.id +'_mensagem_usuario'].length > 0) {
+						for (var i = 0; i < data[usuario.id +'_mensagem_usuario'].length; i++) {%>
+
+				<div class="alert <%=
+						data[usuario.id +'_mensagem_usuario'][i].tipo_mensagem == 1 ? 'sucess-block' : data[usuario.id +'_mensagem_usuario'][i].tipo_mensagem == 2 ? 'warning-block' : data[usuario.id +'_mensagem_usuario'][i].tipo_mensagem == 0 ? 'primary-block' : 'error-block' %> alert-dismissible fade show" role="alert">
+						<%= data[usuario.id +'_mensagem_usuario'][i].data_formatada%><%= data[usuario.id +'_mensagem_usuario'][i].descricao_mensagem %>
+			
+			</div>
+			<%}
+		}else{%>
+		<div class="text-center">Não há nenhuma mensagem no momento.</div>
+
+		<%}%>
+	</div>
+
+</div>
+
+<%}else{%>
+<div class="padding=10">
+	Você não pode acessar essa funcionalidade!!!
+</div>
+<%}%>

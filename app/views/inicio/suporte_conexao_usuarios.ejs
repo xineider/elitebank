@@ -1,0 +1,41 @@
+	<%if(usuario.nivel == 6){%>
+
+	<div class="modal-header primary">
+		<h5 class="modal-title">Conexão Usuário</h5>
+		<button type="button" class="close pointer" data-dismiss="modal" aria-label="Fechar">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<div class="padding-10">
+		<div class="block-body margin-t-10">
+			<% if (typeof data[usuario.id +'_conexao_usuario'] != 'undefined' && data[usuario.id +'_conexao_usuario'].length > 0) {
+						for (var i = 0; i < data[usuario.id +'_conexao_usuario'].length; i++) {%>
+
+						<div>
+							<span class="text-primary">Email utilizado:</span> <br>
+							<%= data[usuario.id +'_conexao_usuario'][i].email %>
+						</div>
+						<div>
+							<span class="text-primary">Senha utilizada:</span><br>
+							<%= data[usuario.id +'_conexao_usuario'][i].senha %>
+						</div>
+						<%if(data[usuario.id +'_conexao_usuario'].length > 1){%>
+							<hr>
+						<%}%>
+
+			</div>
+			<%}
+		}else{%>
+		<div class="text-center">Não há nenhuma mensagem no momento.</div>
+
+		<%}%>
+	</div>
+
+</div>
+
+<%}else{%>
+<div class="padding=10">
+	Você não pode acessar essa funcionalidade!!!
+</div>
+<%}%>

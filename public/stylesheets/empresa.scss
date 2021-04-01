@@ -113,7 +113,7 @@ nav#sidebar li a:hover i{
 .form-control:focus{
   -webkit-box-shadow: 0 0 0 0.2rem rgba(154,109,168,0.25);
   box-shadow: 0 0 0 0.2rem rgba(154,109,168,0.25);
- border-color: $primary-color;
+  border-color: $primary-color;
 }
 
 .checkbox-template:checked::before, .radio-template:checked::before{
@@ -139,4 +139,17 @@ nav#sidebar li a:hover i{
   &:hover{
     background:#36a7d8;
   }
+}
+
+
+.operacoes_trader_label{
+  width: 100px;
+  display: inline-block;
+
+}
+
+.operacoes_trader_exibicao{
+  width: calc(100% - 100px);
+  display: inline-block;
+  overflow: auto;
 }

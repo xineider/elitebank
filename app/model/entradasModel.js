@@ -5,7 +5,8 @@ const entradasSchema = new mongoose.Schema({
 	timestamp:Number,
 	vitoria:Boolean,
 	executada:Boolean,
-	deletado:Number
+	deletado:Number,
+	data_captura:Date
 });
 
 module.exports = mongoose.model('entradas_cliente', entradasSchema,'entradas_cliente');

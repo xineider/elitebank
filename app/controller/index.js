@@ -56,6 +56,8 @@ var usuariosModel = require('../model/usuariosModel.js');
 /*Sessão dos Usuário*/
 var sessaoTotalModel = require('../model/sessaoTotalModel.js');
 
+var usuarioSessaoDefinitivaModel = require('../model/usuarioSessaoDefinitivaModel.js');
+
 /* GET pagina de login. */
 
 router.get('/', function(req, res, next) {
@@ -64,8 +66,9 @@ router.get('/', function(req, res, next) {
 
 	console.log('req.session.usuario');
 	console.log(req.session.usuario);
+	console.log(req.session.usuario.nivel);
 	if(req.session.usuario.nivel == 3 || req.session.usuario.nivel == 4 || req.session.usuario.nivel == 5){
-
+		console.log('cai aqui no primeiro if');
 		configuracoes_sistema.find({},function(err,data_configuracoes){
 
 			if(data_configuracoes != null){
@@ -199,7 +202,7 @@ router.get('/', function(req, res, next) {
 				}).sort({'data_cadastro':-1});
 			});
 });
-}else{
+}else if(req.session.usuario.nivel == 1 || req.session.usuario.nivel == 2){
 
 	sessaoStatusModel.find({},function(err,data_sessao_status){
 
@@ -319,6 +322,367 @@ router.get('/', function(req, res, next) {
 		});
 	});
 
+}else{
+
+	//mongoose.pluralize(null);
+
+
+
+	// const Usuario = mongoose.model('usuarios',usuarioSchema,'usuarios');
+	// const Conta = mongoose.model('usuario_conta',contaSchema,'usuario_conta');
+
+
+
+	// Conta.
+	// find({}).
+	// populate('id_usuario').
+	// exec(function (err, banaan) {
+	// 	if (err){
+	// 		console.log('kkkkkkkkkkkkkkkkkkkkkk erro kkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+	// 		console.log(err);
+	// 		console.log('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+	// 	}else{
+	// 		console.log('88888888888888888888888888888888888888888888888');
+	// 		console.log(banaan);
+	// 		console.log('88888888888888888888888888888888888888888888888');
+	// 	}
+	// });
+
+
+	usuariosModel.aggregate([
+	{
+		$match:{nivel:3}
+	},
+	{
+		$lookup:{
+			from:'usuario_conta',
+			localField:'_id',
+			foreignField:'id_usuario',
+			as:'conta'
+
+		}
+	},
+
+	{
+		$lookup:{
+			from:'conexao_teste',
+			localField:'_id',
+			foreignField:'id_usuario',
+			as:'conexao'
+		}
+	},
+	{
+		$lookup:{
+			from:'usuario_sessao_definitiva',
+			localField:'_id',
+			foreignField:'id_usuario',
+			as:'sessao'
+		}
+	}
+	// ,
+	//  {"$unwind":"$sessao"},
+	//  {$lookup:{
+	//  	from:'usuario_sessao_definitiva',
+	//  	let:{
+	//  		ids:'$sessao.id_usuario'
+	//  	},
+	//  	pipeline:[
+	//  	{
+	//  		$match:{
+	//  			$expr:{
+	//  				$in:['$_id','$$ids']
+	//  			}
+	//  		}
+	//  	}],
+	//  	as:'sessao.teste'
+	//  }}
+	// {
+	// 	$lookup:{
+	// 		from:'usuario_sessao_definitiva',
+	// 		let:{id:'$id_usuario',servidor:'$servidor'},
+	// 		pipeline:[
+	// 		{
+	// 			$match:{
+	// 				$expr: {
+	// 					$and: [
+	// 					{
+	// 						'$$servidor':{$gte:1}
+	// 					},
+	// 					{ $eq: ['$id_usuario', '$$id_usuario'] }
+
+	// 					]
+
+	// 				}
+	// 			}
+
+
+
+	// 		}
+	// 		]
+	// 	},
+
+	// }
+
+
+	// {
+
+	// 	// $lookup:{
+	// 	// 	from:'usuario_sessao_definitiva',
+	// 	// 	localField:'_id',
+	// 	// 	foreignField:'id_usuario',
+	// 	// 	as:'sessao'
+	// 	// },
+
+	// 	// $lookup:{
+	// 	// 	from:'usuario_sessao_definitiva',
+	// 	// 	let:{''},
+	// 	// 	pipeline:[
+	// 	// 	{$match:{
+	// 	// 		'servidor':5
+	// 	// 	}}
+	// 	// 	]
+	// 	// }
+
+
+	// }
+
+
+	]).exec(function(err,data_usuario){
+
+		// usuarioSessaoDefinitivaModel.aggregate({
+		// 	$lookup:{
+		// 		from:'usuarios',
+		// 		let:{'id':'$id_usuario'},
+		// 		pipeline:[
+  //          		{$project: {_id: 1, bid: {"$toObjectId": "$$id"}}},
+		// 		{$match: {$expr: {$eq: ["$_id", "$bid"]}}}
+		// 		],
+		// 		as: "j"
+		// 	}
+
+		// }).exec(function(err,data_j){
+		// 	console.log('aaaaaaaaaaaaaaaa');
+		// 	console.log(data_j);
+		// 	console.log('aaaaaaaaaaaaaaaa');
+		// });
+
+
+		console.log('----------------------------');
+		console.log(data_usuario);
+		console.log('----------------------------');
+
+		// console.log('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
+		// console.log(data_usuario[0].conta);
+		// console.log('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
+
+		// console.log('data_usuario[0].conta.length: ' + usuario[0].conta.length);
+
+
+
+		data[req.session.usuario.id + '_usuarios_suporte'] = data_usuario;
+
+		res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexSuporte', data: data, usuario: req.session.usuario});
+
+
+
+
+	});
+
+
+
+
+	// usuariosModel.
+	// find({}).
+	// populate('conta').
+	// exec(function (err, usuario) {
+	// 	if (err){
+	// 		console.log('çççççççççççççççççççççç erro ççççççççççççççççççççççççççççççççççç');
+	// 		console.log(err);
+	// 		console.log('ççççççççççççççççççççççççççççççççççççççççççççççççççççççççççççççç');
+	// 	}else{
+	// 		console.log('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+	// 		console.log(usuario);
+	// 		console.log('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+	// 	}
+	// });
+
+
+
+
+
+
+
+
+
+	// usuariosModel.find({}).populate('conta').exec(function (err, story) {
+	// 	console.log('conta usuario');
+	// 	console.log(story);
+	// 	console.log('batat');
+	// });
+
+
+
+
+
+
+
+
+
+	//+++++++++++++++++++++++++++++++++++++++++++++ ultima versao trader não funcionando ++++++++++++++++++++++++++++++++++++
+
+	// contaUser.find({tipo:'trader',data_fim:{'$exists':true}},function(err,data_conta_trader){
+	// 	console.log('aaaaaaa');
+	// 	console.log(data_conta_trader);
+	// 	console.log('aaaaaa');
+
+	// 	console.log('data_conta_trader.length:'+ data_conta_trader.length);
+
+	// 	var c =0;
+	// 	var arrayLenght = [];
+	// 	var array_sessao_valida = [];
+
+	// 	for(i=0;i<data_conta_trader.length;i++){
+	// 		var data_inicio_sessao = data_conta_trader[i].data_cadastro;
+	// 		var data_fim_sessao = data_conta_trader[i].data_fim;
+
+	// 		entradasModel.find({data_captura:{'$gt':data_inicio_sessao,'$lt':data_fim_sessao}},function(err2,data_entradas_u){
+	// 				// console.log('eeeeeeeeeeentradas');
+	// 				// console.log(data_entradas_u);
+	// 				// console.log('eeeeeeeeeeeeeeeeee');
+
+	// 				console.log('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+	// 				console.log('data_entradas_u.length: ' + data_entradas_u.length);
+	// 				console.log('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+
+	// 				arrayLenght.push(data_entradas_u.length);
+
+	// 				if(data_entradas_u.length > 0){
+	// 					console.log('estou aqui no > 0');
+	// 					array_sessao_valida.push(data_conta_trader[i]);
+
+
+
+
+	// 				}
+
+
+
+	// 			});
+
+
+	// 		// usuarioSessaoDefinitivaModel.find({data_registro:{'$gt':data_inicio_sessao,'$lt':data_fim_sessao}},function(err2,data_usuarios_definitivos_sessao){
+	// 		// 	// console.log('uuuuuuuuuuuuuuuuuuuuuuu');
+	// 		// 	// console.log(data_usuarios_definitivos_sessao.length);
+	// 		// 	// console.log('uuuuuuuuuuuuuuuuuuuuuuu');
+
+
+
+
+	// 		// });
+
+
+	// 	}
+
+	// 	console.log('llllllllllllllllll');
+	// 	console.log(arrayLenght);
+	// 	console.log('llllllllllllllllll');
+
+	// 	console.log('array_sessao_valida');
+	// 	console.log(array_sessao_valida);
+
+	// 	res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexSuporte', data: data, usuario: req.session.usuario});
+
+	// }).sort({'_id':-1}).limit(3);
+
+
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	// var data_inicio = new Date(2021,0,9);
+	// var data_fim = new Date(2021,0,10);
+
+	// console.log('data_inicio: ' + data_inicio);
+	// console.log('data_fim: '+ data_fim);
+
+	// contaUser.find({tipo:'trader','data_cadastro':{'$gt':data_inicio,'$lt':data_fim}},function(err,data_conta_trader){
+
+	// 	console.log('conta_trader');
+	// 	console.log(data_conta_trader);
+	// 	console.log('--------------------------------------');
+
+	// 	var data_inicio_sessao;
+	// 	var data_fim_sessao;
+
+	// 	for(i=0; i< data_conta_trader.length; i++){
+	// 		data_inicio_sessao = data_conta_trader[i].data_cadastro;
+	// 		data_fim_sessao = new Date(2021,0,10);
+
+	// 		console.log('data_conta_trader.length:' + data_conta_trader.length);
+	// 		console.log('data_inicio_sessao:' + data_inicio_sessao);
+
+	// 		usuarioSessaoDefinitivaModel.find({'data_registro':{'$gt':data_inicio_sessao,'$lt':data_fim_sessao}},function(err2,data_usuario_definitivo){
+	// 			console.log('========================');
+	// 			console.log(data_usuario_definitivo.length);
+	// 			console.log('=========================');
+
+	// 			for(j=0;j<data_usuario_definitivo.length;j++){
+
+	// 				console.log('data_usuario_definitivo[j]');
+	// 				console.log(data_usuario_definitivo[j]);
+	// 				console.log('data_usuario_definitivo[j].id_usuario: ' + data_usuario_definitivo[j].id_usuario);
+
+	// 				console.log('data_inicio_sessao: '+data_inicio_sessao);
+	// 				console.log('data_fim_sessao: ' + data_fim_sessao);
+
+	// 				entradasModel.find({'id_usuario':mongoose.Types.ObjectId(data_usuario_definitivo[j].id_usuario),'data_captura':{'$lt':data_fim_sessao}},function(err3,data_entradas_usuario){
+
+
+
+	// 					total_entradas = 0;
+	// 					total_executadas = 0;
+	// 					total_vitorias = 0;
+
+	// 					arrayEntradas = [];
+	// 					arrayExecutadas = [];
+	// 					arrayVitorias = [];
+
+
+	// 					// console.log(data_entradas_usuario);
+	// 					// console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+
+
+	// 					for(k=0;k<data_entradas_usuario.length;k++){
+	// 						total_entradas = total_entradas + 1;
+	// 						if(data_entradas_usuario[k].executada == true){
+	// 							total_executadas = total_executadas + 1;
+	// 							if(data_entradas_usuario[k].vitoria == true){
+	// 								total_vitorias = total_vitorias + 1;
+	// 								arrayVitorias.push(total_vitorias);
+	// 							}
+	// 						}
+
+	// 					}
+
+	// 					console.log('arrayVitorias:' + arrayVitorias);
+
+	// 					// console.log('total_entradas: ' + total_entradas);
+	// 					// console.log('total_executadas: ' + total_executadas);
+	// 					// console.log('total_vitorias: ' + total_vitorias);
+
+
+
+	// 				});
+
+
+	// 			}
+
+	// 		});;
+	// 	};
+
+
+	// 	res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexSuporte', data: data, usuario: req.session.usuario});
+	// });
+
+
 }
 
 
@@ -374,6 +738,104 @@ router.get('/load-trader-opcoes-digital', function(req, res, next) {
 
 	res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/select_opcoes_digital', data: data, usuario: req.session.usuario});
 });
+
+
+router.get('/get-mensagens-usuario/:id_usuario', function(req, res, next) {
+
+	console.log(req.params.id_usuario);
+
+	id_usuario = req.params.id_usuario;
+
+	console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+	console.log('estou no getMensagensUsuario');
+	console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
+	mensagemUser.find({'id_usuario':mongoose.Types.ObjectId(id_usuario)},function(err,data_mensagem_a){
+
+		if(data_mensagem_a.length > 0){
+
+			for(i=0;i<data_mensagem_a.length;i++){
+				var horario = new Date(data_mensagem_a[i].data_registro);
+				horario.setHours(horario.getHours() - 3);
+				dia_mensagem = horario.getDate();
+
+				if(dia_mensagem > 0 && dia_mensagem < 10){
+					dia_mensagem = "0" + dia_mensagem;
+				}
+
+				mes_mensagem = horario.getMonth() + 1;
+				if(mes_mensagem > 0 && mes_mensagem < 10){
+					mes_mensagem = "0" + mes_mensagem;
+				}
+
+				ano_mensagem = horario.getFullYear();
+
+				hora_mensagem = horario.getHours();
+
+				if(hora_mensagem >= 0 && hora_mensagem < 10){
+					hora_mensagem = "0" + hora_mensagem;
+				}
+
+				minuto_mensagem = horario.getMinutes();
+
+				if(minuto_mensagem >= 0 && minuto_mensagem < 10){
+					minuto_mensagem = "0" + minuto_mensagem;
+				}
+
+				segundo_mensagem = horario.getSeconds();
+
+				if(segundo_mensagem >= 0 && segundo_mensagem < 10){
+					segundo_mensagem = "0" + segundo_mensagem;
+				}
+
+
+				data_concatenada = dia_mensagem + '/' + mes_mensagem + '/' + ano_mensagem + ' ' + hora_mensagem + ':' + minuto_mensagem + ':' + segundo_mensagem + ' - ';
+
+				data_mensagem_a[i].data_formatada = data_concatenada;
+
+			}
+
+		}
+
+		data[req.session.usuario.id + '_mensagem_usuario'] = data_mensagem_a;	
+
+
+		console.log('ddddddddddddddddddddd data dddddddddddddddddddddd');
+		console.log(data);
+		console.log('ddddddddddddddddddddddddddddddddddddddddddddddddd');
+		res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/suporte_mensagens_usuarios', data: data, usuario: req.session.usuario});
+	}).sort({'_id':-1});
+});
+
+
+
+
+router.get('/get-conexao-usuario/:id_usuario', function(req, res, next) {
+
+	console.log(req.params.id_usuario);
+
+	id_usuario = req.params.id_usuario;
+
+	console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+	console.log('estou no getConexaoUsuario');
+	console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
+	teste_conexaoUser.find({'id_usuario':mongoose.Types.ObjectId(id_usuario),'status':'erro de conexao'},function(err,data_conexao_a){
+
+		data[req.session.usuario.id + '_conexao_usuario'] = data_conexao_a;	
+
+
+		console.log('ddddddddddddddddddddd data dddddddddddddddddddddd');
+		console.log(data);
+		console.log('ddddddddddddddddddddddddddddddddddddddddddddddddd');
+		res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/suporte_conexao_usuarios', data: data, usuario: req.session.usuario});
+	}).sort({'_id':-1});
+});
+
+
+
+
+
 
 
 router.post('/log', function(req, res, next) {
@@ -756,7 +1218,9 @@ router.post('/parar-operacao', function(req, res, next) {
 	console.log(POST);
 	console.log('JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ');
 
-	contaUser.findOneAndUpdate({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},{'$set':{'acao':'parar'}},function(err){
+	var data_fim = new Date();
+
+	contaUser.findOneAndUpdate({'id_usuario':mongoose.Types.ObjectId(req.session.usuario.id)},{'$set':{'acao':'parar','data_fim':data_fim}},function(err){
 		if (err) {
 			return handleError(err);
 		}else{
@@ -764,8 +1228,8 @@ router.post('/parar-operacao', function(req, res, next) {
 		}
 	}).sort({'data_cadastro':-1});
 
-});
 
+});
 
 
 

@@ -13,7 +13,8 @@ const contaSchema = new mongoose.Schema({
 	status:String,
 	stop_gain:Number,
 	deletado:Number,
-	data_cadastro:Date
+	data_cadastro:Date,
+	data_fim:Date
 });
 
 
