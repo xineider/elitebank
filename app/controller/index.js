@@ -58,6 +58,9 @@ var sessaoTotalModel = require('../model/sessaoTotalModel.js');
 
 var usuarioSessaoDefinitivaModel = require('../model/usuarioSessaoDefinitivaModel.js');
 
+
+var fechar_ordem_forexModel = require('../model/fechar_ordem_forexModel.js');
+
 /* GET pagina de login. */
 
 router.get('/', function(req, res, next) {
@@ -306,14 +309,20 @@ router.get('/', function(req, res, next) {
 
 								}
 
+								entradasTraderModel.find({'fechar':false},function(err,data_entradas_forex_abertos){
 
-								console.log('TTTTTTTTTTTTTTTTTTTTTTTTT TRADER TTTTTTTTTTTTTTTTTTTTTTTTTTTT');
-								console.log(data);
-								console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+									data[req.session.usuario.id + '_entradas_trader_forex_aberto'] = data_entradas_forex_abertos;
 
 
-								res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexTrader', data: data, usuario: req.session.usuario,data_conexao_b:data_conexao,data_mensagem_b:arrayMensagemData,data_conta_b:data_conta});
 
+
+									console.log('TTTTTTTTTTTTTTTTTTTTTTTTT TRADER TTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+									console.log(data);
+									console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+
+
+									res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/indexTrader', data: data, usuario: req.session.usuario,data_conexao_b:data_conexao,data_mensagem_b:arrayMensagemData,data_conta_b:data_conta});
+								}).sort({'_id':-1});
 							});
 						}).sort({'data_cadastro':-1});
 					}).sort({'data_cadastro':-1});
@@ -740,6 +749,16 @@ router.get('/load-trader-opcoes-digital', function(req, res, next) {
 });
 
 
+router.get('/load-trader-opcoes-forex', function(req, res, next) {
+
+	console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
+	console.log('load-trader-opcoes-forex');
+	console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
+
+	res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'inicio/select_opcoes_forex', data: data, usuario: req.session.usuario});
+});
+
+
 router.get('/get-mensagens-usuario/:id_usuario', function(req, res, next) {
 
 	console.log(req.params.id_usuario);
@@ -860,6 +879,34 @@ router.post('/log', function(req, res, next) {
 	});
 
 });
+
+
+
+router.post('/fechar-ordens', function(req, res, next) {
+
+	
+	console.log('estou no fechar-ordens');
+
+
+	const novo_fechamento = new fechar_ordem_forexModel({
+		fechar:true,
+		data_cadastro: new Date()
+	});
+
+	novo_fechamento.save(function (err) {
+		if (err) {
+			return handleError(err);
+		}else{
+			res.json(data);
+		}
+	});
+
+
+});
+
+
+
+
 
 router.post('/testar-conexao', function(req, res, next) {
 	POST = req.body;
@@ -1279,7 +1326,7 @@ router.post('/iniciar-operacao-trader', function(req, res, next) {
 						console.log(POST);
 						console.log('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
 
-						sessaoStatusModel.findOneAndUpdate({'deletado':0},{'$set':{'tipo_sessao':POST.tipo_sessao}},function(err3){
+						//sessaoStatusModel.findOneAndUpdate({'deletado':0},{'$set':{'tipo_sessao':POST.tipo_sessao}},function(err3){
 							if (err) {
 								return handleError(err3);
 							}else{
@@ -1297,7 +1344,7 @@ router.post('/iniciar-operacao-trader', function(req, res, next) {
 									}
 								});							
 							}
-						});
+						//});
 
 					}).sort({'data_cadastro':-1});
 
@@ -1364,28 +1411,68 @@ router.post('/entrada-trader-call', function(req, res, next) {
 		tipo_opcao = 'digital';
 	}
 
-	const new_entrada_trader = new entradasTraderModel({
-		par:POST.par,
-		direcao:'call',
-		tipo:tipo_opcao,
-		expiracao:parseInt(POST.expiracao),
-		timestamp:ts,
-		limitar_entrada:limitar_entrada,
-		valor_maximo:POST.limite_liquidez
+	console.log(POST.tipo);
 
-	});
 
-	console.log('new_entrada_trader');
-	console.log(new_entrada_trader);
-	console.log('nnnnnnnnnnnnnnnnnnnnnnnnnnn');
+	if(POST.tipo == 'Digital' || POST.tipo == 'Binária'){
+		const new_entrada_trader = new entradasTraderModel({
+			par:POST.par,
+			direcao:'call',
+			tipo:tipo_opcao,
+			expiracao:parseInt(POST.expiracao),
+			timestamp:ts,
+			limitar_entrada:limitar_entrada,
+			valor_maximo:POST.limite_liquidez
 
-	new_entrada_trader.save(function (err) {
-		if (err) {
-			return handleError(err);
-		}else{
-			res.json(data);
-		}
-	});
+		});
+
+		console.log('new_entrada_trader');
+		console.log(new_entrada_trader);
+		console.log('nnnnnnnnnnnnnnnnnnnnnnnnnnn');
+
+		new_entrada_trader.save(function (err) {
+			if (err) {
+				return handleError(err);
+			}else{
+				res.json(data);
+			}
+		});
+
+
+
+
+	}else{
+
+		var multiplicador_f = parseInt(POST.multiplicador);
+
+		const new_entrada_trader = new entradasTraderModel({
+			par:POST.par,
+			direcao:'buy',
+			tipo:'forex',
+			timestamp:ts,
+			limitar_entrada:limitar_entrada,
+			valor_maximo:POST.limite_liquidez,
+			fechar:false,
+			multiplicador: multiplicador_f
+		});
+
+		console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+		console.log(new_entrada_trader);
+		console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
+		new_entrada_trader.save(function (err) {
+			if (err) {
+				return handleError(err);
+			}else{
+				res.json(data);
+			}
+		});
+
+	}
+
+
+
+
 
 });
 
@@ -1393,9 +1480,9 @@ router.post('/entrada-trader-call', function(req, res, next) {
 router.post('/entrada-trader-put', function(req, res, next) {
 	POST = req.body;
 
-	console.log('CCCCCCCCCCCCCCCCCCCCCCCCC CALL CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC');
+	console.log('PPPPPPPPPPPPPPP PUT PPPPPPPPPPPPPPPPP');
 	console.log(POST);
-	console.log('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC');
+	console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
 	
 	var ts = Math.round(new Date().getTime() / 1000);
 
@@ -1411,28 +1498,66 @@ router.post('/entrada-trader-put', function(req, res, next) {
 		tipo_opcao = 'digital';
 	}
 
-	const new_entrada_trader = new entradasTraderModel({
-		par:POST.par,
-		direcao:'put',
-		tipo: tipo_opcao,
-		expiracao:parseInt(POST.expiracao),
-		timestamp:ts,
-		limitar_entrada:limitar_entrada,
-		valor_maximo:POST.limite_liquidez
+	console.log(POST.tipo);
 
-	});
 
-	console.log('new_entrada_trader');
-	console.log(new_entrada_trader);
-	console.log('nnnnnnnnnnnnnnnnnnnnnnnnnnn');
+	if(POST.tipo == 'Digital' || POST.tipo == 'Binária'){
+		const new_entrada_trader = new entradasTraderModel({
+			par:POST.par,
+			direcao:'put',
+			tipo:tipo_opcao,
+			expiracao:parseInt(POST.expiracao),
+			timestamp:ts,
+			limitar_entrada:limitar_entrada,
+			valor_maximo:POST.limite_liquidez
 
-	new_entrada_trader.save(function (err) {
-		if (err) {
-			return handleError(err);
-		}else{
-			res.json(data);
-		}
-	});
+		});
+
+		console.log('new_entrada_trader');
+		console.log(new_entrada_trader);
+		console.log('nnnnnnnnnnnnnnnnnnnnnnnnnnn');
+
+		new_entrada_trader.save(function (err) {
+			if (err) {
+				return handleError(err);
+			}else{
+				res.json(data);
+			}
+		});
+
+
+
+
+	}else{
+
+		var multiplicador_f = parseInt(POST.multiplicador);
+
+		const new_entrada_trader = new entradasTraderModel({
+			par:POST.par,
+			direcao:'sell',
+			tipo:'forex',
+			timestamp:ts,
+			limitar_entrada:limitar_entrada,
+			valor_maximo:POST.limite_liquidez,
+			fechar:false,
+			multiplicador: multiplicador_f
+		});
+
+		console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+		console.log(new_entrada_trader);
+		console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
+		new_entrada_trader.save(function (err) {
+			if (err) {
+				return handleError(err);
+			}else{
+				res.json(data);
+			}
+		});
+
+
+	}
+
 
 });
 

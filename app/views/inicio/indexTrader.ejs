@@ -320,7 +320,7 @@
 
 			</section>
 
-						<section class="margin-bottom-sm">
+			<section class="margin-bottom-sm none">
 				<div class="container-fluid">
 					<div class="row d-flex align-items-stretch">
 						<div class="col-sm-12">
@@ -393,7 +393,7 @@
 								<div class="row align-items-center">
 									<div class="col-sm-12 col-md-10">
 
-										<div class="text-center none margin-t-20 margin-b-20" id="operacao_box_mensagem_escolha">Você escolheu o par <strong id="operacao_par_escolha_label" class="text-primary"></strong> no tempo de expiração de <strong id="operacao_tempo_expiracao_escolha_label" class="text-primary"></strong> na opção <strong id="operacao_tipo_escolha_label" class="text-primary"></strong>, por-favor escolha uma das opções CALL ou PUT.</div>
+										<div class="text-center none margin-t-20 margin-b-20" id="operacao_box_mensagem_escolha">Você escolheu o par <strong id="operacao_par_escolha_label" class="text-primary"></strong> <span id="operacao_opcao_escolha_label"></span> <strong id="operacao_tempo_expiracao_escolha_label" class="text-primary"></strong> na opção <strong id="operacao_tipo_escolha_label" class="text-primary"></strong>, por-favor escolha uma das opções <span id="operacao_call_escolha_label"></span> ou <span id="operacao_put_escolha_label"></span>.</div>
 
 										<div class="row">
 											<div class="col-sm-12 col-md-4">
@@ -410,10 +410,11 @@
 													<option selected value="0" disabled>---Selecione---</option>
 													<option>Binária</option>
 													<option>Digital</option>
+													<option>Forex</option>
 												</select>
 											</div>
 
-											<div class="col-sm-12 col-md-4">
+											<div class="col-sm-12 col-md-4 opcao_change_trader">
 												<label class="form-control-label">Tempo Expiração</label>
 												<select id="tempo_expiracao_trader_escolha" class="custom-select tempo_expiracao_trader_escolha" name="expiracao" disabled>
 													<option selected value="0" disabled>---Selecione---</option>
@@ -431,20 +432,54 @@
 										<div class="d-flex justify-content-center">
 											<button type="button" data-href="/sistema/entrada-trader-call/" class="btn btn-trader-operation call margin-t-10 margin-b-10 disabled ajax-submit" disabled>
 												<i class="fas fa-arrow-up"></i>
-												<div>CALL</div>
+												<div class="btn-call-text">CALL</div>
 											</button>
 										</div>
 
 										<div class="d-flex justify-content-center">
 
 											<button type="button" data-href="/sistema/entrada-trader-put/" class="btn btn-trader-operation put margin-t-10 margin-b-10 disabled ajax-submit" disabled>
-												<div>PUT</div>
+												<div class="btn-put-text">PUT</div>
 												<i class="fas fa-arrow-down"></i>
 											</button>
 
 										</div>
 									</div>
 								</div>
+
+
+								
+
+								<%if(data[usuario.id +'_entradas_trader_forex_aberto'].length > 0){%>
+
+								<div class="row border-top-grey">
+
+									<div class="bold text-center f20 w100 margin-t-10">Operações Forex Abertas:</div>
+
+									<div class="w100 text-center margin-t-20 margin-b-20">
+										<button type="button" data-href="/sistema/fechar-ordens" class="btn btn-primary ajax-submit">Fechar Operações</button>
+									</div>
+
+
+									<%for (var i = 0; i < data[usuario.id +'_entradas_trader_forex_aberto'].length; i++){%>
+
+									<div class="col-sm-12 text-center">
+
+										Par: <strong><%=data[usuario.id +'_entradas_trader_forex_aberto'][i].par %></strong> | Direção: <span class="uppercase bold"><%=data[usuario.id +'_entradas_trader_forex_aberto'][i].direcao %></span> | Multiplicador: <span class="bold"><%=data[usuario.id +'_entradas_trader_forex_aberto'][i].multiplicador %></span>
+										| Valor: <span class="bold">R$<%=data[usuario.id +'_entradas_trader_forex_aberto'][i].valor_maximo%></span>
+
+									</div>
+
+
+									<%}%>
+
+								</div>
+
+								<%}%>
+
+
+								
+
 
 
 							</div>

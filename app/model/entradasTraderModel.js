@@ -7,7 +7,9 @@ const entradasTraderSchema = new mongoose.Schema({
 	expiracao:Number,
 	timestamp:Number,
 	limitar_entrada:Boolean,
-	valor_maximo:Number
+	valor_maximo:Number,
+	fechar:Boolean,
+	multiplicador:Number
 });
 
 module.exports = mongoose.model('entradas_trader', entradasTraderSchema,'entradas_trader');

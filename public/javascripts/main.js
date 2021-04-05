@@ -270,9 +270,18 @@ $(document).ready(function () {
 
 
 	$(document).on('change','#par_trader_escolha',function(){
+
+		console.log('estou alterando o par trader escolha');
+
+		console.log('tipo_trader_escolha');
+		console.log($('#tipo_trader_escolha').val());
+		console.log($('#tipo_trader_escolha').val() == 'Forex');
+		console.log()
+
+
 		if($(this).val() != 0){
 
-			if($('#tempo_expiracao_trader_escolha').val() > 0 && $('#tipo_trader_escolha').val() != null){
+			if(($('#tempo_expiracao_trader_escolha').val() > 0 || $('#multiplicador_trader_forex').val() != '') && $('#tipo_trader_escolha').val() != null){
 				$('.btn-trader-operation').removeClass('disabled');
 				$('.btn-trader-operation').prop('disabled',false);
 
@@ -281,13 +290,31 @@ $(document).ready(function () {
 
 
 				if($('#tipo_trader_escolha').val() == 'Binária'){
+					$('#operacao_opcao_escolha_label').text('no tempo de expiração de');
 					$('#operacao_tempo_expiracao_escolha_label').text('+' + $('#tempo_expiracao_trader_escolha').val());
-				}else{
+
+					$('#operacao_call_escolha_label').text('CALL');
+					$('#operacao_put_escolha_label').text('PUT');
+				}else if($('#tipo_trader_escolha').val() == 'Digital'){
+					$('#operacao_opcao_escolha_label').text('no tempo de expiração de');
 					$('#operacao_tempo_expiracao_escolha_label').text($('#tempo_expiracao_trader_escolha').val() + 'M');
 
+					$('#operacao_call_escolha_label').text('CALL');
+					$('#operacao_put_escolha_label').text('PUT');
+					
+
+				}else if($('#tipo_trader_escolha').val() == 'Forex'){
+					console.log('cai aqui no forex');
+
+					$('#operacao_opcao_escolha_label').text(' com multiplicador de ');
+					$('#operacao_tempo_expiracao_escolha_label').text($('#multiplicador_trader_forex').val());
+
+					$('#operacao_call_escolha_label').text('BUY');
+					$('#operacao_put_escolha_label').text('SELL');
 				}
 
 				$('#operacao_tipo_escolha_label').text($('#tipo_trader_escolha').val());
+				
 
 
 			}
@@ -298,13 +325,52 @@ $(document).ready(function () {
 		if($(this).val() != 0){
 			$('#tempo_expiracao_trader_escolha').prop('disabled',false);
 			if($(this).val() == 'Binária'){
-				LoadTo('/sistema/load-trader-opcoes-binarias', 'tempo_expiracao_trader_escolha');
-
+				LoadTo('/sistema/load-trader-opcoes-binarias', 'opcao_change_trader');
+				$('.btn-call-text').text('CALL');
+				$('.btn-put-text').text('PUT');
 			}else if($(this).val() == 'Digital'){
-				LoadTo('/sistema/load-trader-opcoes-digital', 'tempo_expiracao_trader_escolha');
+				LoadTo('/sistema/load-trader-opcoes-digital', 'opcao_change_trader');
+				$('.btn-call-text').text('CALL');
+				$('.btn-put-text').text('PUT');
+			}else if($(this).val() == 'Forex'){
+				LoadTo('/sistema/load-trader-opcoes-forex', 'opcao_change_trader');
+				$('.btn-call-text').text('BUY');
+				$('.btn-put-text').text('SELL');
+
+
 			}
 
 		}
+	});
+
+
+	$(document).on('input','#multiplicador_trader_forex',function(){
+		console.log('estou alterando o valodr do multiplicador');
+		console.log('val: ' + $(this).val());
+
+		if($('#par_trader_escolha').val() != null && $('#tipo_trader_escolha').val() != null ){
+			$('.btn-trader-operation').removeClass('disabled');
+			$('.btn-trader-operation').prop('disabled',false);
+
+			$('#operacao_box_mensagem_escolha').removeClass('none');
+			//par
+			$('#operacao_par_escolha_label').text($("#par_trader_escolha option:selected").text());
+			//tipo multipiplicador ou tempo espiracão
+			$('#operacao_opcao_escolha_label').text(' com multiplicador de ');
+			//valor
+			$('#operacao_tempo_expiracao_escolha_label').text($(this).val());
+
+			//opção forex,binária ou digital
+			$('#operacao_tipo_escolha_label').text($('#tipo_trader_escolha').val());
+
+			$('#operacao_call_escolha_label').text('BUY');
+			$('#operacao_put_escolha_label').text('SELL');
+
+
+
+		}
+
+
 	});
 
 	$(document).on('change','#tempo_expiracao_trader_escolha',function(){
@@ -315,14 +381,16 @@ $(document).ready(function () {
 
 				$('#operacao_box_mensagem_escolha').removeClass('none');
 				$('#operacao_par_escolha_label').text($("#par_trader_escolha option:selected").text());
+				$('#operacao_opcao_escolha_label').text('no tempo de expiração de');
 
 				if($('#tipo_trader_escolha').val() == 'Binária'){
 					$('#operacao_tempo_expiracao_escolha_label').text('+' + $('#tempo_expiracao_trader_escolha').val());
 				}else{
 					$('#operacao_tempo_expiracao_escolha_label').text($('#tempo_expiracao_trader_escolha').val() + 'M');
-
 				}
 				$('#operacao_tipo_escolha_label').text($('#tipo_trader_escolha').val());
+				$('#operacao_call_escolha_label').text('CALL');
+				$('#operacao_put_escolha_label').text('PUT');
 
 			}
 		}
