@@ -396,14 +396,7 @@
 										<div class="text-center none margin-t-20 margin-b-20" id="operacao_box_mensagem_escolha">Você escolheu o par <strong id="operacao_par_escolha_label" class="text-primary"></strong> <span id="operacao_opcao_escolha_label"></span> <strong id="operacao_tempo_expiracao_escolha_label" class="text-primary"></strong> na opção <strong id="operacao_tipo_escolha_label" class="text-primary"></strong>, por-favor escolha uma das opções <span id="operacao_call_escolha_label"></span> ou <span id="operacao_put_escolha_label"></span>.</div>
 
 										<div class="row">
-											<div class="col-sm-12 col-md-4">
-												<label class="form-control-label">Par</label>
-												<select id="par_trader_escolha" class="custom-select" name="par">
-													<option selected value="0" disabled>---Selecione---</option>
-													<%- include('../copy/lista_pares')%>
-												</select>
-											</div>
-
+											
 											<div class="col-sm-12 col-md-4">
 												<label class="form-control-label">Opção</label>
 												<select id="tipo_trader_escolha" class="custom-select" name="tipo">
@@ -413,6 +406,14 @@
 													<option>Forex</option>
 												</select>
 											</div>
+
+											<div class="col-sm-12 col-md-4">
+												<label class="form-control-label">Par</label>
+												<select id="par_trader_escolha" class="custom-select par_trader_escolha" name="par">
+													<option selected value="0" disabled>---Selecione---</option>
+												</select>
+											</div>
+
 
 											<div class="col-sm-12 col-md-4 opcao_change_trader">
 												<label class="form-control-label">Tempo Expiração</label>
@@ -457,16 +458,18 @@
 									<div class="bold text-center f20 w100 margin-t-10">Operações Forex Abertas:</div>
 
 									<div class="w100 text-center margin-t-20 margin-b-20">
-										<button type="button" data-href="/sistema/fechar-ordens" class="btn btn-primary ajax-submit">Fechar Operações</button>
+										<button type="button" data-href="/sistema/fechar-todas-operacoes" class="btn btn-primary ajax-submit">Fechar Todas Operações</button>
 									</div>
 
 
 									<%for (var i = 0; i < data[usuario.id +'_entradas_trader_forex_aberto'].length; i++){%>
 
-									<div class="col-sm-12 text-center">
+									<div class="col-sm-12 text-center margin-b-10">
 
 										Par: <strong><%=data[usuario.id +'_entradas_trader_forex_aberto'][i].par %></strong> | Direção: <span class="uppercase bold"><%=data[usuario.id +'_entradas_trader_forex_aberto'][i].direcao %></span> | Multiplicador: <span class="bold"><%=data[usuario.id +'_entradas_trader_forex_aberto'][i].multiplicador %></span>
 										| Valor: <span class="bold">R$<%=data[usuario.id +'_entradas_trader_forex_aberto'][i].valor_maximo%></span>
+
+										<button class="btn btn-secondary ajax-submit" data-href="/sistema/fechar-operacao/<%=data[usuario.id +'_entradas_trader_forex_aberto'][i]._id %>">Fechar Operação</button>
 
 									</div>
 

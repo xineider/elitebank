@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 const fecharOrdemForexSchema = new mongoose.Schema({
 	fechar:Boolean,
+	id_entrada_trader:mongoose.Types.ObjectId,
 	data_cadastro:Date
 });
 

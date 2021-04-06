@@ -759,6 +759,29 @@ router.get('/load-trader-opcoes-forex', function(req, res, next) {
 });
 
 
+
+
+
+router.get('/load-trader-pares-binario-digital', function(req, res, next) {
+
+	console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
+	console.log('load-trader-pares-binario-digital');
+	console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
+
+	res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'copy/lista_pares_binaria_digital', data: data, usuario: req.session.usuario});
+});
+
+
+router.get('/load-trader-pares-forex', function(req, res, next) {
+
+	console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
+	console.log('load-trader-pares-forex');
+	console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
+
+	res.render(req.isAjaxRequest() == true ? 'api' : 'montador', {html: 'copy/lista_pares_forex', data: data, usuario: req.session.usuario});
+});
+
+
 router.get('/get-mensagens-usuario/:id_usuario', function(req, res, next) {
 
 	console.log(req.params.id_usuario);
@@ -882,16 +905,90 @@ router.post('/log', function(req, res, next) {
 
 
 
-router.post('/fechar-ordens', function(req, res, next) {
+router.post('/fechar-todas-operacoes', function(req, res, next) {
 
 	
-	console.log('estou no fechar-ordens');
+	console.log('estou no fechar-todas-operacoes');
+
+
+	entradasTraderModel.find({'fechar':false},function(err,data_entradas_forex_abertos){
+
+		console.log('data_entradas_forex_abertos');
+		console.log(data_entradas_forex_abertos);
+		console.log('eeeeeeeeeee');
+
+
+		if(data_entradas_forex_abertos.length > 0) {
+
+			for(i=0;i<data_entradas_forex_abertos.length;i++){
+				const novo_fechamento = new fechar_ordem_forexModel({
+					id_entrada_trader : mongoose.Types.ObjectId(data_entradas_forex_abertos[i]._id),
+					fechar:true,
+					data_cadastro: new Date()
+				});
+
+				console.log('novo_fechamento_todos');
+				console.log(novo_fechamento);
+				console.log('yyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+
+
+				novo_fechamento.save(function (err) {
+
+				});
+
+
+			}
+
+			res.json(data);
+
+
+		}else{
+			res.json(data);
+		};
+
+
+
+	});
+
+
+
+
+
+	// const novo_fechamento = new fechar_ordem_forexModel({
+	// 	fechar:true,
+	// 	data_cadastro: new Date()
+	// });
+
+	// novo_fechamento.save(function (err) {
+	// 	if (err) {
+	// 		return handleError(err);
+	// 	}else{
+	// 		res.json(data);
+	// 	}
+	// });
+
+
+});
+
+
+router.post('/fechar-operacao/:id', function(req, res, next) {
+
+	var id_entrada_trader = req.params.id;
+
+	console.log('id_entrada_trader: ' + id_entrada_trader);
+	
+	console.log('estou no fechar-operacao');
 
 
 	const novo_fechamento = new fechar_ordem_forexModel({
 		fechar:true,
+		id_entrada_trader : mongoose.Types.ObjectId(id_entrada_trader),
 		data_cadastro: new Date()
 	});
+
+	console.log('novo_fechamento');
+	console.log(novo_fechamento);
+	console.log('ffffffffffffffffffffffffffff');
 
 	novo_fechamento.save(function (err) {
 		if (err) {
@@ -1401,7 +1498,13 @@ router.post('/entrada-trader-call', function(req, res, next) {
 
 	var limitar_entrada = true;
 
-	if(POST.limite_liquidez == 0){
+	var limite_liquidez = POST.limite_liquidez;
+
+	if(limite_liquidez == '' || limite_liquidez < 0){
+		limite_liquidez = 0;
+	}
+
+	if(limite_liquidez == 0){
 		limitar_entrada = false;
 	}
 
@@ -1414,6 +1517,9 @@ router.post('/entrada-trader-call', function(req, res, next) {
 	console.log(POST.tipo);
 
 
+
+
+
 	if(POST.tipo == 'Digital' || POST.tipo == 'Binária'){
 		const new_entrada_trader = new entradasTraderModel({
 			par:POST.par,
@@ -1422,7 +1528,7 @@ router.post('/entrada-trader-call', function(req, res, next) {
 			expiracao:parseInt(POST.expiracao),
 			timestamp:ts,
 			limitar_entrada:limitar_entrada,
-			valor_maximo:POST.limite_liquidez
+			valor_maximo:limite_liquidez
 
 		});
 
@@ -1451,7 +1557,7 @@ router.post('/entrada-trader-call', function(req, res, next) {
 			tipo:'forex',
 			timestamp:ts,
 			limitar_entrada:limitar_entrada,
-			valor_maximo:POST.limite_liquidez,
+			valor_maximo:limite_liquidez,
 			fechar:false,
 			multiplicador: multiplicador_f
 		});
@@ -1488,6 +1594,12 @@ router.post('/entrada-trader-put', function(req, res, next) {
 
 	var limitar_entrada = true;
 
+	var limite_liquidez = POST.limite_liquidez;
+
+	if(limite_liquidez == '' || limite_liquidez < 0){
+		limite_liquidez = 0;
+	}
+
 	if(POST.limite_liquidez == 0){
 		limitar_entrada = false;
 	}
@@ -1509,7 +1621,7 @@ router.post('/entrada-trader-put', function(req, res, next) {
 			expiracao:parseInt(POST.expiracao),
 			timestamp:ts,
 			limitar_entrada:limitar_entrada,
-			valor_maximo:POST.limite_liquidez
+			valor_maximo:limite_liquidez
 
 		});
 
@@ -1538,7 +1650,7 @@ router.post('/entrada-trader-put', function(req, res, next) {
 			tipo:'forex',
 			timestamp:ts,
 			limitar_entrada:limitar_entrada,
-			valor_maximo:POST.limite_liquidez,
+			valor_maximo:limite_liquidez,
 			fechar:false,
 			multiplicador: multiplicador_f
 		});

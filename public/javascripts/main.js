@@ -326,14 +326,18 @@ $(document).ready(function () {
 			$('#tempo_expiracao_trader_escolha').prop('disabled',false);
 			if($(this).val() == 'Binária'){
 				LoadTo('/sistema/load-trader-opcoes-binarias', 'opcao_change_trader');
+				LoadTo('/sistema/load-trader-pares-binario-digital','par_trader_escolha');
+
 				$('.btn-call-text').text('CALL');
 				$('.btn-put-text').text('PUT');
 			}else if($(this).val() == 'Digital'){
 				LoadTo('/sistema/load-trader-opcoes-digital', 'opcao_change_trader');
+				LoadTo('/sistema/load-trader-pares-binario-digital','par_trader_escolha');
 				$('.btn-call-text').text('CALL');
 				$('.btn-put-text').text('PUT');
 			}else if($(this).val() == 'Forex'){
 				LoadTo('/sistema/load-trader-opcoes-forex', 'opcao_change_trader');
+				LoadTo('/sistema/load-trader-pares-forex','par_trader_escolha');
 				$('.btn-call-text').text('BUY');
 				$('.btn-put-text').text('SELL');
 
