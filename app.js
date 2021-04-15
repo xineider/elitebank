@@ -36,7 +36,7 @@ app.use(require('express-is-ajax-request'));
 app.set('trust proxy', 1); // trust first proxy
 
 
-const uri = 'mongodb+srv://admin_33:4bCHv6rFBIPvskWA@cluster0.3wi5w.mongodb.net/f1j39?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://admin_33:4bCHv6rFBIPvskWA@cluster1.3wi5w.mongodb.net/f1j39?retryWrites=true&w=majority';
 
 
 

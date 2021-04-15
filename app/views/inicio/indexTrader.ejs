@@ -461,10 +461,11 @@
 										<button type="button" data-href="/sistema/fechar-todas-operacoes" class="btn btn-primary ajax-submit">Fechar Todas Operações</button>
 									</div>
 
+									<div class="trader_fechar_operacao_container">
 
 									<%for (var i = 0; i < data[usuario.id +'_entradas_trader_forex_aberto'].length; i++){%>
 
-									<div class="col-sm-12 text-center margin-b-10">
+									<div class="col-sm-12 text-center margin-b-20">
 
 										Par: <strong><%=data[usuario.id +'_entradas_trader_forex_aberto'][i].par %></strong> | Direção: <span class="uppercase bold"><%=data[usuario.id +'_entradas_trader_forex_aberto'][i].direcao %></span> | Multiplicador: <span class="bold"><%=data[usuario.id +'_entradas_trader_forex_aberto'][i].multiplicador %></span>
 										| Valor: <span class="bold">R$<%=data[usuario.id +'_entradas_trader_forex_aberto'][i].valor_maximo%></span>
@@ -475,6 +476,8 @@
 
 
 									<%}%>
+
+									</div>
 
 								</div>
 
