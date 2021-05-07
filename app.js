@@ -21,6 +21,7 @@ var historico = require('./app/controller/historico');
 var suporte = require('./app/controller/suporte');
 var log_trader = require('./app/controller/log_trader');
 var administracao = require('./app/controller/administracao');
+var contas = require('./app/controller/contas');
 
 
 var VerificacaoModel = require('./app/model/verificacaoModel');
@@ -163,6 +164,7 @@ app.use('/sistema/minha_conta', minha_conta);
 app.use('/sistema/historico', historico);
 app.use('/sistema/suporte', suporte);
 app.use('/sistema/log_trader', log_trader);
+app.use('/sistema/contas', contas);
 app.use('/sistema/administracao', administracao);
 
 // catch 404 and forward to error handler

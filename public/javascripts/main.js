@@ -253,6 +253,27 @@ $(document).ready(function () {
 	});
 
 
+	$(document).on('change', '.exibir_senha', function(e) {
+		e.preventDefault();
+		console.log('-------------- this ----------------');
+		console.log($(this));
+		var senha_input = $(this).parents('form').find('.contas-senha');
+		console.log('senha_input');
+		console.log(senha_input);
+
+		console.log('senha_input.get(0).type');
+		console.log(senha_input.get(0).type);
+
+		if(senha_input.get(0).type == 'text'){
+			senha_input.attr('type','password');
+		}else{
+			senha_input.attr('type','text');
+		}
+
+
+
+	});
+
 
 
 	$(document).on('click', '.ajax-submit-open-modal', function(e) {
@@ -1250,14 +1271,14 @@ function LogSistema(metodo,rota){
 		ip = e.ip;
 		arrayValores = [ip,metodo,rota,navigator.userAgent,$('input[name="id_usuario_sessao"]').val()];
 
-		$.ajax({
-			url:'/sistema/log',
-			type:'POST',
-			data:JSON.stringify(arrayValores),
-			contentType: 'application/json', 
-			beforeSend: function(request) {
-			}
-		});
+		// $.ajax({
+		// 	url:'/sistema/log',
+		// 	type:'POST',
+		// 	data:JSON.stringify(arrayValores),
+		// 	contentType: 'application/json', 
+		// 	beforeSend: function(request) {
+		// 	}
+		// });
 	});
 }
 

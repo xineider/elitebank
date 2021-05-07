@@ -1,0 +1,86 @@
+<%- include('../includes/menu_header'); %>
+
+<div class="page-content">
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<h2 class="h5 no-margin-bottom">Contas</h2>
+		</div>
+	</div>
+
+	<div class="row">
+		<% for(i=0; i < data[usuario.id +'_usuario_c'].length;i++) {%>
+
+
+		<%if(data[usuario.id +'_usuario_c'][i].nivel == 3){%>
+
+
+		<% if(data[usuario.id +'_usuario_c'][i].conta.length > 0){ %>
+
+		<%if(data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].email != 'allreisesouza@gmail.com'){%>
+
+		<%if(data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].email != 'mvzdeveloper@gmail.com'){%>
+
+
+		<div class="col-sm-12 col-md-6 margin-b-10">
+
+			<div class="stats-with-chart-1 block <%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].status == 'standby' && data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao == 'iniciar' ? 'dashborder-5' : data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].status == 'conectado' ? 'border-sucess sucess-block-trader-color' : 'border-error'%>">
+
+
+				<div class="block h-100">
+
+
+
+					<div class="block-body">
+						<form>
+						<div class="form-group">
+							<label class="form-control-label">Email corretora</label>
+							<input type="email" placeholder="exemplo@exemplo.com" class="form-control input-text-email-senha" name="email" value="<%=data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].email%>">
+						</div>
+
+						<div class="form-group">       
+							<label class="form-control-label">Senha corretora</label>
+							<input type="password" placeholder="**********" class="form-control input-text-email-senha contas-senha" name="senha" placeholder="Senha" value="<%=data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].senha%>">
+						</div>
+
+						<div>
+							<input type="checkbox" class="checkbox-template exibir_senha">
+							<label class="form-check-label" for="exibir_senha" >Exibir senha</label>
+						</div>
+
+						</form>
+
+					</div>
+
+
+
+
+
+					<%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].status == 'conectado' ? 'Conectado' : 
+					data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].status ==  'standby' && data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao == 'iniciar' ? 'Aguardando Trader':'Desconectado' %>
+
+
+					<br>
+
+
+					
+				</div>
+			</div>
+		</div>
+
+		<%}%>
+
+		<%}%>
+		<%}%>
+		<%}%>
+		<%}%>
+	</div>
+
+
+	
+
+</div>
+
+
+
+

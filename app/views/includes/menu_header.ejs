@@ -6,6 +6,7 @@
 		<li class="<%= data.numero_menu == 5 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/recarga"> <i class="icon-dashboard"></i>Recarregar </a></li>
 		<li class="<%= data.numero_menu == 3 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/historico"> <i class="fas fa-chart-bar"></i>Histórico </a></li>
 		<%}else if(usuario.nivel == 2){%>
+		<li class="<%= data.numero_menu == 8 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/contas"> <i class="fas fa-users"></i>Contas </a></li>
 		<li class="<%= data.numero_menu == 6 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/log_trader"> <i class="fas fa-file-alt"></i>Log </a></li>
 		<%}else if(usuario.nivel == 1){%>
 		<li class="<%= data.numero_menu == 7 ? 'active' : ''%>"><a class="ajax-load" href="/sistema/administracao"> <i class="fas fa-tools"></i>Administrativo </a></li>
