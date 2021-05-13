@@ -375,93 +375,134 @@
 			</section>
 
 
-			<%if(data[usuario.id +'_sessao_status'][0].sessao_iniciada == true){%>
+			<%if (typeof data[usuario.id +'_mensagem'] != 'undefined' && data[usuario.id +'_mensagem'].length > 0) {%>
+
 
 			<section class="margin-bottom-sm">
 				<div class="container-fluid">
-					<div class="row d-flex align-items-stretch">
-						<div class="col-sm-12">
-							<div class="stats-with-chart-1 block">
-								<div class="title"> <strong class="d-block">Operação</strong></div>
+					<div class="block margin-b-0">
+						<form method="POST" action="" enctype="multipart/form-data">
+							<div class="title">
+								<strong class="d-block">Informações
+									<button type="button" data-href="/sistema/limpar-mensagens/" title="Limpar Todas as Informações" class="btn transparent float-right close-alerts-button ajax-submit w100px" data-action="/sistema">Limpar</button>
+								</strong>
+							</div>
 
-								<div>
-									Escolha o <strong>Par</strong> o <strong>Tempo de Expiração</strong> e a <strong>Opção</strong> e escolha a opção <strong>Call</strong> ou <strong>Put</strong>.
+						</form>
+
+						<div class="block-body">
+							<% if (typeof data[usuario.id +'_mensagem'] != 'undefined' && data[usuario.id +'_mensagem'].length > 0) {
+								for (var i = 0; i < data[usuario.id +'_mensagem'].length; i++) {%>
+								<div class="alert <%=
+								data[usuario.id +'_mensagem'][i].tipo_mensagem == 1 ? 'sucess-block' : data[usuario.id +'_mensagem'][i].tipo_mensagem == 2 ? 'warning-block' : data[usuario.id +'_mensagem'][i].tipo_mensagem == 0 ? 'primary-block': 'error-block' %> alert-dismissible fade show" role="alert">
+								<%= data_mensagem_b[i]%><%= data[usuario.id +'_mensagem'][i].descricao_mensagem %>
+								<button type="button" data-href="/sistema/limpar-mensagem/<%= data[usuario.id +'_mensagem'][i]._id %>" class="close ajax-submit-close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<%}
+						}else{%>
+						<div class="text-center">Não há nenhuma informação no momento.</div>
+
+						<%}%>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<%}%>
+
+
+
+
+		<%if(data[usuario.id +'_sessao_status'][0].sessao_iniciada == true){%>
+
+		<section class="margin-bottom-sm">
+			<div class="container-fluid">
+				<div class="row d-flex align-items-stretch">
+					<div class="col-sm-12">
+						<div class="stats-with-chart-1 block">
+							<div class="title"> <strong class="d-block">Operação</strong></div>
+
+							<div>
+								Escolha o <strong>Par</strong> o <strong>Tempo de Expiração</strong> e a <strong>Opção</strong> e escolha a opção <strong>Call</strong> ou <strong>Put</strong>.
+							</div>
+
+
+
+							<div class="row align-items-center">
+								<div class="col-sm-12 col-md-10">
+
+									<div class="text-center none margin-t-20 margin-b-20" id="operacao_box_mensagem_escolha">Você escolheu o par <strong id="operacao_par_escolha_label" class="text-primary"></strong> <span id="operacao_opcao_escolha_label"></span> <strong id="operacao_tempo_expiracao_escolha_label" class="text-primary"></strong> na opção <strong id="operacao_tipo_escolha_label" class="text-primary"></strong>, por-favor escolha uma das opções <span id="operacao_call_escolha_label"></span> ou <span id="operacao_put_escolha_label"></span>.</div>
+
+									<div class="row">
+
+										<div class="col-sm-12 col-md-4">
+											<label class="form-control-label">Opção</label>
+											<select id="tipo_trader_escolha" class="custom-select" name="tipo">
+												<option selected value="0" disabled>---Selecione---</option>
+												<option>Binária</option>
+												<option>Digital</option>
+												<option>Forex</option>
+											</select>
+										</div>
+
+										<div class="col-sm-12 col-md-4">
+											<label class="form-control-label">Par</label>
+											<select id="par_trader_escolha" class="custom-select par_trader_escolha" name="par">
+												<option selected value="0" disabled>---Selecione---</option>
+											</select>
+										</div>
+
+
+										<div class="col-sm-12 col-md-4 opcao_change_trader">
+											<label class="form-control-label">Tempo Expiração</label>
+											<select id="tempo_expiracao_trader_escolha" class="custom-select tempo_expiracao_trader_escolha" name="expiracao" disabled>
+												<option selected value="0" disabled>---Selecione---</option>
+
+											</select>
+										</div>
+
+
+									</div>
+
+
 								</div>
 
-
-
-								<div class="row align-items-center">
-									<div class="col-sm-12 col-md-10">
-
-										<div class="text-center none margin-t-20 margin-b-20" id="operacao_box_mensagem_escolha">Você escolheu o par <strong id="operacao_par_escolha_label" class="text-primary"></strong> <span id="operacao_opcao_escolha_label"></span> <strong id="operacao_tempo_expiracao_escolha_label" class="text-primary"></strong> na opção <strong id="operacao_tipo_escolha_label" class="text-primary"></strong>, por-favor escolha uma das opções <span id="operacao_call_escolha_label"></span> ou <span id="operacao_put_escolha_label"></span>.</div>
-
-										<div class="row">
-											
-											<div class="col-sm-12 col-md-4">
-												<label class="form-control-label">Opção</label>
-												<select id="tipo_trader_escolha" class="custom-select" name="tipo">
-													<option selected value="0" disabled>---Selecione---</option>
-													<option>Binária</option>
-													<option>Digital</option>
-													<option>Forex</option>
-												</select>
-											</div>
-
-											<div class="col-sm-12 col-md-4">
-												<label class="form-control-label">Par</label>
-												<select id="par_trader_escolha" class="custom-select par_trader_escolha" name="par">
-													<option selected value="0" disabled>---Selecione---</option>
-												</select>
-											</div>
-
-
-											<div class="col-sm-12 col-md-4 opcao_change_trader">
-												<label class="form-control-label">Tempo Expiração</label>
-												<select id="tempo_expiracao_trader_escolha" class="custom-select tempo_expiracao_trader_escolha" name="expiracao" disabled>
-													<option selected value="0" disabled>---Selecione---</option>
-													
-												</select>
-											</div>
-
-
-										</div>
-
-
+								<div class="col-sm-12 col-md-2">
+									<div class="d-flex justify-content-center">
+										<button type="button" data-href="/sistema/entrada-trader-call/" class="btn btn-trader-operation call margin-t-10 margin-b-10 disabled ajax-submit" disabled>
+											<i class="fas fa-arrow-up"></i>
+											<div class="btn-call-text">CALL</div>
+										</button>
 									</div>
 
-									<div class="col-sm-12 col-md-2">
-										<div class="d-flex justify-content-center">
-											<button type="button" data-href="/sistema/entrada-trader-call/" class="btn btn-trader-operation call margin-t-10 margin-b-10 disabled ajax-submit" disabled>
-												<i class="fas fa-arrow-up"></i>
-												<div class="btn-call-text">CALL</div>
-											</button>
-										</div>
+									<div class="d-flex justify-content-center">
 
-										<div class="d-flex justify-content-center">
+										<button type="button" data-href="/sistema/entrada-trader-put/" class="btn btn-trader-operation put margin-t-10 margin-b-10 disabled ajax-submit" disabled>
+											<div class="btn-put-text">PUT</div>
+											<i class="fas fa-arrow-down"></i>
+										</button>
 
-											<button type="button" data-href="/sistema/entrada-trader-put/" class="btn btn-trader-operation put margin-t-10 margin-b-10 disabled ajax-submit" disabled>
-												<div class="btn-put-text">PUT</div>
-												<i class="fas fa-arrow-down"></i>
-											</button>
-
-										</div>
 									</div>
 								</div>
+							</div>
 
 
-								
 
-								<%if(data[usuario.id +'_entradas_trader_forex_aberto'].length > 0){%>
 
-								<div class="row border-top-grey">
+							<%if(data[usuario.id +'_entradas_trader_forex_aberto'].length > 0){%>
 
-									<div class="bold text-center f20 w100 margin-t-10">Operações Forex Abertas:</div>
+							<div class="row border-top-grey">
 
-									<div class="w100 text-center margin-t-20 margin-b-20">
-										<button type="button" data-href="/sistema/fechar-todas-operacoes" class="btn btn-primary ajax-submit">Fechar Todas Operações</button>
-									</div>
+								<div class="bold text-center f20 w100 margin-t-10">Operações Forex Abertas:</div>
 
-									<div class="trader_fechar_operacao_container">
+								<div class="w100 text-center margin-t-20 margin-b-20">
+									<button type="button" data-href="/sistema/fechar-todas-operacoes" class="btn btn-primary ajax-submit">Fechar Todas Operações</button>
+								</div>
+
+								<div class="trader_fechar_operacao_container">
 
 									<%for (var i = 0; i < data[usuario.id +'_entradas_trader_forex_aberto'].length; i++){%>
 
@@ -477,77 +518,46 @@
 
 									<%}%>
 
-									</div>
-
 								</div>
 
-								<%}%>
-
-
-								
-
-
-
 							</div>
+
+							<%}%>
+
+
+
+
+
+
 						</div>
-
-
-					</div>
-				</div>
-			</section>
-
-			<%}%>
-
-			<section class="no-padding-bottom">
-				<div class="container-fluid">
-					<div class="block">
-
-						<% if(data_conta_b.acao == 'parar'){ %>
-						<button type="button" <%= (data_conexao_b.email == '' && data_conexao_b.senha == '') || (data_conexao_b.status != 'conectado') ? 'disabled' : '' %> data-href="/sistema/iniciar-operacao-trader/" id="botao_iniciar_sistema" class="btn <%= (data_conexao_b.email == '' && data_conexao_b.senha == '') || (data_conexao_b.status != 'conectado')  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit-timer" title="Para Iniciar o Sistema, Teste a conexão antes!" data-conect_teste='conectar' data-action="/sistema">Conectar</button>
-
-						<%}else {%>
-						<button type="button" id="botao_parar_sistema" data-href="/sistema/parar-operacao/" class="btn btn-danger btn-block margin-t-10 margin-b-10 ajax-submit-timer-5" title="Parar Sistema" data-mensagem-sucesso="Sistema Parado com Sucesso" data-mensagem-sucesso-color="red" data-conect_teste='desconectar' data-action="/sistema">Desconectar</button>
-						<% }%>
 					</div>
 
+
 				</div>
-			</section>
+			</div>
+		</section>
 
-
-		</form>
+		<%}%>
 
 		<section class="no-padding-bottom">
 			<div class="container-fluid">
-				<div class="block margin-b-0">
-					<form method="POST" action="" enctype="multipart/form-data">
-						<div class="title">
-							<strong class="d-block">Informações
-								<button type="button" data-href="/sistema/limpar-mensagens/" title="Limpar Todas as Informações" class="btn transparent float-right close-alerts-button ajax-submit w100px" data-action="/sistema">Limpar</button>
-							</strong>
-						</div>
+				<div class="block">
 
-					</form>
+					<% if(data_conta_b.acao == 'parar'){ %>
+					<button type="button" <%= (data_conexao_b.email == '' && data_conexao_b.senha == '') || (data_conexao_b.status != 'conectado') ? 'disabled' : '' %> data-href="/sistema/iniciar-operacao-trader/" id="botao_iniciar_sistema" class="btn <%= (data_conexao_b.email == '' && data_conexao_b.senha == '') || (data_conexao_b.status != 'conectado')  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit-timer" title="Para Iniciar o Sistema, Teste a conexão antes!" data-conect_teste='conectar' data-action="/sistema">Conectar</button>
 
-					<div class="block-body">
-						<% if (typeof data[usuario.id +'_mensagem'] != 'undefined' && data[usuario.id +'_mensagem'].length > 0) {
-							for (var i = 0; i < data[usuario.id +'_mensagem'].length; i++) {%>
-							<div class="alert <%=
-							data[usuario.id +'_mensagem'][i].tipo_mensagem == 1 ? 'sucess-block' : data[usuario.id +'_mensagem'][i].tipo_mensagem == 2 ? 'warning-block' : data[usuario.id +'_mensagem'][i].tipo_mensagem == 0 ? 'primary-block': 'error-block' %> alert-dismissible fade show" role="alert">
-							<%= data_mensagem_b[i]%><%= data[usuario.id +'_mensagem'][i].descricao_mensagem %>
-							<button type="button" data-href="/sistema/limpar-mensagem/<%= data[usuario.id +'_mensagem'][i]._id %>" class="close ajax-submit-close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<%}
-					}else{%>
-					<div class="text-center">Não há nenhuma informação no momento.</div>
-
-					<%}%>
+					<%}else {%>
+					<button type="button" id="botao_parar_sistema" data-href="/sistema/parar-operacao/" class="btn btn-danger btn-block margin-t-10 margin-b-10 ajax-submit-timer-5" title="Parar Sistema" data-mensagem-sucesso="Sistema Parado com Sucesso" data-mensagem-sucesso-color="red" data-conect_teste='desconectar' data-action="/sistema">Desconectar</button>
+					<% }%>
 				</div>
 
 			</div>
-		</div>
-	</section>
+		</section>
+
+
+	</form>
+
+
 
 
 </div>

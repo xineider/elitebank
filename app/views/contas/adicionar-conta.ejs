@@ -1,0 +1,103 @@
+
+<div class="padding-20 margin-t-10" style="background:#e0e0e0;">
+	<form method="POST" action="" enctype="multipart/form-data">
+		<div class="block-body">
+			<div class="form-group">
+				<label class="form-control-label">Email corretora</label>
+				<input type="email" placeholder="exemplo@exemplo.com" class="form-control" name="email" value="">
+
+
+
+			</div>
+
+			<div class="form-group">       
+				<label class="form-control-label">Senha corretora</label>
+				<input type="password" placeholder="**********" class="form-control contas-senha" name="senha" placeholder="Senha" value="">
+			</div>
+
+			<div>
+				<input type="checkbox" class="checkbox-template exibir_senha">
+				<label class="form-check-label" for="exibir_senha" >Exibir senha</label>
+			</div>
+
+
+
+		</div>
+
+		<hr>
+
+
+
+		<div class="block-body">
+			<div class="form-group margin-t-10">
+				<label class="form-control-label js-input-change-color">Valor da Entrada:(<span class="label_percentual_real">)</span></label>
+				<input id="form_operacional_entrada" type="number" class="form-control" name="valor_entrada" maxlength="6">
+			</div>
+
+
+			<div class="form-group">
+				<label class="form-control-label js-input-change-color">Stop Loss:(<span class="label_percentual_real"></span>)</label>
+
+				<input id="form_operacional_limite_perda" type="number" class="form-control" name="limite_perda">
+			</div>
+
+
+			<div class="form-group">
+				<label class="form-control-label js-input-change-color">Stop Gain:</label>
+
+				<div class="margin-b-10 italic">É indicado que se utilize o Stop Gain, pois ele serve para reduzir a exposição  ao risco.
+				</div>
+
+				<select type="number" class="form-control" name="stop_gain">
+
+					<option value="0">Stop Gain Desativado </option>
+					<option value="3">3%</option>
+					<option value="5">5%</option>
+					<option value="7">7%</option>
+
+				</select>
+
+
+			</div>
+
+
+			<div class="form-check margin-t-10">
+				<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_conta">
+				<label class="form-check-label js-input-change-color">
+					Treinamento
+				</label>
+			</div>
+			<div class="form-check margin-t-10">
+				<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_conta">
+				<label class="form-check-label js-input-change-color">
+					Real
+				</label>
+			</div>
+
+
+			<input type="hidden" name="id_usuario" value="<%= data[usuario.id +'_ultimo_id_livre']%>">
+
+			<section class="no-padding-bottom">
+				<div class="container-fluid">
+
+
+					<button type="button" data-href="/sistema/contas/iniciar-operacao/" id="botao_iniciar_sistema" class="btn btn-block margin-t-10 margin-b-10 ajax-submit btn-success-color " title="Para Iniciar o Sistema, Teste a conexão antes!" data-action="/sistema/contas">Conectar</button>
+
+					<div class="block-body error-block" id="error_mensagem_conexao"></div>
+				</div>
+
+
+			</section>
+
+
+
+
+
+
+		</div>
+
+
+
+	</form>
+
+</div>

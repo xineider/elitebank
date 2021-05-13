@@ -1,0 +1,18 @@
+<div class="block-body">
+	<% if (typeof data[usuario.id +'_mensagem_user'] != 'undefined' && data[usuario.id +'_mensagem_user'].length > 0) {
+		for (var i = 0; i < data[usuario.id +'_mensagem_user'].length; i++) {%>
+
+
+		<div class="alert <%=
+		data[usuario.id +'_mensagem_user'][i].tipo_mensagem == 1 ? 'sucess-block' : data[usuario.id +'_mensagem_user'][i].tipo_mensagem == 2 ? 'warning-block' : data[usuario.id +'_mensagem_user'][i].tipo_mensagem == 0 ? 'primary-block' : 'error-block' %> alert-dismissible fade show" role="alert">
+		<%= data[usuario.id +'_mensagem_data'][i]%><%= data[usuario.id +'_mensagem_user'][i].descricao_mensagem %>
+		<button type="button" data-href="/sistema/limpar-mensagem/<%= data[usuario.id +'_mensagem_user'][i]._id %>" class="close ajax-submit-close modal-close" data-dismiss="modal" aria-label="Close" data-action="/sistema/contas">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<%}
+}else{%>
+<div class="text-center">Não há nenhuma informação no momento.</div>
+
+<%}%>
+</div>
