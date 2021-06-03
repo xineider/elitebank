@@ -41,6 +41,9 @@
 
 		<%if(data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].email != 'mvzdeveloper@gmail.com'){%>
 
+		<%if(data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].email != 'm.barcellos.c@gmail.com'){%>
+
+
 
 		<div class="col-sm-12 col-md-6 margin-b-10">
 
@@ -98,11 +101,11 @@
 						<hr>
 
 						<div class="block-body">
-								<div class="i-checks">
-									<input type="checkbox" class="checkbox-template" id="alterar_operacional_porcentagem" name="tipo_banca" value="1" <%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].tipo_banca == 'percentual' ? 'checked' : '' %> <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
-									<label class="form-check-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">Configurar operacional em porcentagem</label>
-								</div>
+							<div class="i-checks">
+								<input type="checkbox" class="checkbox-template" id="alterar_operacional_porcentagem" name="tipo_banca" value="1" <%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].tipo_banca == 'percentual' ? 'checked' : '' %> <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
+								<label class="form-check-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">Configurar operacional em porcentagem</label>
 							</div>
+						</div>
 
 
 
@@ -179,59 +182,60 @@
 											<%for(j=0;j<data[usuario.id +'_usuario_c'][i].mensagem.length;j++){%>
 
 												<%if(data[usuario.id +'_usuario_c'][i].mensagem[j].deletado == 0){%>
-													<% control_deletado = 1;%>
+												<% control_deletado = 1;%>
 												<%}%>
 
-											<%}%>
+												<%}%>
 
 
 
-										
-											<%# se o control deletado for igual a 1 quer dizer que existe uma informação que não foi deletada%>
-											<%if(control_deletado == 1){%>
+												
+												<%# se o control deletado for igual a 1 quer dizer que existe uma informação que não foi deletada%>
+												<%if(control_deletado == 1){%>
 
-											<div class="text-center margin-t-10">
-												<button class="btn btn-primary modal-mount" data-modal="#modalinfo" data-link="/sistema/contas/mensagens-usuario/<%=data[usuario.id +'_usuario_c'][i]._id%>">Informações <i class="fas fa-comment"></i></button>
+												<div class="text-center margin-t-10">
+													<button class="btn btn-primary modal-mount" data-modal="#modalinfo" data-link="/sistema/contas/mensagens-usuario/<%=data[usuario.id +'_usuario_c'][i]._id%>">Informações <i class="fas fa-comment"></i></button>
+												</div>
+
+												<%}%>
+
+
+
+												<%}%>
+
+
 											</div>
 
-											<%}%>
-
-
-
-											<%}%>
-
-
 										</div>
-
-									</div>
-								</section>
+									</section>
 
 
 
 
 
 
-							</div>
+								</div>
 
 
 
-						</form>
+							</form>
+						</div>
 					</div>
 				</div>
+
+				<%}%>
+				<%}%>
+
+				<%}%>
+				<%}%>
+				<%}%>
+				<%}%>
 			</div>
 
-			<%}%>
 
-			<%}%>
-			<%}%>
-			<%}%>
-			<%}%>
+
+
 		</div>
-
-
-
-
-	</div>
 
 
 
