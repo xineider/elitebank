@@ -41,6 +41,10 @@
 
 		<%if(data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].email != 'mvzdeveloper@gmail.com'){%>
 
+
+
+		<%if(data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].email != 'gfabrissouza@gmail.com'){%>
+
 		<%if(data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].email != 'm.barcellos.c@gmail.com'){%>
 
 
@@ -72,7 +76,10 @@
 					<form method="POST" action="" enctype="multipart/form-data">
 						<div class="block-body">
 							<div class="form-group">
-								<label class="form-control-label">Email corretora</label>
+								<label class="form-control-label">Email corretora
+									<%#=data[usuario.id +'_usuario_c'][i].email%>
+
+								</label>
 								<input type="email" placeholder="exemplo@exemplo.com" class="form-control input-text-email-senha" name="email" value="<%=data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].email%>">
 
 								<%#for(j=0; j < data[usuario.id +'_usuario_c'][i].conta.length; j++){%>
@@ -102,8 +109,12 @@
 
 						<div class="block-body">
 							<div class="i-checks">
-								<input type="checkbox" class="checkbox-template" id="alterar_operacional_porcentagem" name="tipo_banca" value="1" <%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].tipo_banca == 'percentual' ? 'checked' : '' %> <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
-								<label class="form-check-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">Configurar operacional em porcentagem</label>
+								<input type="checkbox" class="checkbox-template" id="alterar_operacional_porcentagem" name="tipo_banca" value="1" <%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].tipo_banca == 'percentual' ? 'checked' : '' %> <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
+								<label class="form-check-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao')  || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">Configurar operacional em porcentagem</label>
+
+								<%#= data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status%>
+
+								<%#= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao%>
 							</div>
 						</div>
 
@@ -111,26 +122,26 @@
 
 						<div class="block-body">
 							<div class="form-group margin-t-10">
-								<label class="form-control-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">Valor da Entrada:(<span class="label_percentual_real"><%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].tipo_banca == 'percentual' ? '%' : 'R$' %></span>)</label>
-								<input id="form_operacional_entrada" type="number" class="form-control" name="valor_entrada" value="<%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].valor_entrada %>" maxlength="6" <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
+								<label class="form-control-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">Valor da Entrada:(<span class="label_percentual_real"><%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].tipo_banca == 'percentual' ? '%' : 'R$' %></span>)</label>
+								<input id="form_operacional_entrada" type="number" class="form-control" name="valor_entrada" value="<%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].valor_entrada %>" maxlength="6" <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
 							</div>
 
 
 							<div class="form-group">
-								<label class="form-control-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">Stop Loss:(<span class="label_percentual_real">
+								<label class="form-control-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">Stop Loss:(<span class="label_percentual_real">
 									<%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].tipo_banca == 'percentual' ? '%' : 'R$' %></span>)</label>
 
-									<input id="form_operacional_limite_perda" type="number" class="form-control" name="limite_perda" value="<%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].limite_perda %>" <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
+									<input id="form_operacional_limite_perda" type="number" class="form-control" name="limite_perda" value="<%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].limite_perda %>" <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
 								</div>
 
 
 								<div class="form-group">
-									<label class="form-control-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">Stop Gain:</label>
+									<label class="form-control-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">Stop Gain:</label>
 
-									<div class="margin-b-10 italic <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">É indicado que se utilize o Stop Gain, pois ele serve para reduzir a exposição  ao risco.
+									<div class="margin-b-10 italic <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">É indicado que se utilize o Stop Gain, pois ele serve para reduzir a exposição  ao risco.
 									</div>
 
-									<select type="number" class="form-control" name="stop_gain" <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
+									<select type="number" class="form-control" name="stop_gain" <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
 
 										<option value="0" <%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].stop_gain == 0? 'selected' : '' %>>Stop Gain Desativado </option>
 										<option value="3" <%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].stop_gain == 3? 'selected' : '' %>>3%</option>
@@ -144,14 +155,14 @@
 
 
 								<div class="form-check margin-t-10">
-									<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_conta" <%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].conta_real == false ? 'checked' : '' %> value="0" <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
-									<label class="form-check-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">
+									<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_conta" <%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].conta_real == false ? 'checked' : '' %> value="0" <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
+									<label class="form-check-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">
 										Treinamento
 									</label>
 								</div>
 								<div class="form-check margin-t-10">
-									<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_conta" <%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].conta_real == true ? 'checked' : '' %> value="1" <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
-									<label class="form-check-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">
+									<input class="form-check-input radio-template form_operacional_tipo_conta" type="radio" name="tipo_conta" <%= data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].conta_real == true ? 'checked' : '' %> value="1" <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'disabled' : ''%>>
+									<label class="form-check-label js-input-change-color <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao') || (data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao != 'parar') ? 'color-disabled' : ''%>">
 										Real
 									</label>
 								</div>
@@ -164,8 +175,12 @@
 									<div class="container-fluid">
 										<div class="block">
 											<% if(data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].acao == 'parar' || data[usuario.id +'_usuario_c'][i].conta[data[usuario.id +'_usuario_c'][i].conta.length - 1].status == 'desconectado'){ %>
-											<button type="button" <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].email == '' && data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].senha == '') || (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') ? 'disabled' : '' %> data-href="/sistema/contas/iniciar-operacao/" id="botao_iniciar_sistema" class="btn <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].email == '' && data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].senha == '') || (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado')  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit" title="Para Iniciar o Sistema, Teste a conexão antes!" data-action="/sistema/contas">Conectar</button>
+											<button type="button" <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].email == '' && data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].senha == '') || ((data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao')) ? 'disabled' : '' %> data-href="/sistema/contas/iniciar-operacao/" id="botao_iniciar_sistema" class="btn <%= (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].email == '' && data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].senha == '') || ((data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'conectado') && (data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status != 'erro de conexao'))  ? 'disabled' : 'btn-success-color' %> btn-block margin-t-10 margin-b-10 ajax-submit" title="Para Iniciar o Sistema, Teste a conexão antes!" data-action="/sistema/contas">Conectar</button>
 
+
+											<%if(data[usuario.id +'_usuario_c'][i].conexao[data[usuario.id +'_usuario_c'][i].conexao.length - 1].status == 'erro de conexao'){%>
+												<div class="error text-center">Erro de conexão!</div>
+											<%}%>
 
 
 
@@ -225,7 +240,7 @@
 
 				<%}%>
 				<%}%>
-
+				<%}%>
 				<%}%>
 				<%}%>
 				<%}%>
