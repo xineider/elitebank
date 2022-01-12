@@ -8,12 +8,7 @@ var crypto = require('crypto');
 // 						    "password" : "root",
 // 						    "database" : "moon"
 // 					  	};
-// var config = {
-// 						    "host"     : "us-cdbr-east-02.cleardb.com",
-// 						    "user"     : "b585fdb2cc2803",
-// 						    "password" : "fe679b25",
-// 						    "database" : "heroku_a407b8b9b5c0bf5"
-// 					  	};
+
 
 // // CONEXÃO MYSQL
 // var mysql      = require('mysql');
