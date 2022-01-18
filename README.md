@@ -14,3 +14,5 @@ admin
 Usuário de teste priveligiado:
 trader@trader.com.br
 admin
+
+Caso queira rodar localmente, instalar com npm-intall e adicionar o bd, depois rodar nodemon e ver na pasta bin a porta.
